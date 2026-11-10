@@ -1,6 +1,6 @@
 // Unseen-in-training WikiSQL tables copied from bench/out/fb.test.json (test split); types as given there.
 import { type Table } from "./seula/model";
-import { sampleInvoices } from "./invoice-data";
+import { sampleInvoices } from "./sample-invoices";
 
 export type LiveTable = Table & { key: string; name: string; examples: string[] };
 

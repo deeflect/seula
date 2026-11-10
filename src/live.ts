@@ -4,6 +4,7 @@ import "./live.css";
 import { Seula, filter, rowsOf, type Filter } from "./seula/index";
 import { parseCsvOrJsonToRows } from "./engine/autoSchema";
 import { benchTables, invoiceTable, withTypes, type LiveTable } from "./live-tables";
+import { chipsHtml, esc, fadeEdges, icon, kind, linkColumns, morph, sym, type Part } from "./ui";
 
 const THRESHOLD = 0.5;
 // Both are off unless set at build time: where a yes/no verdict on a parse is posted, and where "get in touch" points.
@@ -16,11 +17,6 @@ const examples: Record<string, string[]> = {
   nfl: ["attendance over 50000", "home games at memorial stadium", "weeks after 10", "games we won big"],
 };
 const tables: LiveTable[] = [invoiceTable, ...benchTables].map((t) => ({ ...t, examples: examples[t.key] ?? [] }));
-const sym: Record<string, string> = { "=": "=", "!=": "≠", contains: "contains", ">": ">", ">=": "≥", "<": "<", "<=": "≤" };
-// Chip colour by what the filter does: match a value, compare a number or date, or order the rows.
-const kind: Record<string, string> = { "=": "value", "!=": "value", contains: "value", ">": "number", ">=": "number", "<": "number", "<=": "number", sort: "order", limit: "order" };
-const esc = (v: unknown) => String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
-const icon = (id: string) => `<svg class="i" aria-hidden="true"><use href="/icons.svg#${id}" /></svg>`;
 
 let model: Seula | null = null;
 let table = tables[0];
@@ -32,20 +28,21 @@ app.innerHTML = `
   <header class="bar">
     <div class="bar-in">
       <a class="brand" href="/"><span class="logo" aria-hidden="true"></span>Seula</a>
-      <a class="pill" href="https://github.com/deeflect/seula">GitHub${icon("arrow-up-right")}</a>
+      <a class="pill" href="https://github.com/deeflect/seula" target="_blank" rel="noopener">GitHub<svg class="i ext" aria-hidden="true"><use href="/icons.svg#arrow-up-right" /></svg></a>
     </div>
   </header>
   <main class="col">
-    <h1 class="visually-hidden">Seula live demo</h1>
-    <div class="picker">
-      <div class="tabs" id="tabs" role="group" aria-label="Table"></div>
+    <section class="sec">
+    <div class="head">
+      <h1>Live demo</h1>
       <label class="btn btn-secondary upload">${icon("upload-simple")}CSV<input type="file" id="csv" class="visually-hidden" accept=".csv,.json,text/csv" /></label>
     </div>
+    <div class="tabs" id="tabs" role="group" aria-label="Table"></div>
     <div class="card">
       <div class="qrow">
         <span class="slot" aria-hidden="true">${icon("funnel-simple")}</span>
         <label for="q" id="q-label" class="visually-hidden"></label>
-        <input id="q" autocomplete="off" spellcheck="false" />
+        <input id="q" class="qin" autocomplete="off" spellcheck="false" />
       </div>
       <div class="examples" id="examples"></div>
       <div id="alert" role="alert"></div>
@@ -54,6 +51,7 @@ app.innerHTML = `
       <div class="facts" id="facts"></div>
       <div id="verdict"></div>
     </div>
+    </section>
     <footer class="foot">
       <div>
         ${CONTACT_URL ? `<p>Want this in your product? Get in touch at <a class="text-link" href="${esc(CONTACT_URL)}">${esc(CONTACT_URL.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</a>.</p>` : ""}
@@ -61,8 +59,8 @@ app.innerHTML = `
       </div>
       <div class="foot-row">
         <div class="foot-rings">
-          <a class="ring" href="https://github.com/deeflect/seula" aria-label="GitHub">${icon("github-logo")}</a>
-          <a class="ring" href="https://www.npmjs.com/package/seula" aria-label="npm">${icon("package")}</a>
+          <a class="ring" href="https://github.com/deeflect/seula" target="_blank" rel="noopener" aria-label="GitHub">${icon("github-logo")}</a>
+          <a class="ring" href="https://www.npmjs.com/package/seula" target="_blank" rel="noopener" aria-label="npm">${icon("package")}</a>
         </div>
         <small>Apache-2.0 · © 2026</small>
       </div>
@@ -91,10 +89,13 @@ function update(): void {
   // One chip per column and operator, so "overdue or pending" reads as one filter. Removing a chip drops that part.
   const by = new Map<string, string[]>();
   for (const [j, op, v] of r?.conds ?? []) by.set(`${j} ${op}`, [...(by.get(`${j} ${op}`) ?? []), v]);
-  const labels = [...by].map(([k, vs]) => [k, `${table.header[+k.split(" ")[0]]} ${sym[k.split(" ")[1]] ?? k.split(" ")[1]} ${vs.join(/ (=|contains)$/.test(k) ? " or " : ", ")}`]);
-  if (r?.sort) labels.push(["sort", `Sort: ${table.header[r.sort[0]]} ${r.sort[1] === "asc" ? "↑" : "↓"}`]);
-  if (r?.limit !== undefined) labels.push(["limit", `First ${r.limit}`]);
-  const chips = labels.filter(([k]) => !removed.has(k)).map(([k, l]) => `<span class="chip ${guess ? "guess" : `k-${kind[k.split(" ").pop()!] ?? "value"}`}">${esc(l)}<button type="button" data-rm="${esc(k)}" aria-label="Remove ${esc(l)}">${icon("x")}</button></span>`).join("");
+  const parts: Part[] = [...by].map(([k, vs]) => {
+    const [j, op] = [+k.split(" ")[0], k.split(" ")[1]];
+    return { key: k, col: j, kind: kind[op] ?? "value", label: `${table.header[j]} ${sym[op] ?? op} ${vs.join(/ (=|contains)$/.test(k) ? " or " : ", ")}` };
+  });
+  if (r?.sort) parts.push({ key: "sort", col: r.sort[0], kind: "order", label: `Sort: ${table.header[r.sort[0]]} ${r.sort[1] === "asc" ? "↑" : "↓"}` });
+  if (r?.limit !== undefined) parts.push({ key: "limit", kind: "order", label: `First ${r.limit}` });
+  const chips = chipsHtml(parts.filter((p) => !removed.has(p.key)), guess);
   const note = !model ? `<span class="note">Loading model…</span>` : q && !r!.conds ? `<span class="note">No filter found</span>` : "";
   parseEl.innerHTML = chips || note ? `<div class="chips">${chips}${chips && guess ? `<button type="button" class="btn btn-secondary" data-force>Apply anyway</button>` : ""}${note}</div>` : "";
   app.querySelector("#verdict")!.innerHTML = !CAPTURE_URL || !r || !q ? "" : `<div class="verdict">${verdict ? `<span class="note">Sent, thank you.</span>`
@@ -108,22 +109,30 @@ function renderResults(f: Pick<Filter, "conds" | "sort" | "limit">): number {
   const hits = model ? rowsOf(model, table, f) : table.rows.map((_, i) => i);
   const hitCols = new Set((f.conds ?? []).map(([j]) => j));
   if (f.sort) hitCols.add(f.sort[0]);
-  const cls = (j: number) => [table.types[j] === "real" ? "num" : "", hitCols.has(j) ? "hit" : ""].join(" ").trim();
-  app.querySelector("#results")!.innerHTML = `
+  const cls = (j: number) => `class="${[table.types[j] === "real" ? "num" : "", hitCols.has(j) ? "hit" : ""].join(" ").trim()}" data-c="${j}"`;
+  const el = app.querySelector<HTMLElement>("#results")!;
+  const left = el.querySelector(".scroll")?.scrollLeft ?? 0;
+  el.innerHTML = `
     <div class="scroll"><table class="rows">
-      <thead><tr>${table.header.map((h, j) => `<th class="${cls(j)}">${esc(h)}</th>`).join("")}</tr></thead>
-      <tbody>${hits.map((i) => `<tr>${table.rows[i].map((c, j) => `<td class="${cls(j)}">${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody>
+      <thead><tr>${table.header.map((h, j) => `<th ${cls(j)}>${esc(h)}</th>`).join("")}</tr></thead>
+      <tbody>${hits.map((i) => `<tr data-r="${esc(table.key)}-${i}">${table.rows[i].map((c, j) => `<td ${cls(j)}>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody>
     </table></div>
     ${hits.length ? "" : `<p class="empty">No rows match.</p>`}`;
+  const sc = el.querySelector<HTMLElement>(".scroll")!;
+  sc.scrollLeft = left;
+  fadeEdges(sc);
   return hits.length;
 }
 
-input.addEventListener("input", update);
+input.addEventListener("input", () => update());
+linkColumns(app.querySelector<HTMLElement>("#parse")!, () => app.querySelector<HTMLTableElement>("#results .rows"));
+// Clicked changes morph the rows; typing swaps them at once.
+const tbody = () => app.querySelector<HTMLTableSectionElement>("#results tbody");
 app.addEventListener("click", (e) => {
   const b = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-key], button[data-q], button[data-rm], button[data-force], button[data-verdict]");
   if (!b) return;
-  if (b.dataset.rm) { removed.add(b.dataset.rm); update(); input.focus(); }
-  else if ("force" in b.dataset) { forced = true; update(); input.focus(); }
+  if (b.dataset.rm) { removed.add(b.dataset.rm); morph(tbody, update); input.focus(); }
+  else if ("force" in b.dataset) { forced = true; morph(tbody, update); input.focus(); }
   else if (b.dataset.verdict && CAPTURE_URL && last) {
     verdict = b.dataset.verdict;
     // text/plain keeps this a simple request (no CORS preflight); a failed send is not the reader's problem
@@ -131,7 +140,7 @@ app.addEventListener("click", (e) => {
     update();
   }
   else if (b.dataset.key) { alertEl.innerHTML = ""; selectTable(tables.find((t) => t.key === b.dataset.key)!); }
-  else { input.value = b.dataset.q!; update(); input.focus(); }
+  else { input.value = b.dataset.q!; morph(tbody, update); input.focus(); }
 });
 app.querySelector<HTMLInputElement>("#csv")!.addEventListener("change", async (e) => {
   const el = e.target as HTMLInputElement, file = el.files?.[0];

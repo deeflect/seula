@@ -18,7 +18,7 @@
     <header class="bar">
       <div class="bar-in">
         <a class="brand" href="/"><span class="logo" aria-hidden="true"></span>Seula</a>
-        <a class="pill" href="https://github.com/deeflect/seula">GitHub<svg class="i" aria-hidden="true"><use href="/icons.svg#arrow-up-right" /></svg></a>
+        <a class="pill" href="https://github.com/deeflect/seula" target="_blank" rel="noopener">GitHub<svg class="i ext" aria-hidden="true"><use href="/icons.svg#arrow-up-right" /></svg></a>
       </div>
     </header>
 
@@ -32,35 +32,52 @@
           <div class="actions">
             <a class="btn btn-primary" href="/demo">Open the live demo</a>
             <button class="copy" type="button" data-copy="npm install seula"><svg class="i" aria-hidden="true"><use href="/icons.svg#copy" /></svg><svg class="i" aria-hidden="true" hidden><use href="/icons.svg#check" /></svg>npm install seula</button>
-            <a class="ring" href="https://github.com/deeflect/seula" aria-label="GitHub"><svg class="i" aria-hidden="true"><use href="/icons.svg#github-logo" /></svg></a>
-            <a class="ring" href="https://www.npmjs.com/package/seula" aria-label="npm"><svg class="i" aria-hidden="true"><use href="/icons.svg#package" /></svg></a>
+            <a class="ring" target="_blank" rel="noopener" href="https://github.com/deeflect/seula" aria-label="GitHub"><svg class="i" aria-hidden="true"><use href="/icons.svg#github-logo" /></svg></a>
+            <a class="ring" target="_blank" rel="noopener" href="https://www.npmjs.com/package/seula" aria-label="npm"><svg class="i" aria-hidden="true"><use href="/icons.svg#package" /></svg></a>
             <span class="visually-hidden" role="status" aria-live="polite" id="copy-status"></span>
           </div>
         </section>
 
-        <div class="card" role="figure" aria-label="Seula reading one query">
-          <p class="q">
-            <span class="slot" aria-hidden="true"><svg class="i"><use href="/icons.svg#funnel-simple" /></svg></span>
-            <span class="g left" style="--c: var(--gloss-value)"><span class="w">overdue</span><span class="br" aria-hidden="true"></span><span class="st" aria-hidden="true"></span><span class="lb"><span>Status = overdue</span></span></span>
-            <span class="j">and</span>
-            <span class="g" style="--c: var(--gloss-number)"><span class="w">balance over 1k</span><span class="br" aria-hidden="true"></span><span class="st" aria-hidden="true"></span><span class="lb"><span>Balance &gt; 1000</span></span></span>
-            <span class="j comma">,</span>
-            <span class="g" style="--c: var(--gloss-order)"><span class="w">top 5</span><span class="br" aria-hidden="true"></span><span class="st" aria-hidden="true"></span><span class="lb"><span>First 5</span></span></span>
-            <span class="g" style="--c: var(--gloss-order)"><span class="w caret">by balance</span><span class="br" aria-hidden="true"></span><span class="st tall" aria-hidden="true"></span><span class="lb"><span>Sort: Balance ↓</span></span></span>
-          </p>
-          <table class="rows">
-            <thead>
-              <tr><th class="w88 d-col">Invoice</th><th>Client</th><th class="num w80 on">↓ Balance</th><th class="num w72 d-col">Days late</th><th class="w72">Status</th></tr>
-            </thead>
-            <tbody>
-              <tr><td class="id d-col">INV-1048</td><td>Northstar Studio</td><td class="num">2400</td><td class="num d-col">18</td><td>overdue</td></tr>
-              <tr><td class="id d-col">INV-1051</td><td>Fieldwork Co</td><td class="num">1750</td><td class="num d-col">12</td><td>overdue</td></tr>
-            </tbody>
-          </table>
-          <div class="facts">
-            <span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#rows" /></svg>2 of 8 rows</span>
-            <span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#lightning" /></svg>0.79 ms</span>
-            <span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#gauge" /></svg>0.99</span>
+        <div class="hero-try">
+          <div class="card" role="figure" aria-label="Seula reading one query" id="hero">
+            <div class="qbox">
+              <p class="q draw">
+                <span class="slot" aria-hidden="true"><svg class="i"><use href="/icons.svg#funnel-simple" /></svg></span>
+                <span class="g left" data-col="4" style="--c: var(--gloss-value); --i: 0"><span class="w">overdue</span><span class="br" aria-hidden="true"></span><span class="st" aria-hidden="true"></span><span class="lb"><span>Status = overdue</span></span></span>
+                <span class="j">and</span>
+                <span class="g" data-col="2" style="--c: var(--gloss-number); --i: 1"><span class="w">balance over 1k</span><span class="br" aria-hidden="true"></span><span class="st" aria-hidden="true"></span><span class="lb"><span>Balance &gt; 1000</span></span></span>
+                <span class="j comma">,</span>
+                <span class="g" style="--c: var(--gloss-order); --i: 2"><span class="w">top 5</span><span class="br" aria-hidden="true"></span><span class="st" aria-hidden="true"></span><span class="lb"><span>First 5</span></span></span>
+                <span class="g" data-col="2" style="--c: var(--gloss-order); --i: 3"><span class="w caret">by balance</span><span class="br" aria-hidden="true"></span><span class="st tall" aria-hidden="true"></span><span class="lb"><span>Sort: Balance ↓</span></span></span>
+              </p>
+              <div class="qrow" hidden>
+                <span class="slot" aria-hidden="true"><svg class="i"><use href="/icons.svg#funnel-simple" /></svg></span>
+                <input class="qin" id="hq" type="text" aria-label="Query" autocomplete="off" spellcheck="false" maxlength="200" value="overdue and balance over 1k, top 5 by balance" />
+              </div>
+              <div class="chips" id="hchips" hidden></div>
+            </div>
+            <div class="scroll">
+              <table class="rows" id="htable">
+                <thead>
+                  <tr><th class="w88 d-col" data-c="0">Invoice</th><th data-c="1">Client</th><th class="num w80 on" data-c="2">↓ Balance</th><th class="num w72 d-col" data-c="3">Days late</th><th class="w72" data-c="4">Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="id d-col">INV-1048</td><td>Northstar Studio</td><td class="num">2400</td><td class="num d-col">18</td><td>overdue</td></tr>
+                  <tr><td class="id d-col">INV-1051</td><td>Fieldwork Co</td><td class="num">1750</td><td class="num d-col">12</td><td>overdue</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="facts" id="hfacts" aria-live="polite">
+              <span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#rows" /></svg>2 of 8 rows</span>
+              <span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#lightning" /></svg>0.79 ms</span>
+              <span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#gauge" /></svg>0.99</span>
+            </div>
+          </div>
+          <div class="examples" id="hex" hidden>
+            <button class="ex" type="button" aria-pressed="true">overdue and balance over 1k, top 5 by balance</button>
+            <button class="ex" type="button" aria-pressed="false">overdue or paid, top 3 by balance</button>
+            <button class="ex" type="button" aria-pressed="false">clients except fieldwork</button>
+            <button class="ex" type="button" aria-pressed="false">days late over 5 and balance under 2k</button>
           </div>
         </div>
       </div>
@@ -79,9 +96,15 @@
       <section class="sec">
         <h2>The whole model</h2>
         <div class="model">
-          <figure class="weights">
-            <img src="/seula-weights.png" width="864" height="864" loading="lazy" alt="The model's 186,586 bytes drawn as pixels" />
-            <figcaption class="fact dim"><svg class="i" aria-hidden="true"><use href="/icons.svg#file" /></svg>weights.bin</figcaption>
+          <figure class="weights" id="wmap">
+            <div class="wbox">
+              <img src="/seula-weights.png" width="864" height="864" loading="lazy" alt="The model's 186,586 bytes drawn as pixels" />
+            </div>
+            <div class="strip" role="toolbar" aria-label="Model parts" hidden></div>
+            <figcaption class="wcap">
+              <span class="wname" id="wname">weights.bin</span>
+              <span class="facts" id="wfacts"><span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#file" /></svg>186,586 B</span></span>
+            </figcaption>
           </figure>
           <ul class="stats">
             <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#feather" /></svg><span><b>182 KB</b><small>184k parameters</small></span></li>
@@ -95,20 +118,20 @@
       <section class="sec">
         <h2>When it is unsure</h2>
         <div class="card">
-          <p class="q"><span class="g left unsure" style="--c: var(--fg-3)"><span class="w">northwind or late</span><span class="br" aria-hidden="true"></span><span class="lb"><span>Invoice contains northwind?</span></span></span></p>
+          <p class="q"><span class="g left unsure" style="--c: var(--fg-3)"><span class="w">northwind or late</span><span class="br" aria-hidden="true"></span><span class="lb"><span id="ulabel">Invoice contains northwind?</span></span></span></p>
           <div class="unsure-row">
-            <div class="facts">
+            <div class="facts" id="ufacts" aria-live="polite">
               <span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#rows" /></svg>8 of 8 rows</span>
               <span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#gauge" /></svg>0.00</span>
             </div>
-            <span class="btn btn-secondary">Apply anyway</span>
+            <button class="btn btn-secondary" type="button" id="uapply" aria-pressed="false" disabled>Apply anyway</button>
           </div>
         </div>
-        <div class="calib">
+        <div class="calib" id="calib">
           <div class="meter" aria-hidden="true"><i></i><b></b><s></s></div>
           <ul class="tiles3">
-            <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#gauge" /></svg><span><b>83%</b><small><span class="d-only">scored 0.8 or higher</span><span class="m-only">Scored 0.8 or higher</span></small></span></li>
-            <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#check-circle" /></svg><span><b>98.2%</b><small><span class="d-only">of those right</span><span class="m-only">Of those right</span></small></span></li>
+            <li class="tile" data-m="a"><svg class="i" aria-hidden="true"><use href="/icons.svg#gauge" /></svg><span><b>83%</b><small><span class="d-only">scored 0.8 or higher</span><span class="m-only">Scored 0.8 or higher</span></small></span></li>
+            <li class="tile" data-m="b"><svg class="i" aria-hidden="true"><use href="/icons.svg#check-circle" /></svg><span><b>98.2%</b><small><span class="d-only">of those right</span><span class="m-only">Of those right</span></small></span></li>
             <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#target" /></svg><span><b>92.8%</b><small><span class="d-only">right on 870 test queries</span><span class="m-only">Right on 870 test queries</span></small></span></li>
           </ul>
         </div>
@@ -116,7 +139,15 @@
 
       <section class="sec">
         <h2>Use it</h2>
-        <div class="card code-card">
+        <div class="use-tabs" role="tablist" aria-label="Adapters">
+          <button class="tab" type="button" role="tab" id="t-api" aria-selected="true" aria-controls="use-panel" data-t="api"><svg class="i" aria-hidden="true"><use href="/icons.svg#brackets-round" /></svg>Object API</button>
+          <button class="tab" type="button" role="tab" id="t-tanstack" aria-selected="false" aria-controls="use-panel" tabindex="-1" data-t="tanstack"><svg class="i" aria-hidden="true"><use href="/icons.svg#table" /></svg>TanStack Table</button>
+          <button class="tab" type="button" role="tab" id="t-sql" aria-selected="false" aria-controls="use-panel" tabindex="-1" data-t="sql"><svg class="i" aria-hidden="true"><use href="/icons.svg#database" /></svg>SQL</button>
+          <button class="tab" type="button" role="tab" id="t-server" aria-selected="false" aria-controls="use-panel" tabindex="-1" data-t="server"><svg class="i" aria-hidden="true"><use href="/icons.svg#hard-drives" /></svg>Server tables</button>
+        </div>
+        <div class="card code-card" role="tabpanel" id="use-panel" aria-labelledby="t-api">
+          <button class="icon-btn code-copy" type="button" aria-label="Copy code" data-copy="import { load } from &quot;seula&quot;;&#10;&#10;const seula = await load();&#10;const invoices = seula.table(rows);&#10;&#10;const result = invoices.parse(&#10;  &quot;overdue and balance over 1k, top 5 by balance&quot;&#10;);&#10;invoices.apply(result); // the 2 rows that pass"><svg class="i" aria-hidden="true"><use href="/icons.svg#copy" /></svg><svg class="i" aria-hidden="true" hidden><use href="/icons.svg#check" /></svg></button>
+          <div id="use-code">
 <pre class="code d-only"><span class="k">import</span> { load } <span class="k">from</span> "seula";
 
 <span class="k">const</span> seula = <span class="k">await</span> load();
@@ -137,9 +168,10 @@ invoices.apply(result); <span class="c">// the 2 rows that pass</span></pre>
 );
 <span class="c">// the 2 rows that pass</span>
 invoices.apply(result);</pre>
+          </div>
           <div class="result">
             <span class="result-label">result</span>
-<pre class="d-only">{
+<div id="use-out"><pre class="d-only">{
   conditions: [
     { column: "status", type: "text", op: "=", value: "overdue" },
     { column: "balance", type: "number", op: "&gt;", value: 1000 }
@@ -161,14 +193,9 @@ invoices.apply(result);</pre>
           dir: "desc" },
   limit: 5,
   confidence: 0.99
-}</pre>
+}</pre></div>
           </div>
         </div>
-        <ul class="tiles3 adapters">
-          <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#table" /></svg><span><b>TanStack Table</b><code>toTanStack(result)</code></span></li>
-          <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#database" /></svg><span><b>SQL</b><code>toSql(result)</code></span></li>
-          <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#hard-drives" /></svg><span><b>Server tables</b><code>seula.schema(columns)</code></span></li>
-        </ul>
       </section>
 
       <section class="sec">
@@ -188,8 +215,8 @@ invoices.apply(result);</pre>
         </div>
         <div class="foot-row">
           <div class="foot-rings">
-            <a class="ring" href="https://github.com/deeflect/seula" aria-label="GitHub"><svg class="i" aria-hidden="true"><use href="/icons.svg#github-logo" /></svg></a>
-            <a class="ring" href="https://www.npmjs.com/package/seula" aria-label="npm"><svg class="i" aria-hidden="true"><use href="/icons.svg#package" /></svg></a>
+            <a class="ring" target="_blank" rel="noopener" href="https://github.com/deeflect/seula" aria-label="GitHub"><svg class="i" aria-hidden="true"><use href="/icons.svg#github-logo" /></svg></a>
+            <a class="ring" target="_blank" rel="noopener" href="https://www.npmjs.com/package/seula" aria-label="npm"><svg class="i" aria-hidden="true"><use href="/icons.svg#package" /></svg></a>
           </div>
           <small>Apache-2.0 · © 2026</small>
         </div>

@@ -20,14 +20,17 @@
   --focus: 0 0 0 2px var(--bg), 0 0 0 4px var(--fg);
   --sans: "Inter", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, monospace;
+  /* Motion vocabulary, as deeflect v4. */
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-1: 160ms;
   --dur-2: 220ms;
+  --dur-3: 320ms;
   --press: 0.98;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { background: var(--bg); -webkit-text-size-adjust: 100%; }
+html { background: var(--bg); -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; }
 body {
   margin: 0;
   background: var(--bg);
@@ -49,30 +52,45 @@ img, svg { display: block; }
 .i { width: 16px; height: 16px; flex-shrink: 0; fill: currentColor; color: var(--fg-3); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* Bar */
-.bar { height: 72px; box-shadow: inset 0 -1px 0 var(--line); display: flex; align-items: center; padding-inline: 24px; }
-.bar-in { width: 100%; max-width: var(--col, 644px); margin-inline: auto; display: flex; align-items: center; justify-content: space-between; }
+/* Bar: deeflect's StickyBar as it is on inner pages (pinned, always on). Held still through page changes. */
+.bar { position: sticky; top: 0; z-index: 20; height: 72px; background: var(--bg); box-shadow: inset 0 -1px 0 var(--line); display: flex; align-items: center; padding-inline: 24px; view-transition-name: bar; }
+.bar-in { width: 100%; max-width: 644px; margin-inline: auto; display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: center; gap: 10px; font: 500 20px/28px var(--sans); letter-spacing: -0.01em; border-radius: 10px; }
 .logo { width: 48px; height: 48px; border-radius: 10px; background: url(/seula-weights.png) 35% 40% / 400%; box-shadow: inset 0 0 0 1px var(--line); }
-.pill { height: 32px; border-radius: 16px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); padding: 0 10px 0 14px; display: inline-flex; align-items: center; gap: 6px; font: 400 14px/20px var(--sans); }
+.pill { position: relative; height: 32px; border-radius: 16px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); padding: 0 10px 0 14px; display: inline-flex; align-items: center; gap: 6px; font: 400 14px/20px var(--sans); }
+.pill::before { content: ""; position: absolute; inset: -4px 0; }
 .pill .i { width: 14px; height: 14px; color: var(--fg-2); }
 
-/* Buttons. States from the States v3 board: hover swaps fill and ring, press scales .98, focus is the --focus ring. */
-.btn, .pill, .ring, .copy {
+/* deeflect .ext: the arrow on a link that leaves the site slides toward its corner on hover or focus. */
+.ext { translate: -2px 2px; transition: translate var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out); }
+a:is(:hover, :focus-visible) > .ext { translate: 0 0; color: var(--fg); }
+
+/* Buttons. deeflect Button and pill: hover swaps fill and ring, press scales .98, focus is the --focus ring. */
+.btn, .pill, .ring, .copy, .tab, .ex, .icon-btn {
   transition: background-color var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out), scale var(--dur-1) var(--ease-out);
 }
 .btn { height: 36px; padding: 0 14px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 500 14px/20px var(--sans); white-space: nowrap; }
 .btn-primary { background: var(--fg); color: var(--bg); }
-.btn-primary:hover { background: #fff; }
 .btn-secondary { background: var(--chip); box-shadow: inset 0 0 0 1px var(--line-strong), var(--top-strong); }
-button.btn-secondary:hover { background: #2b2b2b; box-shadow: inset 0 0 0 1px #ededed33, var(--top-strong); }
+.btn-secondary .i { color: var(--fg-2); }
+.btn-secondary[aria-pressed="true"] { background: var(--fg); color: var(--bg); box-shadow: none; }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .ring { width: 36px; height: 36px; border-radius: 18px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line), var(--top); display: inline-flex; align-items: center; justify-content: center; }
-.ring .i { width: 18px; height: 18px; color: var(--fg-2); transition: color var(--dur-1) var(--ease-out); }
-.pill:hover, .ring:hover { background: var(--chip); box-shadow: inset 0 0 0 1px var(--line-strong), var(--top); }
-.ring:hover .i { color: var(--fg); }
-.btn:focus-visible, .pill:focus-visible, .ring:focus-visible { box-shadow: var(--focus); }
-:is(.btn, .pill, .ring, .copy):active:not(:disabled) { scale: var(--press); }
+.ring .i, .icon-btn .i { width: 18px; height: 18px; color: var(--fg-2); transition: color var(--dur-1) var(--ease-out); }
+.copy { height: 36px; border-radius: 18px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); padding: 0 14px 0 12px; display: inline-flex; align-items: center; gap: 8px; font: 400 13px/20px var(--mono); white-space: nowrap; }
+.copy .i { width: 18px; height: 18px; color: var(--fg-2); }
+.ring, .copy { position: relative; }
+.ring::before, .copy::before { content: ""; position: absolute; inset: -2px; }
+.icon-btn { width: 32px; height: 32px; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; position: relative; }
+.icon-btn::before { content: ""; position: absolute; inset: -4px; }
+.icon-btn .i { width: 16px; height: 16px; }
+@media (hover: hover) {
+  .btn-primary:hover { background: #fff; }
+  :is(button, label).btn-secondary:not([aria-pressed="true"]):hover { background: #2b2b2b; box-shadow: inset 0 0 0 1px #ededed33, var(--top-strong); }
+  .pill:hover, .ring:hover, .copy:hover, .icon-btn:hover { background: var(--chip); box-shadow: inset 0 0 0 1px var(--line-strong), var(--top); }
+  :is(.ring, .icon-btn):hover .i { color: var(--fg); }
+}
+:is(.btn, .pill, .ring, .copy, .tab, .icon-btn):active:not(:disabled) { scale: var(--press); }
 
 /* Prose link: faint underline, a solid one grows in on hover. */
 .text-link {
@@ -90,35 +108,110 @@ button.btn-secondary:hover { background: #2b2b2b; box-shadow: inset 0 0 0 1px #e
 .text-link:hover { background-size: calc(100% - 12px) 1px, calc(100% - 12px) 1px; }
 .text-link:focus-visible { box-shadow: none; outline: 2px solid var(--fg); }
 
-/* Card, facts, table: shared by the landing demo card and the live demo. */
-.card { background: var(--surface); border-radius: 16px; box-shadow: inset 0 0 0 1px var(--line); padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+/* Page column (deeflect: 644 wide, 64 between sections). */
+.col { max-width: 692px; margin-inline: auto; padding: 88px 24px 96px; display: flex; flex-direction: column; gap: 64px; }
+h1 { font: 500 40px/46px var(--sans); letter-spacing: -0.03em; }
+h2 { font: 500 17px/28px var(--sans); }
+.sec { display: flex; flex-direction: column; gap: 12px; }
+
+/* Card, facts, table: shared by the landing cards and the live demo. */
+.card { background: var(--surface); border-radius: 16px; box-shadow: inset 0 0 0 1px var(--line); padding: 20px; display: flex; flex-direction: column; gap: 20px; transition: box-shadow var(--dur-1) var(--ease-out); }
 .slot { width: 25px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .slot .i { width: 20px; height: 20px; }
 .facts { display: flex; flex-wrap: wrap; column-gap: 20px; row-gap: 8px; }
-.fact { display: flex; align-items: center; gap: 6px; font: 400 13px/20px var(--mono); color: var(--fg-2); white-space: nowrap; }
-.rows { width: 100%; background: var(--bg); border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); border-collapse: separate; border-spacing: 0; }
+.fact { display: flex; align-items: center; gap: 6px; font: 400 13px/20px var(--mono); color: var(--fg-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.scroll { overflow-x: auto; border-radius: 12px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--line); }
+.scroll[data-fade="r"] { mask-image: linear-gradient(to left, transparent, #000 40px); }
+.scroll[data-fade="l"] { mask-image: linear-gradient(to right, transparent, #000 40px); }
+.scroll[data-fade="lr"] { mask-image: linear-gradient(to right, transparent, #000 40px, #000 calc(100% - 40px), transparent); }
+.rows { width: 100%; min-width: 100%; border-collapse: separate; border-spacing: 0; }
+.scroll .rows { width: max-content; }
 .rows th { font: 400 12px/24px var(--mono); color: var(--fg-3); text-align: left; padding: 8px 8px; white-space: nowrap; }
 .rows td { font: 400 15px/24px var(--sans); padding: 10px 8px; box-shadow: inset 0 1px 0 var(--line); white-space: nowrap; }
+.rows :is(th, td) { transition: color var(--dur-1) var(--ease-out), background-color var(--dur-1) var(--ease-out); }
+@media (hover: hover) { .rows tbody tr:hover td { background: var(--raised); } }
 .rows :is(th, td):first-child { padding-left: 16px; }
 .rows :is(th, td):last-child { padding-right: 16px; }
-.rows .num { text-align: right; }
+.rows .num { text-align: right; font-variant-numeric: tabular-nums; }
 .rows .id { font: 400 13px/24px var(--mono); color: var(--fg-2); }
+.rows :is(th.on, th.hit) { color: var(--fg-2); }
+/* A gloss or chip under the pointer marks its column: that column at full foreground, the rest dim. */
+.rows[data-mark] :is(th, td) { color: var(--fg-3); }
+.rows[data-mark] :is(th, td).mk { color: var(--fg); }
+.empty { font: 400 15px/24px var(--sans); color: var(--fg-2); padding: 12px 16px 0; }
+.error { font: 400 15px/24px var(--sans); color: var(--fg); }
+.note { font: 400 13px/20px var(--mono); color: var(--fg-3); }
+
+/* Query input row and chips: the demo card and the landing hero in chips mode. */
+.qrow { display: flex; align-items: center; gap: 7px; }
+.qin { flex: 1; min-width: 0; height: 40px; background: none; border: 0; border-radius: 8px; font: 500 20px/28px var(--sans); color: var(--fg); caret-color: var(--fg); }
+.qin:focus-visible { box-shadow: none; }
+.card:has(.qin:focus) { box-shadow: inset 0 0 0 1px var(--line-strong); }
+.chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.chip { height: 28px; display: inline-flex; align-items: center; gap: 2px; padding: 0 4px 0 10px; border-radius: 6px; background: var(--chip); font: 400 13px/20px var(--mono); white-space: nowrap; transition: background-color var(--dur-1) var(--ease-out); }
+.chip.k-value { color: var(--gloss-value); }
+.chip.k-number { color: var(--gloss-number); }
+.chip.k-order { color: var(--gloss-order); }
+.chip.guess { color: var(--fg-2); background: none; outline: 1px dashed var(--fg-3); outline-offset: -1px; }
+.chip button { position: relative; width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: background-color var(--dur-1) var(--ease-out); }
+.chip button::before { content: ""; position: absolute; inset: -4px -2px; }
+.chip button .i { width: 12px; height: 12px; color: var(--fg-3); transition: color var(--dur-1) var(--ease-out); }
+.chip button:active { scale: var(--press); }
+@media (hover: hover) {
+  .chip:not(.guess):hover { background: #2a2a2a; }
+  .chip button:hover .i { color: var(--fg); }
+}
+.chips .btn { margin-left: 4px; }
+
+/* Example queries */
+.examples { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.ex { font: 400 13px/20px var(--mono); color: var(--fg-3); border-radius: 4px; text-align: left; }
+.ex[aria-pressed="true"] { color: var(--fg); }
+@media (hover: hover) { .ex:hover { color: var(--fg); } }
+.ex:active { scale: var(--press); }
+
+/* Toggle chips (demo table picker, use-it tabs): deeflect AgentStats chips. */
+.tab { height: 32px; padding: 0 12px; border-radius: 16px; background: var(--chip); font: 400 14px/20px var(--sans); color: var(--fg-2); white-space: nowrap; }
+.tab:is([aria-pressed="true"], [aria-selected="true"]) { background: var(--fg); color: var(--bg); }
+@media (hover: hover) { .tab:not([aria-pressed="true"], [aria-selected="true"]):hover { background: #2a2a2a; color: var(--fg); } }
 
 /* Footer */
 .foot { display: flex; flex-direction: column; gap: 24px; }
 .foot p { font: 400 17px/28px var(--sans); color: var(--fg-2); }
 .foot-row { display: flex; align-items: center; justify-content: space-between; }
 .foot-rings { display: flex; gap: 4px; }
-.foot .ring { width: 32px; height: 32px; border-radius: 16px; }
+.foot .ring { width: 32px; height: 32px; border-radius: 16px; position: relative; }
+.foot .ring::before { inset: -4px; }
 .foot .ring .i { width: 16px; height: 16px; color: var(--fg-3); }
-.foot .ring:hover .i { color: var(--fg); }
 .foot small { font: 400 13px/20px var(--mono); color: var(--fg-3); }
+
+.m-only { display: none; }
 
 @media (max-width: 719px) {
   .bar { padding-inline: 16px; }
   .pill { height: 30px; border-radius: 15px; padding: 0 8px 0 12px; }
+  .pill::before { inset: -5px 0; }
+  .col { max-width: none; padding: 80px 16px 48px; gap: 56px; }
+  h1 { font-size: 32px; line-height: 38px; letter-spacing: -0.02em; }
+  .d-only, .d-col { display: none; }
+  .m-only { display: revert; }
+  .card:not(.code-card) { padding: 16px; }
+  .examples { row-gap: 0; }
+  .ex { min-height: 40px; }
+  .tab { height: 40px; border-radius: 20px; }
+  .chip { height: 32px; }
+  .chip button { width: 28px; height: 28px; }
+  .chip button::before { inset: -6px; }
 }
+
+/* Page to page: a calm cross-fade with the bar held still (deeflect v4.css). Rows that stay slide to their new place. */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--dur-2); animation-timing-function: var(--ease-out); }
+::view-transition-group(*) { animation-duration: var(--dur-3); animation-timing-function: var(--ease-inout); }
+::view-transition-old(*):only-child { animation-duration: var(--dur-1); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  @view-transition { navigation: none; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
