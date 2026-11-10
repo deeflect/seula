@@ -9,4 +9,4 @@ tree=$(git write-tree)
 parent=$(git rev-parse -q --verify refs/heads/public || true)
 [ -n "$parent" ] && [ "$(git rev-parse "$parent^{tree}")" = "$tree" ] && { echo "public is up to date"; exit 0; }
 git update-ref refs/heads/public "$(git commit-tree "$tree" ${parent:+-p "$parent"} -m "${1:-$(git log -1 --format=%s)}")"
-git log -1 --format='public -> %h %an <%ae> %s' public
+git log -1 --format='public -> %h %an <%ae> %s' refs/heads/public --
