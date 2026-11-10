@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import "./invoice.css";
+import "./site.css";
 import "./live.css";
 import { Seula, filter, rowsOf, type Filter } from "./seula/index";
 import { parseCsvOrJsonToRows } from "./engine/autoSchema";
@@ -17,7 +17,10 @@ const examples: Record<string, string[]> = {
 };
 const tables: LiveTable[] = [invoiceTable, ...benchTables].map((t) => ({ ...t, examples: examples[t.key] ?? [] }));
 const sym: Record<string, string> = { "=": "=", "!=": "≠", contains: "contains", ">": ">", ">=": "≥", "<": "<", "<=": "≤" };
+// Chip colour by what the filter does: match a value, compare a number or date, or order the rows.
+const kind: Record<string, string> = { "=": "value", "!=": "value", contains: "value", ">": "number", ">=": "number", "<": "number", "<=": "number", sort: "order", limit: "order" };
 const esc = (v: unknown) => String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+const icon = (id: string) => `<svg class="i" aria-hidden="true"><use href="/icons.svg#${id}" /></svg>`;
 
 let model: Seula | null = null;
 let table = tables[0];
@@ -25,31 +28,54 @@ let table = tables[0];
 let seen = "", removed = new Set<string>(), forced = false, verdict = "", last: Filter | null = null;
 
 const app = document.getElementById("app")!;
-document.title = "Seula: plain-English table filters";
 app.innerHTML = `
-  <header class="invoice-header">
-    <div class="invoice-brand"><span class="brand-dot" aria-hidden="true"></span><strong>Seula</strong><span class="brand-sub">Live filter model</span></div>
-    <nav aria-label="Page links"><a href="./?invoice">Invoice demo</a></nav>
-  </header>
-  <main class="invoice-page live-page">
-    <section class="intro-copy"><h1>Type a filter. It parses as you type.</h1><p>A small model in this tab turns your words into table filters on every keystroke, using the values that are really in the table.</p></section>
-    <section class="live-picker" aria-label="Table"><div class="live-tabs" id="tabs"></div><label class="live-csv">Use a CSV<input type="file" id="csv" accept=".csv,.json,text/csv" /></label></section>
-    <div class="search-card">
-      <label for="q" id="q-label"></label>
-      <input id="q" class="live-input" autocomplete="off" spellcheck="false" />
-      <div class="examples" id="examples"></div>
+  <header class="bar">
+    <div class="bar-in">
+      <a class="brand" href="/"><span class="logo" aria-hidden="true"></span>Seula</a>
+      <a class="pill" href="https://github.com/deeflect/seula">GitHub${icon("arrow-up-right")}</a>
     </div>
-    <section class="live-parse" aria-live="polite" id="parse"></section>
-    <section id="results"></section>
-    <footer><span>184k-parameter model · 182 KB · runs locally, no API calls</span>${CONTACT_URL ? `<a href="${esc(CONTACT_URL)}">Want this in your product? Get in touch</a>` : ""}</footer>
+  </header>
+  <main class="col">
+    <h1 class="visually-hidden">Seula live demo</h1>
+    <div class="picker">
+      <div class="tabs" id="tabs" role="group" aria-label="Table"></div>
+      <label class="btn btn-secondary upload">${icon("upload-simple")}CSV<input type="file" id="csv" class="visually-hidden" accept=".csv,.json,text/csv" /></label>
+    </div>
+    <div class="card">
+      <div class="qrow">
+        <span class="slot" aria-hidden="true">${icon("funnel-simple")}</span>
+        <label for="q" id="q-label" class="visually-hidden"></label>
+        <input id="q" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="examples" id="examples"></div>
+      <div id="alert" role="alert"></div>
+      <div id="parse" aria-live="polite"></div>
+      <div id="results"></div>
+      <div class="facts" id="facts"></div>
+      <div id="verdict"></div>
+    </div>
+    <footer class="foot">
+      <div>
+        ${CONTACT_URL ? `<p>Want this in your product? Get in touch at <a class="text-link" href="${esc(CONTACT_URL)}">${esc(CONTACT_URL.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</a>.</p>` : ""}
+        <p>Seula is Finnish for sieve. Made by <a class="text-link" href="https://deeflect.com">Dee</a>.</p>
+      </div>
+      <div class="foot-row">
+        <div class="foot-rings">
+          <a class="ring" href="https://github.com/deeflect/seula" aria-label="GitHub">${icon("github-logo")}</a>
+          <a class="ring" href="https://www.npmjs.com/package/seula" aria-label="npm">${icon("package")}</a>
+        </div>
+        <small>Apache-2.0 · © 2026</small>
+      </div>
+    </footer>
   </main>`;
 const input = app.querySelector<HTMLInputElement>("#q")!;
+const alertEl = app.querySelector("#alert")!;
 
 function selectTable(t: LiveTable): void {
   table = t;
-  app.querySelector("#tabs")!.innerHTML = tables.map((x) => `<button type="button" data-key="${esc(x.key)}" aria-pressed="${x === t}">${esc(x.name)}</button>`).join("");
-  app.querySelector("#q-label")!.textContent = `Filter ${t.name} · ${t.rows.length} rows`;
-  app.querySelector("#examples")!.innerHTML = t.examples.length ? `<span>Try:</span>${t.examples.map((q) => `<button type="button" data-q="${esc(q)}">${esc(q)}</button>`).join('<span aria-hidden="true">·</span>')}` : "";
+  app.querySelector("#tabs")!.innerHTML = tables.map((x) => `<button type="button" class="tab" data-key="${esc(x.key)}" aria-pressed="${x === t}">${esc(x.name)}</button>`).join("");
+  app.querySelector("#q-label")!.textContent = `Filter ${t.name}`;
+  app.querySelector("#examples")!.innerHTML = t.examples.map((q) => `<button type="button" class="ex" data-q="${esc(q)}">${esc(q)}</button>`).join("");
   input.value = t.examples[0] ?? "";
   update();
 }
@@ -62,61 +88,55 @@ function update(): void {
   if (seen !== `${table.key}\n${q}`) { seen = `${table.key}\n${q}`; removed = new Set(); forced = false; verdict = ""; }
   last = r;
   const unsure = !!r && (!r.conds || r.conf < THRESHOLD), guess = unsure && !forced;
-  const status = !model ? `<span class="live-status">Loading model…</span>`
-    : !q ? `<span class="live-status">Type a filter to start.</span>`
-    : !r!.conds ? `<span class="live-status unsure">No filter found</span>`
-    : guess ? `<span class="live-status unsure">Unsure. The guess is shown, not applied. <button type="button" data-force>Apply anyway</button></span>`
-    : `<span class="live-status ok">${unsure ? "Guess applied" : "Confident. Filters applied"}</span>`;
   // One chip per column and operator, so "overdue or pending" reads as one filter. Removing a chip drops that part.
   const by = new Map<string, string[]>();
   for (const [j, op, v] of r?.conds ?? []) by.set(`${j} ${op}`, [...(by.get(`${j} ${op}`) ?? []), v]);
   const labels = [...by].map(([k, vs]) => [k, `${table.header[+k.split(" ")[0]]} ${sym[k.split(" ")[1]] ?? k.split(" ")[1]} ${vs.join(/ (=|contains)$/.test(k) ? " or " : ", ")}`]);
   if (r?.sort) labels.push(["sort", `Sort: ${table.header[r.sort[0]]} ${r.sort[1] === "asc" ? "↑" : "↓"}`]);
   if (r?.limit !== undefined) labels.push(["limit", `First ${r.limit}`]);
-  const chips = labels.filter(([k]) => !removed.has(k)).map(([k, l]) => `<span class="chip${guess ? " guess" : ""}">${esc(l)}<button type="button" data-rm="${esc(k)}" aria-label="Remove ${esc(l)}">×</button></span>`).join("");
-  const feedback = !CAPTURE_URL || !r || !q ? "" : verdict ? `<p class="live-feedback">Sent, thank you.</p>`
-    : `<p class="live-feedback"><span>Did it read this right?</span><button type="button" data-verdict="right">Yes</button><button type="button" data-verdict="wrong">No</button><small>Answering sends your query, the column names and the parsed filter. The rows never leave this tab.</small></p>`;
-  parseEl.innerHTML = `
-    <div class="live-chips">${chips || `<span class="live-none">${q && model ? "No filters" : ""}</span>`}</div>
-    <div class="live-metrics">
-      <div class="live-metric"><span>Confidence</span><strong>${r ? r.conf.toFixed(2) : "—"}</strong><span class="live-meter" aria-hidden="true"><i style="width:${r ? r.conf * 100 : 0}%" class="${unsure ? "low" : ""}"></i><b></b></span></div>
-      <div class="live-metric"><span>Parse time</span><strong>${r ? `${ms.toFixed(2)} ms` : "—"}</strong></div>
-    </div>
-    ${status}${feedback}`;
+  const chips = labels.filter(([k]) => !removed.has(k)).map(([k, l]) => `<span class="chip ${guess ? "guess" : `k-${kind[k.split(" ").pop()!] ?? "value"}`}">${esc(l)}<button type="button" data-rm="${esc(k)}" aria-label="Remove ${esc(l)}">${icon("x")}</button></span>`).join("");
+  const note = !model ? `<span class="note">Loading model…</span>` : q && !r!.conds ? `<span class="note">No filter found</span>` : "";
+  parseEl.innerHTML = chips || note ? `<div class="chips">${chips}${chips && guess ? `<button type="button" class="btn btn-secondary" data-force>Apply anyway</button>` : ""}${note}</div>` : "";
+  app.querySelector("#verdict")!.innerHTML = !CAPTURE_URL || !r || !q ? "" : `<div class="verdict">${verdict ? `<span class="note">Sent, thank you.</span>`
+    : `<button type="button" class="ring" data-verdict="right" aria-label="Read it right">${icon("thumbs-up")}</button><button type="button" class="ring" data-verdict="wrong" aria-label="Read it wrong">${icon("thumbs-down")}</button>`}<small>Answering sends your query, the column names and the parsed filter. The rows never leave this tab.</small></div>`;
   const kept = r?.conds && !guess ? { conds: r.conds.filter(([j, op]) => !removed.has(`${j} ${op}`)), sort: removed.has("sort") ? undefined : r.sort, limit: removed.has("limit") ? undefined : r.limit } : { conds: [] };
-  renderResults(kept, guess && !!r?.conds);
+  const hits = renderResults(kept);
+  app.querySelector("#facts")!.innerHTML = `<span class="fact">${icon("rows")}${hits} of ${table.rows.length} rows</span>${r ? `<span class="fact">${icon("lightning")}${ms.toFixed(2)} ms</span><span class="fact">${icon("gauge")}${r.conf.toFixed(2)}</span>` : ""}`;
 }
 
-function renderResults(f: Pick<Filter, "conds" | "sort" | "limit">, unsure: boolean): void {
+function renderResults(f: Pick<Filter, "conds" | "sort" | "limit">): number {
   const hits = model ? rowsOf(model, table, f) : table.rows.map((_, i) => i);
   const hitCols = new Set((f.conds ?? []).map(([j]) => j));
+  if (f.sort) hitCols.add(f.sort[0]);
+  const cls = (j: number) => [table.types[j] === "real" ? "num" : "", hitCols.has(j) ? "hit" : ""].join(" ").trim();
   app.querySelector("#results")!.innerHTML = `
-    <p class="live-count"><strong>${hits.length}</strong> of ${table.rows.length} rows${unsure ? " · guess not applied" : ""}</p>
-    <div class="live-scroll"><table class="live-table">
-      <thead><tr>${table.header.map((h, j) => `<th class="${hitCols.has(j) ? "hit" : ""}">${esc(h)}</th>`).join("")}</tr></thead>
-      <tbody>${hits.map((i) => `<tr>${table.rows[i].map((c, j) => `<td class="${hitCols.has(j) ? "hit" : ""}">${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody>
+    <div class="scroll"><table class="rows">
+      <thead><tr>${table.header.map((h, j) => `<th class="${cls(j)}">${esc(h)}</th>`).join("")}</tr></thead>
+      <tbody>${hits.map((i) => `<tr>${table.rows[i].map((c, j) => `<td class="${cls(j)}">${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody>
     </table></div>
-    ${hits.length ? "" : `<div class="state-message"><strong>No rows match.</strong><span>The filter parsed, but no row passes it.</span></div>`}`;
+    ${hits.length ? "" : `<p class="empty">No rows match.</p>`}`;
+  return hits.length;
 }
 
 input.addEventListener("input", update);
 app.addEventListener("click", (e) => {
   const b = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-key], button[data-q], button[data-rm], button[data-force], button[data-verdict]");
   if (!b) return;
-  if (b.dataset.rm) { removed.add(b.dataset.rm); update(); }
-  else if ("force" in b.dataset) { forced = true; update(); }
+  if (b.dataset.rm) { removed.add(b.dataset.rm); update(); input.focus(); }
+  else if ("force" in b.dataset) { forced = true; update(); input.focus(); }
   else if (b.dataset.verdict && CAPTURE_URL && last) {
     verdict = b.dataset.verdict;
     // text/plain keeps this a simple request (no CORS preflight); a failed send is not the reader's problem
     fetch(CAPTURE_URL, { method: "POST", headers: { "content-type": "text/plain" }, keepalive: true, body: JSON.stringify({ verdict, query: input.value.trim(), header: table.header, conds: last.conds, conf: last.conf, sort: last.sort, limit: last.limit, removed: [...removed], forced }) }).catch(() => {});
     update();
   }
-  else if (b.dataset.key) selectTable(tables.find((t) => t.key === b.dataset.key)!);
+  else if (b.dataset.key) { alertEl.innerHTML = ""; selectTable(tables.find((t) => t.key === b.dataset.key)!); }
   else { input.value = b.dataset.q!; update(); input.focus(); }
 });
 app.querySelector<HTMLInputElement>("#csv")!.addEventListener("change", async (e) => {
-  const file = (e.target as HTMLInputElement).files?.[0];
+  const el = e.target as HTMLInputElement, file = el.files?.[0];
   if (!file) return;
+  alertEl.innerHTML = "";
   try {
     const objs = parseCsvOrJsonToRows(await file.text());
     if (!objs.length) throw new Error("No rows found.");
@@ -125,7 +145,8 @@ app.querySelector<HTMLInputElement>("#csv")!.addEventListener("change", async (e
     const i = tables.findIndex((x) => x.key === "csv");
     i < 0 ? tables.push(t) : (tables[i] = t);
     selectTable(t);
-  } catch (err) { alert(err instanceof Error ? err.message : "Could not read this file."); }
+  } catch (err) { alertEl.innerHTML = `<p class="error">${esc(err instanceof Error ? err.message : "Could not read this file.")}</p>`; }
+  el.value = "";
 });
 
 selectTable(table);
@@ -133,4 +154,4 @@ input.focus();
 fetch(new URL("./seula/weights.bin", import.meta.url))
   .then((res) => res.arrayBuffer())
   .then((buf) => { model = new Seula(buf); model.parse("warm up", table); update(); })
-  .catch(() => { app.querySelector("#parse")!.innerHTML = `<div class="state-message error" role="alert"><strong>Could not load the model.</strong></div>`; });
+  .catch(() => { app.querySelector("#parse")!.innerHTML = `<p class="error" role="alert">Could not load the model.</p>`; });

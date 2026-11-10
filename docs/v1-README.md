@@ -59,4 +59,4 @@ npx tsc --noEmit
 npm run build
 ```
 
-See [how it works](docs/HOW-IT-WORKS-HUMANS.md) and [scope and possible uses](docs/BREAKTHROUGH-USAGE.md).
+See [how it works](HOW-IT-WORKS-HUMANS.md) and [scope and possible uses](v1-scope.md).

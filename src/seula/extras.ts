@@ -198,12 +198,16 @@ export function extras(query: string, table: Table, today = new Date()): Extras 
   const numOrDate = (j: number) => table.types[j] === "real" || dc[j];
   const reals = table.types.flatMap((t, j) => (t === "real" ? [j] : []));
   const same = (a: string, b: string) => a === b || a + "s" === b || a === b + "s";
-  const colAt = (k: number, ok: (j: number) => boolean) => {
+  // loose: after an explicit "by", part of a header is enough ("by balance" for "Balance USD") when no other column fits as well.
+  const colAt = (k: number, ok: (j: number) => boolean, loose = false) => {
     let best: { j: number; len: number } | null = null;
     hws.forEach((hw, j) => {
       if (ok(j) && hw.length > (best?.len ?? 0) && hw.every((h, x) => toks[k + x] && same(toks[k + x].w, h))) best = { j, len: hw.length };
     });
-    return best as { j: number; len: number } | null;
+    if (best || !loose) return best as { j: number; len: number } | null;
+    const run = (hw: string[], p: number) => { let n = 0; while (hw[p + n] && toks[k + n] && same(toks[k + n].w, hw[p + n])) n++; return n; };
+    const runs = hws.map((hw, j) => (ok(j) ? Math.max(0, ...hw.map((_, p) => run(hw, p))) : 0)), len = Math.max(0, ...runs);
+    return len && runs.indexOf(len) === runs.lastIndexOf(len) ? { j: runs.indexOf(len), len } : null;
   };
   // Trigger + next word inside a header ("Top scorer", "Most recent result") is a header mention, not a trigger.
   const guarded = (i: number) => !!toks[i + 1] && hws.some((hw) => hw.some((h, x) => h === toks[i].w && hw[x + 1] === toks[i + 1].w));
@@ -229,7 +233,7 @@ export function extras(query: string, table: Table, today = new Date()): Extras 
     if ((w === "top" || w === "bottom") && limit === undefined && /^\d+$/.test(toks[i + 1]?.w ?? "") && !/\S/.test(work.slice(toks[i].e, toks[i + 1].s)) && !inCell(`${w}\\s+${toks[i + 1].w}`)) {
       let col: number | null = null, n = 2;
       if (toks[i + 2]?.w === "by") {
-        const r = colAt(i + 3, numOrDate);
+        const r = colAt(i + 3, numOrDate, true);
         if (r) (col = r.j), (n = 3 + r.len);
       } else if (reals.length === 1) col = reals[0];
       if (col === null) continue;
@@ -238,7 +242,7 @@ export function extras(query: string, table: Table, today = new Date()): Extras 
       take(i, n), (i += n - 1);
     } else if (sort !== undefined) continue;
     else if (/^(sort|sorted|order|ordered)$/.test(w) && toks[i + 1]?.w === "by") {
-      const r = colAt(i + 2, () => true);
+      const r = colAt(i + 2, () => true, true);
       if (!r) continue;
       let n = 2 + r.len;
       const d = toks[i + n]?.w ?? "";

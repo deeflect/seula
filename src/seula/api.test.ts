@@ -80,4 +80,15 @@ const fromSchema: Result = seula.schema(cols).parse(q4, { today });
 eq(fromSchema.conditions, seula.table(inv).parse(q4, { today }).conditions, "schema vs table");
 assert(fromSchema.conditions?.length, "schema parsed something");
 
+// 5. snake_case and camelCase keys parse like plain ones, and results name the caller's own keys
+const hero = "overdue and balance over 1k, top 5 by balance";
+for (const [balance, late] of [["balance_usd", "days_late"], ["balanceUsd", "daysLate"]]) {
+  const rows = [{ client: "Acme", [balance]: 2400, [late]: 18, status: "overdue" }, { client: "Bolt", [balance]: 450, [late]: 3, status: "overdue" }, { client: "Cord", [balance]: 3200, [late]: 0, status: "due" }];
+  const t = seula.table(rows), r = t.parse(hero);
+  eq(r.conditions, [{ column: "status", type: "text", op: "=", value: "overdue" }, { column: balance, type: "number", op: ">", value: 1000 }], balance);
+  eq([r.sort, r.limit], [{ column: balance, dir: "desc" }, 5], balance);
+  eq(t.apply(r), [rows[0]], balance);
+  eq(t.parse(`top 2 by days late`).sort, { column: late, dir: "desc" }, late);
+}
+
 console.log(`api: ${n} checks passed`);

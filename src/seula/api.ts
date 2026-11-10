@@ -50,10 +50,10 @@ export function passes(get: (column: string) => unknown, conditions: Condition[]
   return all.every((c) => test(get(c.column), c)) && any.every((g) => g.some((c) => test(get(g[0].column), c)));
 }
 
-function conditionsOf(model: Seula, table: Table, conds: Cond[]): Condition[] {
+function conditionsOf(model: Seula, table: Table, names: string[], conds: Cond[]): Condition[] {
   const numeric = model.index(table).rowNumeric, out: Condition[] = [], merged = new Map<string, [Condition, Set<string | number>]>();
   for (const [j, op, v] of conds) {
-    const column = table.header[j], n = parseNumber(v), o = op as Condition["op"];
+    const column = names[j], n = parseNumber(v), o = op as Condition["op"];
     if (isIso(v) && op !== "contains") { out.push({ column, type: "date", op: o, value: v }); continue; }
     if ([">", ">=", "<", "<="].includes(op)) { out.push({ column, type: "number", op: o, value: n ?? v }); continue; }
     const type = (op === "=" || op === "!=") && numeric[j] && n !== null ? "number" : "text";
@@ -72,20 +72,22 @@ function conditionsOf(model: Seula, table: Table, conds: Cond[]): Condition[] {
   return out;
 }
 
-function parser(model: Seula, table: Table) {
+// names: the caller's own column keys, returned in results; table.header is what the model reads.
+function parser(model: Seula, table: Table, names: string[]) {
   return (query: string, opts?: { today?: Date }): Result => {
     const f = filter(model, query, table, opts?.today);
     return {
-      conditions: f.conds && conditionsOf(model, table, f.conds),
-      sort: f.sort && { column: table.header[f.sort[0]], dir: f.sort[1] },
+      conditions: f.conds && conditionsOf(model, table, names, f.conds),
+      sort: f.sort && { column: names[f.sort[0]], dir: f.sort[1] },
       limit: f.limit,
       confidence: f.conf,
     };
   };
 }
 
-const typed = (header: string[], rows: Table["rows"], valuesOnly?: boolean): Table => ({
-  header, rows, valuesOnly, types: header.map((_, j) => (colNumeric(rows, j) ? "real" : "text")),
+// Keys reach the model as words: "balanceUsd" reads as "balance Usd" (the tokenizer already splits on _ and -).
+const typed = (keys: string[], rows: Table["rows"], valuesOnly?: boolean): Table => ({
+  header: keys.map((k) => k.replace(/([\p{Ll}\p{N}])(\p{Lu})/gu, "$1 $2")), rows, valuesOnly, types: keys.map((_, j) => (colNumeric(rows, j) ? "real" : "text")),
 });
 
 export function wrap(model: Seula) {
@@ -96,7 +98,7 @@ export function wrap(model: Seula) {
       const header = Object.keys(rows[0] ?? {});
       const t = typed(header, rows.map((r) => header.map((h) => cellOf(r[h]))));
       return {
-        parse: parser(model, t),
+        parse: parser(model, t, header),
         apply(result: Pick<Result, "conditions" | "sort" | "limit">): T[] {
           const hits = rows.filter((r) => !result.conditions || passes((c) => r[c], result.conditions));
           if (result.sort) sortBy(hits, (r) => cellOf(r[result.sort!.column]), result.sort.dir);
@@ -108,7 +110,7 @@ export function wrap(model: Seula) {
     schema(columns: Record<string, unknown[]>) {
       const header = Object.keys(columns), n = Math.max(0, ...header.map((h) => columns[h].length));
       const rows = Array.from({ length: n }, (_, i) => header.map((h) => (columns[h].length ? cellOf(columns[h][i % columns[h].length]) : "")));
-      return { parse: parser(model, typed(header, rows, true)) };
+      return { parse: parser(model, typed(header, rows, true), header) };
     },
   };
 }

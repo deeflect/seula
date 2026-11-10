@@ -3,6 +3,7 @@
   "name": "seula",
   "main": "worker/capture.js",
   "compatibility_date": "2025-10-01",
+  "routes": [{ "pattern": "seula.deeflect.com", "custom_domain": true }],
   "assets": { "directory": "./dist" },
   "kv_namespaces": [{ "binding": "CAPTURE", "id": "4ddbbb04bc5641a3b6279b8c55b666db" }]
 }

@@ -126,6 +126,14 @@ eq(x("last week score above 5", plain), { rest: "last week score above 5", conds
 eq(x("top 5 by balance", inv), { rest: "", conds: [], sort: [2, "desc"], limit: 5 });
 eq(x("open top 3", inv), { rest: "open", conds: [], sort: [2, "desc"], limit: 3 });
 eq(x("bottom 2 by attendance", nfl), { rest: "", conds: [], sort: [4, "asc"], limit: 2 });
+// after "by", part of a header names the column; two columns that fit equally are left to the model
+const units: Table = { header: ["Client", "Balance USD", "Days late"], types: ["text", "real", "real"], rows: [["Acme", 120, 3], ["Bolt", 80, 0]] };
+eq(x("top 5 by balance", units), { rest: "", conds: [], sort: [1, "desc"], limit: 5 });
+eq(x("sort by balance desc", units), { rest: "", conds: [], sort: [1, "desc"] });
+eq(x("top 2 by late", units), { rest: "", conds: [], sort: [2, "desc"], limit: 2 });
+const twoBalances: Table = { ...units, header: ["Client", "Balance USD", "Balance EUR"] };
+eq(x("top 5 by balance", twoBalances), { rest: "top 5 by balance", conds: [] });
+eq(x("top 5 by balance eur", twoBalances), { rest: "", conds: [], sort: [2, "desc"], limit: 5 });
 eq(x("top 3", nfl), { rest: "top 3", conds: [] });
 eq(x("top 3 by opponent", nfl), { rest: "top 3 by opponent", conds: [] });
 eq(x("bears sorted by weeks descending", nfl), { rest: "bears", conds: [], sort: [0, "desc"] });
