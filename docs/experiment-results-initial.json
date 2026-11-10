@@ -1,0 +1,7391 @@
+{
+  "fixtureSha256": "721878c3294c6c35d69aad0fa7a8468827a1b04f8334e86adeb673a97f00b55a",
+  "modelSha256": "74dc40c3819dbcfb6dbd2c974e8aaa711b53be4911538dc8cbe2db86a598d32f",
+  "command": "npx tsx spike/evaluate_challenge.ts",
+  "node": "v22.23.1",
+  "hardware": "darwin arm64; Apple M4 Pro",
+  "note": "Agent-authored held-out cases, not human-collected or a population accuracy estimate.",
+  "counts": {
+    "valid": 90,
+    "invalid": 10,
+    "oracleRows": 15
+  },
+  "summary": {
+    "raw": {
+      "acceptedValid": 82,
+      "acceptedWrongClauses": 42,
+      "exactAcceptedAst": 40,
+      "correctRowSets": 44,
+      "rejectedValid": 8,
+      "rejectedInvalid": 6,
+      "acceptedInvalid": 4
+    },
+    "guarded": {
+      "acceptedValid": 25,
+      "acceptedWrongClauses": 3,
+      "exactAcceptedAst": 22,
+      "correctRowSets": 22,
+      "rejectedValid": 65,
+      "rejectedInvalid": 10,
+      "acceptedInvalid": 0
+    },
+    "rules": {
+      "acceptedValid": 27,
+      "acceptedWrongClauses": 1,
+      "exactAcceptedAst": 26,
+      "correctRowSets": 26,
+      "rejectedValid": 63,
+      "rejectedInvalid": 9,
+      "acceptedInvalid": 1
+    }
+  },
+  "results": [
+    {
+      "id": "I01",
+      "schema": "issues",
+      "query": "issues with points topping 5",
+      "expected": [
+        {
+          "field": "points",
+          "cmp": "gt",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I3",
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unapplied query segment",
+            "Unrecognized query word: topping"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I1",
+            "I3",
+            "I4",
+            "I5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied query segment",
+            "Unrecognized query word: topping"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied query segment",
+            "Unrecognized query word: topping"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I02",
+      "schema": "issues",
+      "query": "issues with points beneath 5",
+      "expected": [
+        {
+          "field": "points",
+          "cmp": "lt",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unapplied query segment",
+            "Unrecognized query word: beneath"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I1",
+            "I3",
+            "I4",
+            "I5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied query segment",
+            "Unrecognized query word: beneath"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied query segment",
+            "Unrecognized query word: beneath"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I03",
+      "schema": "issues",
+      "query": "estimates of at least 5 points",
+      "expected": [
+        {
+          "field": "points",
+          "cmp": "gte",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I2",
+        "I3",
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: least"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I1",
+            "I3",
+            "I4",
+            "I5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: least"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: least"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I04",
+      "schema": "issues",
+      "query": "estimates of at most 5 points",
+      "expected": [
+        {
+          "field": "points",
+          "cmp": "lte",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I2",
+        "I4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: most"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I1",
+            "I3",
+            "I4",
+            "I5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: most"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: most"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I05",
+      "schema": "issues",
+      "query": "effort exceeds 5 points",
+      "expected": [
+        {
+          "field": "points",
+          "cmp": "gt",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I3",
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "gt",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I3",
+            "I5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "gt",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I3",
+            "I5"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "gt",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I3",
+            "I5"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I06",
+      "schema": "issues",
+      "query": "effort falls short of 5 points",
+      "expected": [
+        {
+          "field": "points",
+          "cmp": "lt",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: falls",
+            "Unrecognized query word: short"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I1",
+            "I3",
+            "I4",
+            "I5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: falls",
+            "Unrecognized query word: short"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: falls",
+            "Unrecognized query word: short"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I07",
+      "schema": "issues",
+      "query": "story points 5 or higher",
+      "expected": [
+        {
+          "field": "points",
+          "cmp": "gte",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I2",
+        "I3",
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "neq",
+              "value": "5",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or",
+            "Unrecognized query word: higher"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or",
+            "Unrecognized query word: higher"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or",
+            "Unrecognized query word: higher"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I08",
+      "schema": "issues",
+      "query": "story points 5 or lower",
+      "expected": [
+        {
+          "field": "points",
+          "cmp": "lte",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I2",
+        "I4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "neq",
+              "value": "5",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or",
+            "Unrecognized query word: lower"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or",
+            "Unrecognized query word: lower"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or",
+            "Unrecognized query word: lower"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I09",
+      "schema": "issues",
+      "query": "more than 5 points",
+      "expected": [
+        {
+          "field": "points",
+          "cmp": "gt",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I3",
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": false,
+          "actualRows": [
+            "I2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": false,
+          "actualRows": [
+            "I2"
+          ],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "gt",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I3",
+            "I5"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I10",
+      "schema": "issues",
+      "query": "fewer than 5 points",
+      "expected": [
+        {
+          "field": "points",
+          "cmp": "lt",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": false,
+          "actualRows": [
+            "I2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": false,
+          "actualRows": [
+            "I2"
+          ],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "points",
+              "cmp": "lt",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I11",
+      "schema": "issues",
+      "query": "still open issues",
+      "expected": [
+        {
+          "field": "status",
+          "cmp": "eq",
+          "value": "open",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "open",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: still"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I2",
+            "I3",
+            "I4"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: still"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "open",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: still"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I12",
+      "schema": "issues",
+      "query": "exclude closed issues",
+      "expected": [
+        {
+          "field": "status",
+          "cmp": "eq",
+          "value": "closed",
+          "negated": true
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I3",
+        "I4",
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "closed",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: exclude"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: exclude"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "closed",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: exclude"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I13",
+      "schema": "issues",
+      "query": "tagged bug",
+      "expected": [
+        {
+          "field": "labels",
+          "cmp": "eq",
+          "value": "bug",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "labels",
+              "cmp": "eq",
+              "value": "bug",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "labels",
+              "cmp": "eq",
+              "value": "bug",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "labels",
+              "cmp": "eq",
+              "value": "bug",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I14",
+      "schema": "issues",
+      "query": "anything except docs issues",
+      "expected": [
+        {
+          "field": "labels",
+          "cmp": "eq",
+          "value": "docs",
+          "negated": true
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I3",
+        "I4",
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "labels",
+              "cmp": "eq",
+              "value": "docs",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: anything"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: anything"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "labels",
+              "cmp": "neq",
+              "value": "docs",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: anything"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I15",
+      "schema": "issues",
+      "query": "priority P0",
+      "expected": [
+        {
+          "field": "priority",
+          "cmp": "eq",
+          "value": "p0",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I3"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "p0",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I3"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "p0",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I3"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "p0",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I3"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I16",
+      "schema": "issues",
+      "query": "routine priority",
+      "expected": [
+        {
+          "field": "priority",
+          "cmp": "eq",
+          "value": "routine",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "routine",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "routine",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I5"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "routine",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I5"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I17",
+      "schema": "issues",
+      "query": "assignee contains Ana",
+      "expected": [
+        {
+          "field": "assignee",
+          "cmp": "contains",
+          "value": "Ana",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "assignee",
+              "cmp": "contains",
+              "value": "ana",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "assignee",
+              "cmp": "contains",
+              "value": "ana",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I4"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "assignee",
+              "cmp": "contains",
+              "value": "ana",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I18",
+      "schema": "issues",
+      "query": "owner name includes Zoë",
+      "expected": [
+        {
+          "field": "assignee",
+          "cmp": "contains",
+          "value": "Zoë",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I2"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "assignee",
+              "cmp": "neq",
+              "value": "zo",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax",
+            "Unrecognized query word: name"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I1",
+            "I2",
+            "I3",
+            "I4"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax",
+            "Unrecognized query word: name"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "assignee",
+              "cmp": "contains",
+              "value": "name zo",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I19",
+      "schema": "issues",
+      "query": "filed before 2026-01-11",
+      "expected": [
+        {
+          "field": "created",
+          "cmp": "before",
+          "value": "2026-01-11",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "created",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "created",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I4"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "created",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I20",
+      "schema": "issues",
+      "query": "opened after 2026-01-11",
+      "expected": [
+        {
+          "field": "created",
+          "cmp": "after",
+          "value": "2026-01-11",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I3",
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "created",
+              "cmp": "after",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied value: opened"
+          ],
+          "exact": true,
+          "actualRows": [
+            "I3",
+            "I5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied value: opened"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "created",
+              "cmp": "after",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied value: opened"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I21",
+      "schema": "issues",
+      "query": "locked issues",
+      "expected": [
+        {
+          "field": "locked",
+          "cmp": "eq",
+          "value": "true",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I2",
+        "I4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "locked",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied value: locked"
+          ],
+          "exact": true,
+          "actualRows": [
+            "I2",
+            "I4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied value: locked"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "locked",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied value: locked"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I22",
+      "schema": "issues",
+      "query": "issues that are not locked",
+      "expected": [
+        {
+          "field": "locked",
+          "cmp": "eq",
+          "value": "false",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I3"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "locked",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unapplied value: locked"
+          ],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I3"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied value: locked"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "locked",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unapplied value: locked"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I23",
+      "schema": "issues",
+      "query": "open with over 5 points",
+      "expected": [
+        {
+          "field": "status",
+          "cmp": "eq",
+          "value": "open",
+          "negated": false
+        },
+        {
+          "field": "points",
+          "cmp": "gt",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "open",
+              "negated": false
+            },
+            {
+              "field": "points",
+              "cmp": "gt",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "open",
+              "negated": false
+            },
+            {
+              "field": "points",
+              "cmp": "gt",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I5"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "open",
+              "negated": false
+            },
+            {
+              "field": "points",
+              "cmp": "gt",
+              "value": "5",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I5"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I24",
+      "schema": "issues",
+      "query": "triaged and priority P1",
+      "expected": [
+        {
+          "field": "status",
+          "cmp": "eq",
+          "value": "triaged",
+          "negated": false
+        },
+        {
+          "field": "priority",
+          "cmp": "eq",
+          "value": "p1",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "triaged",
+              "negated": false
+            },
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "p1",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "triaged",
+              "negated": false
+            },
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "p1",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "triaged",
+              "negated": false
+            },
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "p1",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I25",
+      "schema": "issues",
+      "query": "bugs that aren't locked",
+      "expected": [
+        {
+          "field": "labels",
+          "cmp": "eq",
+          "value": "bug",
+          "negated": false
+        },
+        {
+          "field": "locked",
+          "cmp": "eq",
+          "value": "false",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "labels",
+              "cmp": "eq",
+              "value": "bug",
+              "negated": false
+            },
+            {
+              "field": "locked",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unapplied value: locked"
+          ],
+          "exact": true,
+          "actualRows": [
+            "I1"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied value: locked"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "labels",
+              "cmp": "eq",
+              "value": "bug",
+              "negated": false
+            },
+            {
+              "field": "locked",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unapplied value: locked"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I26",
+      "schema": "issues",
+      "query": "owner includes Ana; filed before 2026-01-11",
+      "expected": [
+        {
+          "field": "assignee",
+          "cmp": "contains",
+          "value": "Ana",
+          "negated": false
+        },
+        {
+          "field": "created",
+          "cmp": "before",
+          "value": "2026-01-11",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I1",
+        "I4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "assignee",
+              "cmp": "contains",
+              "value": "ana",
+              "negated": false
+            },
+            {
+              "field": "created",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "assignee",
+              "cmp": "contains",
+              "value": "ana",
+              "negated": false
+            },
+            {
+              "field": "created",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I4"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "assignee",
+              "cmp": "contains",
+              "value": "ana",
+              "negated": false
+            },
+            {
+              "field": "created",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I1",
+            "I4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I27",
+      "schema": "issues",
+      "query": "urgent priority, estimate no greater than 3 points",
+      "expected": [
+        {
+          "field": "priority",
+          "cmp": "eq",
+          "value": "urgent",
+          "negated": false
+        },
+        {
+          "field": "points",
+          "cmp": "lte",
+          "value": "3",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "urgent",
+              "negated": false
+            },
+            {
+              "field": "points",
+              "cmp": "gt",
+              "value": "3",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "urgent",
+              "negated": false
+            },
+            {
+              "field": "points",
+              "cmp": "gt",
+              "value": "3",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I4"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "urgent",
+              "negated": false
+            },
+            {
+              "field": "points",
+              "cmp": "gt",
+              "value": "3",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "I4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "I28",
+      "schema": "issues",
+      "query": "blocked, but not locked",
+      "expected": [
+        {
+          "field": "status",
+          "cmp": "eq",
+          "value": "blocked",
+          "negated": false
+        },
+        {
+          "field": "locked",
+          "cmp": "eq",
+          "value": "false",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "blocked",
+              "negated": false
+            },
+            {
+              "field": "locked",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: but"
+          ],
+          "exact": true,
+          "actualRows": [],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: but"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "blocked",
+              "negated": false
+            },
+            {
+              "field": "locked",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: but"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I29",
+      "schema": "issues",
+      "query": "priority P2 — 5+ points",
+      "expected": [
+        {
+          "field": "priority",
+          "cmp": "eq",
+          "value": "p2",
+          "negated": false
+        },
+        {
+          "field": "points",
+          "cmp": "gte",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "I2"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "p2",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax",
+            "Unsupported query syntax",
+            "Unapplied field: points",
+            "Unrecognized query word: 5"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I2"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unsupported query syntax",
+            "Unsupported query syntax",
+            "Unapplied field: points",
+            "Unrecognized query word: 5"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "p2",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax",
+            "Unsupported query syntax",
+            "Unapplied field: points",
+            "Unrecognized query word: 5"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "I30",
+      "schema": "issues",
+      "query": "rank P3; effort ≤ 2 points",
+      "expected": [
+        {
+          "field": "priority",
+          "cmp": "eq",
+          "value": "p3",
+          "negated": false
+        },
+        {
+          "field": "points",
+          "cmp": "lte",
+          "value": "2",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "p3",
+              "negated": false
+            },
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "2",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unsupported query syntax"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "priority",
+              "cmp": "eq",
+              "value": "p3",
+              "negated": false
+            },
+            {
+              "field": "points",
+              "cmp": "eq",
+              "value": "2",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C01",
+      "schema": "client_work",
+      "query": "revision count past 4",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C3",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: count",
+            "Unrecognized query word: past"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C1",
+            "C3",
+            "C4",
+            "C5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: count",
+            "Unrecognized query word: past"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: count",
+            "Unrecognized query word: past"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C02",
+      "schema": "client_work",
+      "query": "revision count under 4",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "lt",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "lt",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: count"
+          ],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: count"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "lt",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: count"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C03",
+      "schema": "client_work",
+      "query": "no fewer than 4 revisions",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "gte",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C2",
+        "C3",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied negation"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied negation"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "lt",
+              "value": "4",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C2",
+            "C3",
+            "C4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "C04",
+      "schema": "client_work",
+      "query": "no more than 4 revisions",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "lte",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C2",
+        "C5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": false,
+          "actualRows": [
+            "C1",
+            "C3",
+            "C4",
+            "C5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": false,
+          "actualRows": [
+            "C1",
+            "C3",
+            "C4",
+            "C5"
+          ],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "gt",
+              "value": "4",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C2",
+            "C5"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "schema": "client_work",
+      "query": "revisions beyond 4",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C3",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: beyond"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C1",
+            "C3",
+            "C4",
+            "C5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: beyond"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: beyond"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C06",
+      "schema": "client_work",
+      "query": "revisions below 4",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "lt",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "lt",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "lt",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C5"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "lt",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C5"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "C07",
+      "schema": "client_work",
+      "query": "minimum 4 rounds of revisions",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "gte",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C2",
+        "C3",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: minimum"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C1",
+            "C3",
+            "C4",
+            "C5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: minimum"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: minimum"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C08",
+      "schema": "client_work",
+      "query": "maximum 4 rounds of revisions",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "lte",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C2",
+        "C5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: maximum"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C1",
+            "C3",
+            "C4",
+            "C5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: maximum"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: maximum"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C09",
+      "schema": "client_work",
+      "query": "revisions ≥ 4",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "gte",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C2",
+        "C3",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unsupported query syntax"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C10",
+      "schema": "client_work",
+      "query": "revisions ≤ 4",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "lte",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C2",
+        "C5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unsupported query syntax"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C11",
+      "schema": "client_work",
+      "query": "panicking clients",
+      "expected": [
+        {
+          "field": "vibe",
+          "cmp": "eq",
+          "value": "panicking",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "panicking",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied field: founder"
+          ],
+          "exact": true,
+          "actualRows": [
+            "C1"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied field: founder"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "panicking",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied field: founder"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C12",
+      "schema": "client_work",
+      "query": "leave out ghosting clients",
+      "expected": [
+        {
+          "field": "vibe",
+          "cmp": "eq",
+          "value": "ghosting",
+          "negated": true
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C2",
+        "C4",
+        "C5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "ghosting",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unapplied field: founder",
+            "Unrecognized query word: leave",
+            "Unrecognized query word: out"
+          ],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C2",
+            "C4",
+            "C5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied field: founder",
+            "Unrecognized query word: leave",
+            "Unrecognized query word: out"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "ghosting",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied field: founder",
+            "Unrecognized query word: leave",
+            "Unrecognized query word: out"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C13",
+      "schema": "client_work",
+      "query": "requests to make the logo bigger",
+      "expected": [
+        {
+          "field": "ask",
+          "cmp": "eq",
+          "value": "logo_bigger",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "ask",
+              "cmp": "eq",
+              "value": "logo_bigger",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: make",
+            "Unrecognized query word: bigger"
+          ],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: make",
+            "Unrecognized query word: bigger"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "ask",
+              "cmp": "eq",
+              "value": "logo_bigger",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: make",
+            "Unrecognized query word: bigger"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C14",
+      "schema": "client_work",
+      "query": "only quick tweaks",
+      "expected": [
+        {
+          "field": "ask",
+          "cmp": "eq",
+          "value": "quick_tweak",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C2"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "ask",
+              "cmp": "eq",
+              "value": "quick_tweak",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: tweaks"
+          ],
+          "exact": true,
+          "actualRows": [
+            "C2"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: tweaks"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "ask",
+              "cmp": "eq",
+              "value": "quick_tweak",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: tweaks"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C15",
+      "schema": "client_work",
+      "query": "invoices marked overdue",
+      "expected": [
+        {
+          "field": "invoice_state",
+          "cmp": "eq",
+          "value": "overdue",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "overdue",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: invoices",
+            "Unrecognized query word: marked"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C2",
+            "C3",
+            "C4"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: invoices",
+            "Unrecognized query word: marked"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "overdue",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: invoices",
+            "Unrecognized query word: marked"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C16",
+      "schema": "client_work",
+      "query": "exclude paid invoices",
+      "expected": [
+        {
+          "field": "invoice_state",
+          "cmp": "eq",
+          "value": "paid",
+          "negated": true
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C3",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "paid",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: exclude",
+            "Unrecognized query word: invoices"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: exclude",
+            "Unrecognized query word: invoices"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "paid",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: exclude",
+            "Unrecognized query word: invoices"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C17",
+      "schema": "client_work",
+      "query": "founder name contains Inez",
+      "expected": [
+        {
+          "field": "founder",
+          "cmp": "contains",
+          "value": "Inez",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "founder",
+              "cmp": "neq",
+              "value": "inez",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: name"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C2",
+            "C3"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: name"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "founder",
+              "cmp": "contains",
+              "value": "name inez",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C18",
+      "schema": "client_work",
+      "query": "client name includes Zoë",
+      "expected": [
+        {
+          "field": "founder",
+          "cmp": "contains",
+          "value": "Zoë",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C2"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "founder",
+              "cmp": "neq",
+              "value": "zo",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax",
+            "Unrecognized query word: name"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C1",
+            "C2",
+            "C3",
+            "C4"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax",
+            "Unrecognized query word: name"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "founder",
+              "cmp": "contains",
+              "value": "name zo",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C19",
+      "schema": "client_work",
+      "query": "deadlines before 2026-01-11",
+      "expected": [
+        {
+          "field": "due",
+          "cmp": "before",
+          "value": "2026-01-11",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "due",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "due",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C4"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "due",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "C20",
+      "schema": "client_work",
+      "query": "due dates after 2026-01-11",
+      "expected": [
+        {
+          "field": "due",
+          "cmp": "after",
+          "value": "2026-01-11",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C3",
+        "C5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: due",
+            "Unapplied comparator",
+            "Unrecognized query word: dates",
+            "Unrecognized query word: 2026-01-11"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: due",
+            "Unapplied comparator",
+            "Unrecognized query word: dates",
+            "Unrecognized query word: 2026-01-11"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "due",
+              "cmp": "after",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: dates"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C21",
+      "schema": "client_work",
+      "query": "deposit has cleared",
+      "expected": [
+        {
+          "field": "deposit_cleared",
+          "cmp": "eq",
+          "value": "true",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C2",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "deposit_cleared",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Comparator contains is unsupported for BOOL",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": true,
+          "actualRows": [
+            "C2",
+            "C4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Comparator contains is unsupported for BOOL",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "deposit_cleared",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Comparator contains is unsupported for BOOL",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C22",
+      "schema": "client_work",
+      "query": "deposit hasn't cleared",
+      "expected": [
+        {
+          "field": "deposit_cleared",
+          "cmp": "eq",
+          "value": "false",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C3"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "deposit_cleared",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: hasn't",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C2",
+            "C4"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: hasn't",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "deposit_cleared",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: hasn't",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C23",
+      "schema": "client_work",
+      "query": "panicking with overdue invoices",
+      "expected": [
+        {
+          "field": "vibe",
+          "cmp": "eq",
+          "value": "panicking",
+          "negated": false
+        },
+        {
+          "field": "invoice_state",
+          "cmp": "eq",
+          "value": "overdue",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "panicking",
+              "negated": false
+            },
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "overdue",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: invoices"
+          ],
+          "exact": true,
+          "actualRows": [
+            "C1"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: invoices"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "panicking",
+              "negated": false
+            },
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "overdue",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: invoices"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C24",
+      "schema": "client_work",
+      "query": "logo bigger and at least 4 revisions",
+      "expected": [
+        {
+          "field": "ask",
+          "cmp": "eq",
+          "value": "logo_bigger",
+          "negated": false
+        },
+        {
+          "field": "revisions",
+          "cmp": "gte",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unapplied field: ask",
+            "Unapplied value: logo",
+            "Unrecognized query word: bigger",
+            "Unrecognized query word: least"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C1",
+            "C3",
+            "C4",
+            "C5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied field: ask",
+            "Unapplied value: logo",
+            "Unrecognized query word: bigger",
+            "Unrecognized query word: least"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "ask",
+              "cmp": "eq",
+              "value": "logo_bigger",
+              "negated": false
+            },
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: bigger",
+            "Unrecognized query word: least"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C25",
+      "schema": "client_work",
+      "query": "not paid, due before 2026-01-11",
+      "expected": [
+        {
+          "field": "invoice_state",
+          "cmp": "eq",
+          "value": "paid",
+          "negated": true
+        },
+        {
+          "field": "due",
+          "cmp": "before",
+          "value": "2026-01-11",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1",
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "paid",
+              "negated": true
+            },
+            {
+              "field": "due",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "paid",
+              "negated": true
+            },
+            {
+              "field": "due",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C4"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "paid",
+              "negated": true
+            },
+            {
+              "field": "due",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C1",
+            "C4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "C26",
+      "schema": "client_work",
+      "query": "ghosted payment and no cleared deposit",
+      "expected": [
+        {
+          "field": "invoice_state",
+          "cmp": "eq",
+          "value": "ghosted",
+          "negated": false
+        },
+        {
+          "field": "deposit_cleared",
+          "cmp": "eq",
+          "value": "false",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C3"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "ghosted",
+              "negated": false
+            },
+            {
+              "field": "deposit_cleared",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied negation",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied negation",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "ghosted",
+              "negated": false
+            },
+            {
+              "field": "deposit_cleared",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: cleared"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C27",
+      "schema": "client_work",
+      "query": "founder includes Inez, 4 revisions or fewer",
+      "expected": [
+        {
+          "field": "founder",
+          "cmp": "contains",
+          "value": "Inez",
+          "negated": false
+        },
+        {
+          "field": "revisions",
+          "cmp": "lte",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C1"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "founder",
+              "cmp": "contains",
+              "value": "inez",
+              "negated": false
+            },
+            {
+              "field": "revisions",
+              "cmp": "eq",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "founder",
+              "cmp": "contains",
+              "value": "inez",
+              "negated": false
+            },
+            {
+              "field": "revisions",
+              "cmp": "lt",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C28",
+      "schema": "client_work",
+      "query": "vibe is chill; ask is a quick tweak",
+      "expected": [
+        {
+          "field": "vibe",
+          "cmp": "eq",
+          "value": "chill",
+          "negated": false
+        },
+        {
+          "field": "ask",
+          "cmp": "eq",
+          "value": "quick_tweak",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C2"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "chill",
+              "negated": false
+            },
+            {
+              "field": "ask",
+              "cmp": "neq",
+              "value": "quick_tweak",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: a",
+            "Unrecognized query word: tweak"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: a",
+            "Unrecognized query word: tweak"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "chill",
+              "negated": false
+            },
+            {
+              "field": "ask",
+              "cmp": "eq",
+              "value": "quick_tweak",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: a",
+            "Unrecognized query word: tweak"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C29",
+      "schema": "client_work",
+      "query": "deposit cleared — revisions above 4",
+      "expected": [
+        {
+          "field": "deposit_cleared",
+          "cmp": "eq",
+          "value": "true",
+          "negated": false
+        },
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "deposit_cleared",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            },
+            {
+              "field": "revisions",
+              "cmp": "gt",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": true,
+          "actualRows": [
+            "C4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unsupported query syntax",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "deposit_cleared",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            },
+            {
+              "field": "revisions",
+              "cmp": "gt",
+              "value": "4",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax",
+            "Unrecognized query word: cleared"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "C30",
+      "schema": "client_work",
+      "query": "deadline after 2026-01-11 and not panicking",
+      "expected": [
+        {
+          "field": "due",
+          "cmp": "after",
+          "value": "2026-01-11",
+          "negated": false
+        },
+        {
+          "field": "vibe",
+          "cmp": "eq",
+          "value": "panicking",
+          "negated": true
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "C3",
+        "C5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "due",
+              "cmp": "after",
+              "value": "2026-01-11",
+              "negated": false
+            },
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "panicking",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C3",
+            "C5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "due",
+              "cmp": "after",
+              "value": "2026-01-11",
+              "negated": false
+            },
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "panicking",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C3",
+            "C5"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "due",
+              "cmp": "after",
+              "value": "2026-01-11",
+              "negated": false
+            },
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "panicking",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "C3",
+            "C5"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "D01",
+      "schema": "deployments",
+      "query": "latency over 300 ms",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "gt",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D3",
+        "D5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "gt",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": true,
+          "actualRows": [
+            "D3",
+            "D5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "gt",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D02",
+      "schema": "deployments",
+      "query": "latency under 300 ms",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "lt",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "lt",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "lt",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D03",
+      "schema": "deployments",
+      "query": "at least 300 milliseconds of latency",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "gte",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D2",
+        "D3",
+        "D5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "300",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: least"
+          ],
+          "exact": false,
+          "actualRows": [
+            "D1",
+            "D3",
+            "D4",
+            "D5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: least"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: least"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D04",
+      "schema": "deployments",
+      "query": "at most 300 milliseconds of latency",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "lte",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D2",
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "300",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: most"
+          ],
+          "exact": false,
+          "actualRows": [
+            "D1",
+            "D3",
+            "D4",
+            "D5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: most"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: most"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D05",
+      "schema": "deployments",
+      "query": "latency exceeds 300 ms",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "gt",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D3",
+        "D5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "gt",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": true,
+          "actualRows": [
+            "D3",
+            "D5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "gt",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D06",
+      "schema": "deployments",
+      "query": "latency falls below 300 ms",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "lt",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "lt",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: falls",
+            "Unrecognized query word: ms"
+          ],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: falls",
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "lt",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: falls",
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D07",
+      "schema": "deployments",
+      "query": "latency 300 ms or longer",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "gte",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D2",
+        "D3",
+        "D5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: ms",
+            "Unrecognized query word: or",
+            "Unrecognized query word: longer"
+          ],
+          "exact": false,
+          "actualRows": [
+            "D2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: ms",
+            "Unrecognized query word: or",
+            "Unrecognized query word: longer"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: ms",
+            "Unrecognized query word: or",
+            "Unrecognized query word: longer"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D08",
+      "schema": "deployments",
+      "query": "latency 300 ms or shorter",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "lte",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D2",
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: ms",
+            "Unrecognized query word: or",
+            "Unrecognized query word: shorter"
+          ],
+          "exact": false,
+          "actualRows": [
+            "D2"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: ms",
+            "Unrecognized query word: or",
+            "Unrecognized query word: shorter"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: ms",
+            "Unrecognized query word: or",
+            "Unrecognized query word: shorter"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D09",
+      "schema": "deployments",
+      "query": "latency higher than 0.3 seconds",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "gt",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D3",
+        "D5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unrecognized query word: higher",
+            "Unrecognized query word: 0.3",
+            "Unrecognized query word: seconds"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unrecognized query word: higher",
+            "Unrecognized query word: 0.3",
+            "Unrecognized query word: seconds"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "0.3",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: higher",
+            "Unrecognized query word: seconds"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D10",
+      "schema": "deployments",
+      "query": "latency lower than 0.3 seconds",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "lt",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unrecognized query word: lower",
+            "Unrecognized query word: 0.3",
+            "Unrecognized query word: seconds"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unrecognized query word: lower",
+            "Unrecognized query word: 0.3",
+            "Unrecognized query word: seconds"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "0.3",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: lower",
+            "Unrecognized query word: seconds"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D11",
+      "schema": "deployments",
+      "query": "minimum 300 ms latency",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "gte",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D2",
+        "D3",
+        "D5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unrecognized query word: minimum",
+            "Unrecognized query word: 300",
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unrecognized query word: minimum",
+            "Unrecognized query word: 300",
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: minimum",
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D12",
+      "schema": "deployments",
+      "query": "maximum 300 ms latency",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "lte",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D2",
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unrecognized query word: maximum",
+            "Unrecognized query word: 300",
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unrecognized query word: maximum",
+            "Unrecognized query word: 300",
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "latency_ms",
+              "cmp": "eq",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: maximum",
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D13",
+      "schema": "deployments",
+      "query": "production environment",
+      "expected": [
+        {
+          "field": "environment",
+          "cmp": "eq",
+          "value": "prod",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "prod",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "prod",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D4"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "prod",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "D14",
+      "schema": "deployments",
+      "query": "EU West cluster",
+      "expected": [
+        {
+          "field": "environment",
+          "cmp": "eq",
+          "value": "eu_west",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D2"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: environment",
+            "Unrecognized query word: EU",
+            "Unrecognized query word: West"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: environment",
+            "Unrecognized query word: EU",
+            "Unrecognized query word: West"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: environment",
+            "Unrecognized query word: EU",
+            "Unrecognized query word: West"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D15",
+      "schema": "deployments",
+      "query": "exclude sandbox deployments",
+      "expected": [
+        {
+          "field": "environment",
+          "cmp": "eq",
+          "value": "sandbox",
+          "negated": true
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D2",
+        "D4",
+        "D5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "sandbox",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: exclude"
+          ],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D2",
+            "D4",
+            "D5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: exclude"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "sandbox",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: exclude"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D16",
+      "schema": "deployments",
+      "query": "deployments that succeeded",
+      "expected": [
+        {
+          "field": "outcome",
+          "cmp": "eq",
+          "value": "succeeded",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "outcome",
+              "cmp": "eq",
+              "value": "succeeded",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "outcome",
+              "cmp": "eq",
+              "value": "succeeded",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "outcome",
+              "cmp": "eq",
+              "value": "succeeded",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "D17",
+      "schema": "deployments",
+      "query": "releases that weren't rolled back",
+      "expected": [
+        {
+          "field": "outcome",
+          "cmp": "eq",
+          "value": "rolled_back",
+          "negated": true
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D2",
+        "D4",
+        "D5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field: deployed",
+            "Unapplied negation",
+            "Unapplied value: rolled",
+            "Unrecognized query word: back"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field: deployed",
+            "Unapplied negation",
+            "Unapplied value: rolled",
+            "Unrecognized query word: back"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field: deployed",
+            "Unapplied negation",
+            "Unapplied value: rolled",
+            "Unrecognized query word: back"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D18",
+      "schema": "deployments",
+      "query": "initiator name includes Zoë",
+      "expected": [
+        {
+          "field": "initiator",
+          "cmp": "contains",
+          "value": "Zoë",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D2"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "initiator",
+              "cmp": "neq",
+              "value": "zo",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax",
+            "Unrecognized query word: name"
+          ],
+          "exact": false,
+          "actualRows": [
+            "D1",
+            "D2",
+            "D3",
+            "D4"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax",
+            "Unrecognized query word: name"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "initiator",
+              "cmp": "contains",
+              "value": "name zo",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D19",
+      "schema": "deployments",
+      "query": "deployed by someone named Ana",
+      "expected": [
+        {
+          "field": "initiator",
+          "cmp": "contains",
+          "value": "Ana",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D3"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: deployed",
+            "Unrecognized query word: someone",
+            "Unrecognized query word: named",
+            "Unrecognized query word: Ana"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: deployed",
+            "Unrecognized query word: someone",
+            "Unrecognized query word: named",
+            "Unrecognized query word: Ana"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: deployed",
+            "Unrecognized query word: someone",
+            "Unrecognized query word: named",
+            "Unrecognized query word: Ana"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D20",
+      "schema": "deployments",
+      "query": "shipped before 2026-01-11",
+      "expected": [
+        {
+          "field": "deployed",
+          "cmp": "before",
+          "value": "2026-01-11",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "deployed",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "deployed",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D4"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "deployed",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "D21",
+      "schema": "deployments",
+      "query": "released after 2026-01-11",
+      "expected": [
+        {
+          "field": "deployed",
+          "cmp": "after",
+          "value": "2026-01-11",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D3",
+        "D5"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "deployed",
+              "cmp": "after",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D3",
+            "D5"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "deployed",
+              "cmp": "after",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D3",
+            "D5"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "deployed",
+              "cmp": "after",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D3",
+            "D5"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "D22",
+      "schema": "deployments",
+      "query": "canary enabled",
+      "expected": [
+        {
+          "field": "canary_enabled",
+          "cmp": "eq",
+          "value": "true",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D3"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D3"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D3"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D1",
+            "D3"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "D23",
+      "schema": "deployments",
+      "query": "canary disabled",
+      "expected": [
+        {
+          "field": "canary_enabled",
+          "cmp": "eq",
+          "value": "false",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D2",
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D2",
+            "D4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D2",
+            "D4"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D2",
+            "D4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "D24",
+      "schema": "deployments",
+      "query": "successful production releases",
+      "expected": [
+        {
+          "field": "outcome",
+          "cmp": "eq",
+          "value": "succeeded",
+          "negated": false
+        },
+        {
+          "field": "environment",
+          "cmp": "eq",
+          "value": "prod",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "prod",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied field: deployed",
+            "Unrecognized query word: successful"
+          ],
+          "exact": false,
+          "actualRows": [
+            "D1",
+            "D4"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied field: deployed",
+            "Unrecognized query word: successful"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "prod",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied field: deployed",
+            "Unrecognized query word: successful"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D25",
+      "schema": "deployments",
+      "query": "running canary deployments",
+      "expected": [
+        {
+          "field": "outcome",
+          "cmp": "eq",
+          "value": "running",
+          "negated": false
+        },
+        {
+          "field": "canary_enabled",
+          "cmp": "eq",
+          "value": "true",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "outcome",
+              "cmp": "eq",
+              "value": "running",
+              "negated": false
+            },
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "outcome",
+              "cmp": "eq",
+              "value": "running",
+              "negated": false
+            },
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "outcome",
+              "cmp": "eq",
+              "value": "running",
+              "negated": false
+            },
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "D26",
+      "schema": "deployments",
+      "query": "rolled back outside production",
+      "expected": [
+        {
+          "field": "outcome",
+          "cmp": "eq",
+          "value": "rolled_back",
+          "negated": false
+        },
+        {
+          "field": "environment",
+          "cmp": "eq",
+          "value": "prod",
+          "negated": true
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D3"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "prod",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied field: deployed",
+            "Unapplied value: rolled",
+            "Unrecognized query word: back",
+            "Unrecognized query word: outside"
+          ],
+          "exact": false,
+          "actualRows": [
+            "D1",
+            "D4"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied field: deployed",
+            "Unapplied value: rolled",
+            "Unrecognized query word: back",
+            "Unrecognized query word: outside"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field: deployed",
+            "Unapplied field: environment",
+            "Unapplied value: rolled",
+            "Unrecognized query word: back",
+            "Unrecognized query word: outside",
+            "Unapplied value: production"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D27",
+      "schema": "deployments",
+      "query": "initiated by Ana, over 300 ms latency",
+      "expected": [
+        {
+          "field": "initiator",
+          "cmp": "contains",
+          "value": "Ana",
+          "negated": false
+        },
+        {
+          "field": "latency_ms",
+          "cmp": "gt",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D3"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "initiator",
+              "cmp": "eq",
+              "value": "ana",
+              "negated": false
+            },
+            {
+              "field": "latency_ms",
+              "cmp": "gt",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [
+            "D3"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "initiator",
+              "cmp": "eq",
+              "value": "ana",
+              "negated": false
+            },
+            {
+              "field": "latency_ms",
+              "cmp": "gt",
+              "value": "300",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: ms"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D28",
+      "schema": "deployments",
+      "query": "prod releases before 2026-01-11, canary off",
+      "expected": [
+        {
+          "field": "environment",
+          "cmp": "eq",
+          "value": "prod",
+          "negated": false
+        },
+        {
+          "field": "deployed",
+          "cmp": "before",
+          "value": "2026-01-11",
+          "negated": false
+        },
+        {
+          "field": "canary_enabled",
+          "cmp": "eq",
+          "value": "false",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "prod",
+              "negated": false
+            },
+            {
+              "field": "deployed",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            },
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D4"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "prod",
+              "negated": false
+            },
+            {
+              "field": "deployed",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            },
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D4"
+          ],
+          "correctRows": true
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "environment",
+              "cmp": "eq",
+              "value": "prod",
+              "negated": false
+            },
+            {
+              "field": "deployed",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            },
+            {
+              "field": "canary_enabled",
+              "cmp": "eq",
+              "value": "true",
+              "negated": true
+            }
+          ],
+          "issues": [],
+          "exact": true,
+          "actualRows": [
+            "D4"
+          ],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "D29",
+      "schema": "deployments",
+      "query": "EU West and pending",
+      "expected": [
+        {
+          "field": "environment",
+          "cmp": "eq",
+          "value": "eu_west",
+          "negated": false
+        },
+        {
+          "field": "outcome",
+          "cmp": "eq",
+          "value": "pending",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D2"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "outcome",
+              "cmp": "eq",
+              "value": "pending",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied query segment",
+            "Unrecognized query word: EU",
+            "Unrecognized query word: West"
+          ],
+          "exact": false,
+          "actualRows": [
+            "D2"
+          ],
+          "correctRows": true
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied query segment",
+            "Unrecognized query word: EU",
+            "Unrecognized query word: West"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "outcome",
+              "cmp": "eq",
+              "value": "pending",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unapplied query segment",
+            "Unrecognized query word: EU",
+            "Unrecognized query word: West"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "D30",
+      "schema": "deployments",
+      "query": "not aborted; no more than 0.3 seconds latency",
+      "expected": [
+        {
+          "field": "outcome",
+          "cmp": "eq",
+          "value": "aborted",
+          "negated": true
+        },
+        {
+          "field": "latency_ms",
+          "cmp": "lte",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "valid": true,
+      "expectedRows": [
+        "D1",
+        "D2",
+        "D4"
+      ],
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "outcome",
+              "cmp": "eq",
+              "value": "aborted",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unapplied negation",
+            "Unapplied comparator",
+            "Unrecognized query word: 0.3",
+            "Unrecognized query word: seconds"
+          ],
+          "exact": false,
+          "actualRows": [
+            "D1",
+            "D2",
+            "D3",
+            "D4"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unapplied negation",
+            "Unapplied comparator",
+            "Unrecognized query word: 0.3",
+            "Unrecognized query word: seconds"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "outcome",
+              "cmp": "eq",
+              "value": "aborted",
+              "negated": true
+            },
+            {
+              "field": "latency_ms",
+              "cmp": "gt",
+              "value": "0.3",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: seconds"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "R01",
+      "schema": "issues",
+      "query": "open or triaged issues",
+      "expected": [],
+      "valid": false,
+      "expectedRows": [],
+      "reason": "unsupported OR",
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "open",
+              "negated": false
+            },
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "triaged",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I1",
+            "I5"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "open",
+              "negated": false
+            },
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "triaged",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "R02",
+      "schema": "client_work",
+      "query": "(panicking and overdue) or paid",
+      "expected": [],
+      "valid": false,
+      "expectedRows": [],
+      "reason": "unsupported grouping/OR",
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "panicking",
+              "negated": false
+            },
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "overdue",
+              "negated": false
+            },
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "paid",
+              "negated": true
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax",
+            "Unsupported query syntax",
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C1"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unsupported query syntax",
+            "Unsupported query syntax",
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "vibe",
+              "cmp": "eq",
+              "value": "panicking",
+              "negated": false
+            },
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "overdue",
+              "negated": false
+            },
+            {
+              "field": "invoice_state",
+              "cmp": "eq",
+              "value": "paid",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unsupported query syntax",
+            "Unsupported query syntax",
+            "OR and grouping are unsupported",
+            "Unrecognized query word: or"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "R03",
+      "schema": "deployments",
+      "query": "latency =~ /300/",
+      "expected": [],
+      "valid": false,
+      "expectedRows": [],
+      "reason": "unrecognized operator",
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Conflicting comparators",
+            "Comparator contains is unsupported for NUMBER",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unapplied comparator",
+            "Unrecognized query word: /300/"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Conflicting comparators",
+            "Comparator contains is unsupported for NUMBER",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unapplied comparator",
+            "Unrecognized query word: /300/"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Conflicting comparators",
+            "Comparator contains is unsupported for NUMBER",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unapplied comparator",
+            "Unrecognized query word: /300/"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "R04",
+      "schema": "issues",
+      "query": "points roughly equal to five",
+      "expected": [],
+      "valid": false,
+      "expectedRows": [],
+      "reason": "unsupported approximate operator",
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: points",
+            "Unapplied comparator",
+            "Unrecognized query word: roughly",
+            "Unrecognized query word: five"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: points",
+            "Unapplied comparator",
+            "Unrecognized query word: roughly",
+            "Unrecognized query word: five"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: points",
+            "Unapplied comparator",
+            "Unrecognized query word: roughly",
+            "Unrecognized query word: five"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "R05",
+      "schema": "issues",
+      "query": "points above",
+      "expected": [],
+      "valid": false,
+      "expectedRows": [],
+      "reason": "incomplete comparison",
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: points",
+            "Unapplied comparator"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: points",
+            "Unapplied comparator"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: points",
+            "Unapplied comparator"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "R06",
+      "schema": "client_work",
+      "query": "due before 2026-13-40",
+      "expected": [],
+      "valid": false,
+      "expectedRows": [],
+      "reason": "malformed date",
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: due",
+            "Unapplied comparator",
+            "Unrecognized query word: 2026-13-40"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: due",
+            "Unapplied comparator",
+            "Unrecognized query word: 2026-13-40"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: due",
+            "Unapplied comparator",
+            "Unrecognized query word: 2026-13-40"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "R07",
+      "schema": "deployments",
+      "query": "latency more than",
+      "expected": [],
+      "valid": false,
+      "expectedRows": [],
+      "reason": "incomplete comparison",
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unapplied comparator"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unapplied comparator"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied field value",
+            "Unapplied field: latency_ms",
+            "Unapplied comparator"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "R08",
+      "schema": "issues",
+      "query": "Show me every issue that is still open and has an estimate of at least five points and was filed before 2026-01-11 and is not locked.",
+      "expected": [],
+      "valid": false,
+      "expectedRows": [],
+      "reason": "over 24 tokens",
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "open",
+              "negated": false
+            },
+            {
+              "field": "created",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax",
+            "Comparator contains is unsupported for NUMBER",
+            "Unapplied field value",
+            "Unapplied field: points",
+            "Unapplied comparator",
+            "Comparator eq is unsupported for this field",
+            "Unapplied comparator",
+            "Unapplied query segment",
+            "Unrecognized query word: every",
+            "Unrecognized query word: issue",
+            "Unrecognized query word: still",
+            "Unrecognized query word: an",
+            "Unrecognized query word: least",
+            "Unrecognized query word: five"
+          ],
+          "exact": false,
+          "actualRows": [
+            "I1"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax",
+            "Comparator contains is unsupported for NUMBER",
+            "Unapplied field value",
+            "Unapplied field: points",
+            "Unapplied comparator",
+            "Comparator eq is unsupported for this field",
+            "Unapplied comparator",
+            "Unapplied query segment",
+            "Unrecognized query word: every",
+            "Unrecognized query word: issue",
+            "Unrecognized query word: still",
+            "Unrecognized query word: an",
+            "Unrecognized query word: least",
+            "Unrecognized query word: five"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [
+            {
+              "field": "status",
+              "cmp": "eq",
+              "value": "open",
+              "negated": false
+            },
+            {
+              "field": "created",
+              "cmp": "before",
+              "value": "2026-01-11",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Query exceeds 24 tokens or contains unsupported syntax",
+            "Comparator contains is unsupported for NUMBER",
+            "Unapplied field value",
+            "Unapplied field: points",
+            "Unapplied comparator",
+            "Comparator eq is unsupported for this field",
+            "Unapplied comparator",
+            "Unapplied query segment",
+            "Unrecognized query word: every",
+            "Unrecognized query word: issue",
+            "Unrecognized query word: still",
+            "Unrecognized query word: an",
+            "Unrecognized query word: least",
+            "Unrecognized query word: five"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    },
+    {
+      "id": "R09",
+      "schema": "client_work",
+      "query": "clients who are late",
+      "expected": [],
+      "valid": false,
+      "expectedRows": [],
+      "reason": "ambiguous field or threshold",
+      "modes": {
+        "raw": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "founder",
+              "cmp": "neq",
+              "value": "late",
+              "negated": false
+            }
+          ],
+          "issues": [
+            "Unrecognized query word: who"
+          ],
+          "exact": false,
+          "actualRows": [
+            "C1",
+            "C2",
+            "C3",
+            "C4"
+          ],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "Unrecognized query word: who"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": true,
+          "clauses": [
+            {
+              "field": "founder",
+              "cmp": "eq",
+              "value": "who late",
+              "negated": false
+            }
+          ],
+          "issues": [],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": true
+        }
+      }
+    },
+    {
+      "id": "R10",
+      "schema": "deployments",
+      "query": "recent deployments",
+      "expected": [],
+      "valid": false,
+      "expectedRows": [],
+      "reason": "ambiguous date threshold",
+      "modes": {
+        "raw": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied query segment",
+            "Unrecognized query word: recent"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "guarded": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied query segment",
+            "Unrecognized query word: recent"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        },
+        "rules": {
+          "accepted": false,
+          "clauses": [],
+          "issues": [
+            "No filter could be applied",
+            "Unapplied query segment",
+            "Unrecognized query word: recent"
+          ],
+          "exact": false,
+          "actualRows": [],
+          "correctRows": false
+        }
+      }
+    }
+  ]
+}

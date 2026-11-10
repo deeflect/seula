@@ -1,0 +1,107 @@
+{
+  "freezeSha": "be2a240abee039bcff126370dc8fb20e7128733f1d03058f7f8c12bbeccb0d0b",
+  "cases": 60,
+  "adapter": {
+    "validAccepted": 39,
+    "validExact": 38,
+    "validRowExact": 39,
+    "validWrong": 1,
+    "validRejected": 1,
+    "rejectSafe": 20,
+    "rejectAccepted": 0
+  },
+  "baseline": {
+    "validAccepted": 21,
+    "validExact": 16,
+    "validRowExact": 21,
+    "validWrong": 5,
+    "validRejected": 19,
+    "rejectSafe": 20,
+    "rejectAccepted": 0
+  },
+  "misses": [
+    {
+      "id": "A23",
+      "query": "TOPPING 3 PRICE",
+      "expected": "unit_price_usd:gt:3",
+      "oracleRows": [
+        "C2",
+        "C3"
+      ],
+      "normalizedQuery": "TOPPING 3 PRICE",
+      "adapted": {
+        "accepted": false,
+        "clauses": [],
+        "issues": [
+          "Unrecognized query word: TOPPING"
+        ],
+        "exact": false,
+        "rows": [],
+        "rowExact": false,
+        "safe": false
+      },
+      "baseline": {
+        "accepted": false,
+        "clauses": [],
+        "issues": [
+          "Unrecognized query word: TOPPING"
+        ],
+        "exact": false,
+        "rows": [],
+        "rowExact": false,
+        "safe": false
+      }
+    },
+    {
+      "id": "A24",
+      "query": "No MoRe ThAn 10 WATTS",
+      "expected": "draw_watts:lte:10",
+      "oracleRows": [
+        "D0",
+        "D1",
+        "D2"
+      ],
+      "normalizedQuery": "No MoRe ThAn 10 WATTS",
+      "adapted": {
+        "accepted": true,
+        "clauses": [
+          {
+            "field": "draw_watts",
+            "cmp": "gt",
+            "value": "10",
+            "negated": true
+          }
+        ],
+        "issues": [],
+        "exact": false,
+        "rows": [
+          "D0",
+          "D1",
+          "D2"
+        ],
+        "rowExact": true,
+        "safe": false
+      },
+      "baseline": {
+        "accepted": true,
+        "clauses": [
+          {
+            "field": "draw_watts",
+            "cmp": "gt",
+            "value": "10",
+            "negated": true
+          }
+        ],
+        "issues": [],
+        "exact": false,
+        "rows": [
+          "D0",
+          "D1",
+          "D2"
+        ],
+        "rowExact": true,
+        "safe": false
+      }
+    }
+  ]
+}

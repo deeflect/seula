@@ -1,0 +1,556 @@
+{
+  "note": "Agent-authored supervised dictionary; meanings are supplied, not inferred. Unrelated case expects rejection.",
+  "command": "npm run experiment:vocabulary",
+  "node": "v22.23.1",
+  "hardware": "darwin arm64; Apple M4 Pro",
+  "modelSha256": "74dc40c3819dbcfb6dbd2c974e8aaa711b53be4911538dc8cbe2db86a598d32f",
+  "calibration": [
+    {
+      "query": "revisions topping 5 and not paid",
+      "schema": "client_work",
+      "tokenIndex": 1
+    },
+    {
+      "query": "latency_ms surpassing 200 and pending",
+      "schema": "deployments",
+      "tokenIndex": 1
+    },
+    {
+      "query": "enterprise segment with arr_usd northof 10000",
+      "schema": "contacts",
+      "tokenIndex": 4
+    },
+    {
+      "query": "critical severity and duration_min topping 20",
+      "schema": "incidents",
+      "tokenIndex": 4
+    }
+  ],
+  "collision": [
+    [
+      1,
+      2,
+      14,
+      16,
+      29,
+      35,
+      40,
+      45
+    ],
+    [
+      1,
+      2,
+      14,
+      16,
+      29,
+      35,
+      40,
+      45
+    ]
+  ],
+  "surgery": {
+    "editedFloats": 192,
+    "pctOfModel": 0.648,
+    "elapsedMs": 5.346
+  },
+  "matchedSupervision": {
+    "calibration": [
+      "revisions topping 5 => gt",
+      "revisions beneath 5 => lt"
+    ],
+    "stats": [
+      {
+        "editedFloats": 192,
+        "pctOfModel": 0.648,
+        "elapsedMs": 9.124
+      },
+      {
+        "editedFloats": 192,
+        "pctOfModel": 0.648,
+        "elapsedMs": 6.408
+      }
+    ],
+    "featureMatrixIdentical": true,
+    "queries": [
+      "revisions topping 7",
+      "revisions beneath 7"
+    ],
+    "rawClauses": [
+      [
+        {
+          "field": "revisions",
+          "cmp": "lt",
+          "value": "7",
+          "negated": false
+        }
+      ],
+      [
+        {
+          "field": "revisions",
+          "cmp": "lt",
+          "value": "7",
+          "negated": false
+        }
+      ]
+    ],
+    "dictionaryClauses": [
+      [
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "7",
+          "negated": false
+        }
+      ],
+      [
+        {
+          "field": "revisions",
+          "cmp": "lt",
+          "value": "7",
+          "negated": false
+        }
+      ]
+    ]
+  },
+  "retention": [
+    {
+      "query": "revisions over 4",
+      "schema": "client_work",
+      "before": [
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "after": [
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "4",
+          "negated": false
+        }
+      ],
+      "retained": true
+    },
+    {
+      "query": "latency_ms under 300",
+      "schema": "deployments",
+      "before": [
+        {
+          "field": "latency_ms",
+          "cmp": "lt",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "after": [
+        {
+          "field": "latency_ms",
+          "cmp": "lt",
+          "value": "300",
+          "negated": false
+        }
+      ],
+      "retained": true
+    },
+    {
+      "query": "status = open",
+      "schema": "issues",
+      "before": [
+        {
+          "field": "status",
+          "cmp": "eq",
+          "value": "open",
+          "negated": false
+        }
+      ],
+      "after": [
+        {
+          "field": "status",
+          "cmp": "eq",
+          "value": "open",
+          "negated": false
+        }
+      ],
+      "retained": true
+    },
+    {
+      "query": "not paid",
+      "schema": "client_work",
+      "before": [
+        {
+          "field": "invoice_state",
+          "cmp": "eq",
+          "value": "paid",
+          "negated": true
+        }
+      ],
+      "after": [
+        {
+          "field": "invoice_state",
+          "cmp": "eq",
+          "value": "paid",
+          "negated": true
+        }
+      ],
+      "retained": true
+    }
+  ],
+  "results": [
+    {
+      "query": "revisions topping 7",
+      "schema": "client_work",
+      "kind": "positive",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "7",
+          "negated": false
+        }
+      ],
+      "baseRaw": [
+        {
+          "field": "revisions",
+          "cmp": "eq",
+          "value": "7",
+          "negated": true
+        }
+      ],
+      "baseRawExact": false,
+      "baseGuardedAccepted": false,
+      "editedRaw": [
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "7",
+          "negated": false
+        }
+      ],
+      "editedRawExact": true,
+      "editedGuardedAccepted": false,
+      "adaptedQuery": "revisions over 7",
+      "adapterAccepted": true,
+      "adapterClauses": [
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "7",
+          "negated": false
+        }
+      ],
+      "adapterExact": true,
+      "expectedReject": false
+    },
+    {
+      "query": "latency_ms surpassing 350",
+      "schema": "deployments",
+      "kind": "positive",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "gt",
+          "value": "350",
+          "negated": false
+        }
+      ],
+      "baseRaw": [
+        {
+          "field": "latency_ms",
+          "cmp": "eq",
+          "value": "350",
+          "negated": true
+        }
+      ],
+      "baseRawExact": false,
+      "baseGuardedAccepted": false,
+      "editedRaw": [
+        {
+          "field": "latency_ms",
+          "cmp": "gt",
+          "value": "350",
+          "negated": false
+        }
+      ],
+      "editedRawExact": true,
+      "editedGuardedAccepted": false,
+      "adaptedQuery": "latency_ms over 350",
+      "adapterAccepted": true,
+      "adapterClauses": [
+        {
+          "field": "latency_ms",
+          "cmp": "gt",
+          "value": "350",
+          "negated": false
+        }
+      ],
+      "adapterExact": true,
+      "expectedReject": false
+    },
+    {
+      "query": "arr_usd eclipsing 25000",
+      "schema": "contacts",
+      "kind": "positive",
+      "expected": [
+        {
+          "field": "arr_usd",
+          "cmp": "gt",
+          "value": "25000",
+          "negated": false
+        }
+      ],
+      "baseRaw": [
+        {
+          "field": "arr_usd",
+          "cmp": "eq",
+          "value": "25000",
+          "negated": true
+        }
+      ],
+      "baseRawExact": false,
+      "baseGuardedAccepted": false,
+      "editedRaw": [
+        {
+          "field": "arr_usd",
+          "cmp": "gt",
+          "value": "25000",
+          "negated": false
+        }
+      ],
+      "editedRawExact": true,
+      "editedGuardedAccepted": false,
+      "adaptedQuery": "arr_usd over 25000",
+      "adapterAccepted": true,
+      "adapterClauses": [
+        {
+          "field": "arr_usd",
+          "cmp": "gt",
+          "value": "25000",
+          "negated": false
+        }
+      ],
+      "adapterExact": true,
+      "expectedReject": false
+    },
+    {
+      "query": "duration_min beating 45",
+      "schema": "incidents",
+      "kind": "positive",
+      "expected": [
+        {
+          "field": "duration_min",
+          "cmp": "gt",
+          "value": "45",
+          "negated": false
+        }
+      ],
+      "baseRaw": [
+        {
+          "field": "duration_min",
+          "cmp": "eq",
+          "value": "45",
+          "negated": true
+        }
+      ],
+      "baseRawExact": false,
+      "baseGuardedAccepted": false,
+      "editedRaw": [
+        {
+          "field": "duration_min",
+          "cmp": "gt",
+          "value": "45",
+          "negated": false
+        }
+      ],
+      "editedRawExact": true,
+      "editedGuardedAccepted": false,
+      "adaptedQuery": "duration_min over 45",
+      "adapterAccepted": true,
+      "adapterClauses": [
+        {
+          "field": "duration_min",
+          "cmp": "gt",
+          "value": "45",
+          "negated": false
+        }
+      ],
+      "adapterExact": true,
+      "expectedReject": false
+    },
+    {
+      "query": "revisions beneath 7",
+      "schema": "client_work",
+      "kind": "opposite",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "lt",
+          "value": "7",
+          "negated": false
+        }
+      ],
+      "baseRaw": [
+        {
+          "field": "revisions",
+          "cmp": "eq",
+          "value": "7",
+          "negated": true
+        }
+      ],
+      "baseRawExact": false,
+      "baseGuardedAccepted": false,
+      "editedRaw": [
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "7",
+          "negated": false
+        }
+      ],
+      "editedRawExact": false,
+      "editedGuardedAccepted": false,
+      "adaptedQuery": "revisions under 7",
+      "adapterAccepted": true,
+      "adapterClauses": [
+        {
+          "field": "revisions",
+          "cmp": "lt",
+          "value": "7",
+          "negated": false
+        }
+      ],
+      "adapterExact": true,
+      "expectedReject": false
+    },
+    {
+      "query": "latency_ms equaling 350",
+      "schema": "deployments",
+      "kind": "opposite",
+      "expected": [
+        {
+          "field": "latency_ms",
+          "cmp": "eq",
+          "value": "350",
+          "negated": false
+        }
+      ],
+      "baseRaw": [
+        {
+          "field": "latency_ms",
+          "cmp": "eq",
+          "value": "350",
+          "negated": true
+        }
+      ],
+      "baseRawExact": false,
+      "baseGuardedAccepted": false,
+      "editedRaw": [
+        {
+          "field": "latency_ms",
+          "cmp": "gt",
+          "value": "350",
+          "negated": false
+        }
+      ],
+      "editedRawExact": false,
+      "editedGuardedAccepted": false,
+      "adaptedQuery": "latency_ms equals 350",
+      "adapterAccepted": true,
+      "adapterClauses": [
+        {
+          "field": "latency_ms",
+          "cmp": "eq",
+          "value": "350",
+          "negated": false
+        }
+      ],
+      "adapterExact": true,
+      "expectedReject": false
+    },
+    {
+      "query": "revisions banana 7",
+      "schema": "client_work",
+      "kind": "unrelated",
+      "expected": [
+        {
+          "field": "revisions",
+          "cmp": "gt",
+          "value": "7",
+          "negated": false
+        }
+      ],
+      "baseRaw": [
+        {
+          "field": "revisions",
+          "cmp": "eq",
+          "value": "7",
+          "negated": true
+        }
+      ],
+      "baseRawExact": false,
+      "baseGuardedAccepted": false,
+      "editedRaw": [
+        {
+          "field": "revisions",
+          "cmp": "eq",
+          "value": "7",
+          "negated": false
+        }
+      ],
+      "editedRawExact": false,
+      "editedGuardedAccepted": false,
+      "adaptedQuery": "revisions banana 7",
+      "adapterAccepted": false,
+      "adapterClauses": [],
+      "adapterExact": false,
+      "expectedReject": true
+    },
+    {
+      "query": "founder = \"topping\"",
+      "schema": "client_work",
+      "kind": "quoted",
+      "expected": [
+        {
+          "field": "founder",
+          "cmp": "eq",
+          "value": "topping",
+          "negated": false
+        }
+      ],
+      "baseRaw": [
+        {
+          "field": "founder",
+          "cmp": "eq",
+          "value": "topping",
+          "negated": false
+        }
+      ],
+      "baseRawExact": true,
+      "baseGuardedAccepted": true,
+      "editedRaw": [
+        {
+          "field": "founder",
+          "cmp": "eq",
+          "value": "topping",
+          "negated": false
+        }
+      ],
+      "editedRawExact": true,
+      "editedGuardedAccepted": true,
+      "adaptedQuery": "founder = \"topping\"",
+      "adapterAccepted": true,
+      "adapterClauses": [
+        {
+          "field": "founder",
+          "cmp": "eq",
+          "value": "topping",
+          "negated": false
+        }
+      ],
+      "adapterExact": true,
+      "expectedReject": false
+    }
+  ]
+}

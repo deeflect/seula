@@ -1,0 +1,25 @@
+{
+  "name": "seula",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "tsx spike/verify_seula.ts && tsx spike/verify_parity.ts && tsx spike/audit_reality.ts && tsx spike/verify_vocabulary.ts && tsx src/invoice-data.test.ts && tsx src/seula/extras.test.ts && tsx src/seula/api.test.ts && node worker/capture.test.mjs",
+    "train": "uv run --with torch python3 -m spike.train",
+    "experiment:challenge": "tsx spike/evaluate_challenge.ts",
+    "experiment:vocabulary": "tsx spike/vocabulary_experiment.ts",
+    "pkg": "tsc -p tsconfig.pkg.json && cp src/seula/weights.bin pkg/dist/ && cp LICENSE NOTICE pkg/",
+    "pkg:smoke": "node pkg/smoke.mjs",
+    "deploy": "VITE_CAPTURE_URL=/capture VITE_CONTACT_URL=https://dee.agency vite build && wrangler deploy"
+  },
+  "devDependencies": {
+    "@tanstack/table-core": "^9.3.1",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
+  },
+  "license": "Apache-2.0"
+}

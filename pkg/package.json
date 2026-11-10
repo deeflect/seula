@@ -1,0 +1,15 @@
+{
+  "name": "seula",
+  "version": "0.1.0",
+  "description": "A plain-English filter box for any table, with no LLM.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist", "LICENSE", "NOTICE", "README.md"],
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "node": "./dist/node.js", "default": "./dist/index.js" },
+    "./tanstack": { "types": "./dist/tanstack.d.ts", "default": "./dist/tanstack.js" },
+    "./sql": { "types": "./dist/sql.d.ts", "default": "./dist/sql.js" },
+    "./weights.bin": "./dist/weights.bin"
+  }
+}

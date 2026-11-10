@@ -1,0 +1,2206 @@
+{
+  "model": {
+    "name": "Sieve QueryTagger (Bidirectional Gated-Affine-Scan)",
+    "hidden_dim": 32,
+    "param_count": 29613,
+    "quantization_bits": 6,
+    "packed_int6_bytes": 22210,
+    "packed_int6_kib": 21.69,
+    "weights_json_bytes": 37555,
+    "weights_json_kib": 36.67,
+    "mps_available": true,
+    "train_samples": 24000,
+    "epochs": 25,
+    "train_time_seconds": 59.68,
+    "total_pipeline_seconds": 62.28,
+    "epoch_log": [
+      {
+        "epoch": 1,
+        "loss": 2.55941
+      },
+      {
+        "epoch": 5,
+        "loss": 0.00269
+      },
+      {
+        "epoch": 10,
+        "loss": 0.00016
+      },
+      {
+        "epoch": 15,
+        "loss": 7e-05
+      },
+      {
+        "epoch": 20,
+        "loss": 5e-05
+      },
+      {
+        "epoch": 25,
+        "loss": 5e-05
+      }
+    ]
+  },
+  "schema_disjointness_verified": true,
+  "train_schemas": [
+    "issues",
+    "mail",
+    "files",
+    "commits"
+  ],
+  "transfer_schemas": [
+    "incidents",
+    "deployments",
+    "experiments",
+    "contacts"
+  ],
+  "arena_3way": {
+    "held_out_clean": {
+      "count": 500,
+      "neural_ast_accuracy": 1.0,
+      "baseline_ast_accuracy": 1.0,
+      "token_role_accuracy": 1.0,
+      "per_schema": {
+        "files": {
+          "count": 107,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 1.0
+        },
+        "issues": {
+          "count": 130,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 1.0
+        },
+        "mail": {
+          "count": 134,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 1.0
+        },
+        "commits": {
+          "count": 129,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 1.0
+        }
+      },
+      "sample_failures": []
+    },
+    "held_out_messy": {
+      "count": 500,
+      "neural_ast_accuracy": 0.992,
+      "baseline_ast_accuracy": 0.034,
+      "token_role_accuracy": 1.0,
+      "per_schema": {
+        "commits": {
+          "count": 126,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 0.0317
+        },
+        "mail": {
+          "count": 128,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 0.0156
+        },
+        "issues": {
+          "count": 117,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 0.0256
+        },
+        "files": {
+          "count": 129,
+          "neural_ast_accuracy": 0.969,
+          "baseline_ast_accuracy": 0.062
+        }
+      },
+      "sample_failures": [
+        {
+          "query": "find rows for modifieds was since 2026-10-01, the locaton has dana",
+          "schema": "files",
+          "expected": [
+            {
+              "field": "modified",
+              "cmp": "after",
+              "value": "2026-10-01",
+              "negated": false
+            },
+            {
+              "field": "directory",
+              "cmp": "contains",
+              "value": "dana",
+              "negated": false
+            }
+          ],
+          "predicted": [
+            {
+              "field": "modified",
+              "cmp": "after",
+              "value": "2026-10-01",
+              "negated": false
+            }
+          ]
+        },
+        {
+          "query": "lines under 25kb and modified was before yesterday the locatoin was is charlie",
+          "schema": "files",
+          "expected": [
+            {
+              "field": "lines",
+              "cmp": "lt",
+              "value": "25",
+              "negated": false
+            },
+            {
+              "field": "modified",
+              "cmp": "before",
+              "value": "yesterday",
+              "negated": false
+            },
+            {
+              "field": "directory",
+              "cmp": "eq",
+              "value": "charlie",
+              "negated": false
+            }
+          ],
+          "predicted": [
+            {
+              "field": "lines",
+              "cmp": "lt",
+              "value": "25",
+              "negated": false
+            },
+            {
+              "field": "modified",
+              "cmp": "before",
+              "value": "yesterday",
+              "negated": false
+            }
+          ]
+        },
+        {
+          "query": "the locaiton was is readme",
+          "schema": "files",
+          "expected": [
+            {
+              "field": "directory",
+              "cmp": "eq",
+              "value": "readme",
+              "negated": false
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "query": "please list items with ext excluding md also the loction like invoice_q3",
+          "schema": "files",
+          "expected": [
+            {
+              "field": "extension",
+              "cmp": "neq",
+              "value": "md",
+              "negated": false
+            },
+            {
+              "field": "directory",
+              "cmp": "contains",
+              "value": "invoice_q3",
+              "negated": false
+            }
+          ],
+          "predicted": [
+            {
+              "field": "extension",
+              "cmp": "neq",
+              "value": "md",
+              "negated": false
+            }
+          ]
+        }
+      ]
+    },
+    "transfer_unseen_clean": {
+      "count": 500,
+      "neural_ast_accuracy": 1.0,
+      "baseline_ast_accuracy": 1.0,
+      "token_role_accuracy": 1.0,
+      "per_schema": {
+        "experiments": {
+          "count": 122,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 1.0
+        },
+        "deployments": {
+          "count": 132,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 1.0
+        },
+        "contacts": {
+          "count": 128,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 1.0
+        },
+        "incidents": {
+          "count": 118,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 1.0
+        }
+      },
+      "sample_failures": []
+    },
+    "transfer_unseen_messy": {
+      "count": 500,
+      "neural_ast_accuracy": 0.998,
+      "baseline_ast_accuracy": 0.024,
+      "token_role_accuracy": 1.0,
+      "per_schema": {
+        "experiments": {
+          "count": 130,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 0.0154
+        },
+        "deployments": {
+          "count": 124,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 0.0081
+        },
+        "incidents": {
+          "count": 115,
+          "neural_ast_accuracy": 0.9913,
+          "baseline_ast_accuracy": 0.0435
+        },
+        "contacts": {
+          "count": 131,
+          "neural_ast_accuracy": 1.0,
+          "baseline_ast_accuracy": 0.0305
+        }
+      },
+      "sample_failures": [
+        {
+          "query": "find rows for the leads contains checkout_v2, impact excluding major, sevice is gateawy",
+          "schema": "incidents",
+          "expected": [
+            {
+              "field": "commander",
+              "cmp": "contains",
+              "value": "checkout_v2",
+              "negated": false
+            },
+            {
+              "field": "severity",
+              "cmp": "neq",
+              "value": "major",
+              "negated": false
+            },
+            {
+              "field": "service",
+              "cmp": "eq",
+              "value": "gateway",
+              "negated": false
+            }
+          ],
+          "predicted": [
+            {
+              "field": "commander",
+              "cmp": "contains",
+              "value": "checkout_v2",
+              "negated": false
+            },
+            {
+              "field": "severity",
+              "cmp": "neq",
+              "value": "major",
+              "negated": false
+            }
+          ]
+        }
+      ]
+    },
+    "personal_centroids": {
+      "idioms_taught": 6,
+      "positive_eval_count": 24,
+      "centroid_accuracy": 0.9167,
+      "neural_only_accuracy": 0.0417,
+      "baseline_rule_accuracy": 0.0,
+      "rejection_specificity": 0.975,
+      "memory_export": {
+        "dim": 96,
+        "threshold": 0.58,
+        "prototypes": [
+          {
+            "idiom_id": "p0_fires",
+            "schema_name": "incidents",
+            "examples": [
+              "p0 fires",
+              "active p0 fire",
+              "unmitigated p0 fires"
+            ],
+            "clauses": [
+              {
+                "field": "severity",
+                "cmp": "eq",
+                "value": "critical",
+                "negated": false
+              },
+              {
+                "field": "mitigated",
+                "cmp": "eq",
+                "value": "true",
+                "negated": true
+              }
+            ],
+            "centroid": [
+              0.0,
+              0.275142,
+              0.0,
+              0.0,
+              0.0,
+              -0.13354,
+              0.0,
+              0.0,
+              -0.038423,
+              0.0,
+              -0.040685,
+              0.038423,
+              0.0,
+              -0.400621,
+              0.175994,
+              0.0,
+              -0.184736,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.038423,
+              0.0,
+              -0.246213,
+              0.13354,
+              0.0,
+              -0.097645,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.092855,
+              0.0,
+              0.040685,
+              0.0,
+              0.0999,
+              0.0,
+              0.0,
+              0.040685,
+              -0.038423,
+              -0.106832,
+              0.0,
+              0.040685,
+              0.097645,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.107585,
+              -0.246213,
+              0.0,
+              0.040685,
+              0.0,
+              0.137571,
+              0.13354,
+              0.259994,
+              0.0,
+              0.0,
+              0.040685,
+              0.0,
+              0.0,
+              -0.040685,
+              0.0,
+              0.092216,
+              0.0,
+              -0.127665,
+              0.0,
+              0.11527,
+              -0.038423,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.122056,
+              0.0,
+              -0.113919,
+              0.0,
+              0.0,
+              0.131696,
+              -0.030739,
+              -0.186957,
+              0.0,
+              0.0,
+              -0.122056,
+              0.062117,
+              -0.375194,
+              -0.038423,
+              0.0,
+              0.278565,
+              0.0
+            ]
+          },
+          {
+            "idiom_id": "auth_meltdown",
+            "schema_name": "incidents",
+            "examples": [
+              "auth meltdown",
+              "login outage meltdown",
+              "auth service meltdown"
+            ],
+            "clauses": [
+              {
+                "field": "service",
+                "cmp": "eq",
+                "value": "auth",
+                "negated": false
+              },
+              {
+                "field": "severity",
+                "cmp": "eq",
+                "value": "sev1",
+                "negated": false
+              }
+            ],
+            "centroid": [
+              0.0,
+              0.339291,
+              -0.032622,
+              0.198795,
+              0.038881,
+              0.0,
+              0.0,
+              0.0,
+              -0.132399,
+              0.0,
+              -0.038881,
+              0.397196,
+              0.132399,
+              0.0,
+              0.104504,
+              -0.093517,
+              -0.042192,
+              0.0,
+              -0.116643,
+              0.0,
+              -0.038881,
+              0.0,
+              0.0,
+              -0.17106,
+              -0.317757,
+              0.0,
+              0.0,
+              0.138541,
+              -0.031105,
+              -0.097866,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.173176,
+              0.122332,
+              0.038881,
+              0.132399,
+              -0.108867,
+              -0.038881,
+              0.0,
+              0.0,
+              0.0,
+              0.224442,
+              0.074814,
+              0.0,
+              0.241671,
+              0.038881,
+              0.0,
+              -0.040777,
+              0.0,
+              0.0,
+              0.0,
+              -0.11832,
+              0.0,
+              0.0,
+              0.0,
+              0.063727,
+              0.0,
+              0.223044,
+              0.0,
+              0.0,
+              0.0,
+              -0.093517,
+              0.0,
+              0.063727,
+              -0.032622,
+              -0.040777,
+              -0.093315,
+              0.116643,
+              0.0,
+              0.0,
+              0.038881,
+              -0.132399,
+              0.0,
+              -0.11174,
+              0.0,
+              0.038881,
+              0.0,
+              -0.031105,
+              0.132399,
+              -0.038881,
+              -0.038881,
+              0.275565,
+              0.0,
+              0.0,
+              -0.040777,
+              0.0,
+              0.0,
+              0.0,
+              0.132399,
+              0.0,
+              0.0,
+              0.040777,
+              0.0
+            ]
+          },
+          {
+            "idiom_id": "bad_prod_rollout",
+            "schema_name": "deployments",
+            "examples": [
+              "bad prod push",
+              "flaky prod rollout",
+              "botched prod deploy"
+            ],
+            "clauses": [
+              {
+                "field": "environment",
+                "cmp": "eq",
+                "value": "prod",
+                "negated": false
+              },
+              {
+                "field": "outcome",
+                "cmp": "eq",
+                "value": "rolled_back",
+                "negated": false
+              }
+            ],
+            "centroid": [
+              0.0,
+              0.326274,
+              0.0,
+              0.033032,
+              0.0,
+              -0.104308,
+              0.0,
+              -0.047894,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.034769,
+              -0.047894,
+              -0.195871,
+              0.0,
+              0.0,
+              0.0,
+              -0.229148,
+              0.0,
+              0.0,
+              -0.292634,
+              -0.09909,
+              0.0,
+              0.0,
+              0.113905,
+              0.0,
+              0.143682,
+              0.0,
+              0.0,
+              -0.047894,
+              0.0,
+              0.133775,
+              0.0,
+              -0.130385,
+              0.043462,
+              0.0,
+              0.135947,
+              0.0,
+              -0.106253,
+              0.0,
+              -0.326274,
+              0.0,
+              0.070443,
+              0.0,
+              0.0,
+              0.044592,
+              -0.137077,
+              0.0,
+              0.0,
+              0.0,
+              0.035899,
+              -0.291504,
+              0.047894,
+              0.0,
+              -0.033501,
+              0.0,
+              0.0,
+              -0.14777,
+              -0.124857,
+              0.133775,
+              -0.10702,
+              0.135947,
+              -0.047894,
+              0.034769,
+              0.0,
+              0.0,
+              0.047894,
+              0.0,
+              0.0,
+              0.044592,
+              0.043462,
+              0.0,
+              0.134103,
+              0.0,
+              0.0,
+              -0.114945,
+              0.0,
+              -0.079361,
+              0.0,
+              0.0,
+              0.121693,
+              0.447967,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.088054,
+              0.0,
+              0.043462,
+              -0.086924,
+              0.0
+            ]
+          },
+          {
+            "idiom_id": "whale_accounts",
+            "schema_name": "contacts",
+            "examples": [
+              "whale accounts",
+              "big enterprise whales",
+              "top tier whales"
+            ],
+            "clauses": [
+              {
+                "field": "segment",
+                "cmp": "eq",
+                "value": "enterprise",
+                "negated": false
+              },
+              {
+                "field": "arr_usd",
+                "cmp": "gt",
+                "value": "100000",
+                "negated": false
+              }
+            ],
+            "centroid": [
+              0.0,
+              0.183859,
+              0.0,
+              -0.040436,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.121308,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.121308,
+              -0.141526,
+              -0.050545,
+              -0.309584,
+              0.050545,
+              0.0,
+              0.0,
+              -0.105204,
+              -0.153044,
+              0.0,
+              -0.35002,
+              0.0,
+              -0.146297,
+              -0.050545,
+              0.089202,
+              -0.163975,
+              0.0,
+              0.082821,
+              0.010412,
+              0.0,
+              0.0,
+              -0.151635,
+              0.0,
+              -0.105204,
+              0.050545,
+              0.0,
+              0.0,
+              0.0,
+              -0.11343,
+              0.0,
+              -0.054658,
+              0.0,
+              0.071889,
+              0.0,
+              0.054658,
+              0.0,
+              0.050545,
+              0.0,
+              0.050545,
+              0.0,
+              0.0,
+              -0.35002,
+              -0.17068,
+              0.0,
+              -0.212593,
+              0.132929,
+              0.0,
+              0.0,
+              -0.109317,
+              -0.166161,
+              0.254654,
+              0.141526,
+              -0.115616,
+              -0.115616,
+              0.146297,
+              -0.105204,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.166161,
+              0.0,
+              0.050545,
+              0.060957,
+              0.0,
+              0.13118,
+              0.0,
+              0.0,
+              0.097531,
+              0.0,
+              -0.182871,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.182871,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "idiom_id": "oom_diverged_runs",
+            "schema_name": "experiments",
+            "examples": [
+              "nan blowups",
+              "diverged nan runs",
+              "exploded loss runs"
+            ],
+            "clauses": [
+              {
+                "field": "metric_status",
+                "cmp": "eq",
+                "value": "diverged",
+                "negated": false
+              }
+            ],
+            "centroid": [
+              0.0,
+              0.309598,
+              0.0,
+              0.009814,
+              -0.054758,
+              0.0,
+              0.040553,
+              0.0,
+              -0.038424,
+              0.0,
+              -0.038424,
+              -0.093181,
+              0.0,
+              -0.016334,
+              0.032442,
+              -0.038424,
+              -0.14909,
+              0.0,
+              0.113548,
+              -0.131418,
+              0.1174,
+              0.0,
+              0.0,
+              -0.285266,
+              0.0,
+              -0.002129,
+              0.121658,
+              0.343917,
+              -0.032442,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.040553,
+              0.093181,
+              0.0,
+              0.0,
+              0.194247,
+              0.040553,
+              0.0,
+              0.0,
+              0.109515,
+              0.0,
+              0.0,
+              0.0,
+              -0.078976,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.244713,
+              0.0,
+              -0.040553,
+              -0.010259,
+              0.191346,
+              -0.078976,
+              0.0,
+              0.0,
+              0.0,
+              0.189543,
+              0.0,
+              0.0,
+              0.032442,
+              -0.032442,
+              0.0,
+              0.0,
+              0.121658,
+              -0.054758,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.097327,
+              -0.093181,
+              0.0,
+              0.337183,
+              0.054758,
+              0.200767,
+              0.0,
+              0.014205,
+              0.277156,
+              -0.164273,
+              0.0,
+              0.092217,
+              0.0,
+              0.0,
+              -0.279544,
+              -0.078976,
+              0.0,
+              0.0,
+              0.054758,
+              0.0
+            ]
+          },
+          {
+            "idiom_id": "my_hot_bugs",
+            "schema_name": "issues",
+            "examples": [
+              "triage hotlist",
+              "urgent bug queue",
+              "blocker bug hotlist"
+            ],
+            "clauses": [
+              {
+                "field": "labels",
+                "cmp": "eq",
+                "value": "bug",
+                "negated": false
+              },
+              {
+                "field": "priority",
+                "cmp": "eq",
+                "value": "urgent",
+                "negated": false
+              },
+              {
+                "field": "status",
+                "cmp": "eq",
+                "value": "open",
+                "negated": false
+              }
+            ],
+            "centroid": [
+              -0.110888,
+              0.314995,
+              0.0,
+              -0.195954,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.129369,
+              0.0,
+              0.0,
+              0.0,
+              -0.049939,
+              0.0,
+              0.0,
+              0.020788,
+              0.049939,
+              0.0,
+              0.0,
+              -0.129369,
+              0.0,
+              0.096142,
+              -0.413857,
+              0.052659,
+              0.0,
+              0.046203,
+              0.116052,
+              0.0,
+              0.0,
+              0.0,
+              -0.046203,
+              0.0,
+              -0.157976,
+              0.147444,
+              0.0,
+              -0.049939,
+              0.046203,
+              0.17632,
+              -0.052659,
+              -0.151521,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.012708,
+              0.0,
+              -0.031668,
+              -0.001015,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.13861,
+              -0.314995,
+              0.0,
+              0.149816,
+              0.0,
+              -0.052927,
+              0.0,
+              -0.296586,
+              0.237269,
+              -0.139828,
+              0.0,
+              0.0,
+              -0.218715,
+              0.0,
+              0.0,
+              0.0,
+              -0.052659,
+              0.0,
+              -0.009241,
+              0.0,
+              0.049939,
+              0.0,
+              0.096142,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.049939,
+              0.049939,
+              0.0,
+              0.0,
+              0.126381,
+              -0.288426,
+              -0.049939,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.052659,
+              -0.049939,
+              0.096142,
+              -0.098862
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parity_traces": [
+    {
+      "schema": "incidents",
+      "query": "show me incidents where the severty was critcal and unmitigated",
+      "tokens": [
+        "show",
+        "me",
+        "incidents",
+        "where",
+        "the",
+        "severty",
+        "was",
+        "critcal",
+        "and",
+        "unmitigated"
+      ],
+      "feature_ids": [
+        [
+          1,
+          2,
+          13,
+          28,
+          29,
+          35,
+          40,
+          49
+        ],
+        [
+          1,
+          2,
+          12,
+          28,
+          29,
+          35,
+          40,
+          49
+        ],
+        [
+          1,
+          2,
+          14,
+          16,
+          29,
+          35,
+          40,
+          49
+        ],
+        [
+          1,
+          2,
+          13,
+          28,
+          29,
+          35,
+          40,
+          49
+        ],
+        [
+          1,
+          2,
+          12,
+          28,
+          29,
+          35,
+          40,
+          48
+        ],
+        [
+          1,
+          2,
+          14,
+          16,
+          31,
+          37,
+          40,
+          44
+        ],
+        [
+          1,
+          2,
+          12,
+          28,
+          29,
+          35,
+          40,
+          45
+        ],
+        [
+          1,
+          2,
+          14,
+          16,
+          29,
+          35,
+          43,
+          46
+        ],
+        [
+          1,
+          2,
+          12,
+          24,
+          29,
+          35,
+          40,
+          48
+        ],
+        [
+          1,
+          2,
+          15,
+          16,
+          30,
+          39,
+          40,
+          44
+        ]
+      ],
+      "role_ids": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        1,
+        0,
+        2,
+        10,
+        1
+      ],
+      "roles": [
+        "NONE",
+        "NONE",
+        "VALUE",
+        "NONE",
+        "NONE",
+        "FIELD",
+        "NONE",
+        "VALUE",
+        "AND",
+        "FIELD"
+      ],
+      "role_probs_top1": [
+        1.0,
+        1.0,
+        0.99564,
+        1.0,
+        1.0,
+        1.0,
+        0.99998,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "boundary_probs": [
+        0.0,
+        0.0,
+        0.36457,
+        1e-05,
+        0.0,
+        1.0,
+        0.0,
+        0.0002,
+        0.0,
+        1.0
+      ],
+      "fwd_gate_mean": [
+        0.48821,
+        0.44289,
+        0.4158,
+        0.49552,
+        0.50318,
+        0.31888,
+        0.47058,
+        0.4468,
+        0.62223,
+        0.33095
+      ],
+      "bwd_gate_mean": [
+        0.41429,
+        0.4071,
+        0.36421,
+        0.38626,
+        0.3844,
+        0.46853,
+        0.37934,
+        0.33017,
+        0.3507,
+        0.48224
+      ],
+      "clauses": [
+        {
+          "field": "severity",
+          "cmp": "eq",
+          "value": "critical",
+          "negated": false
+        },
+        {
+          "field": "mitigated",
+          "cmp": "eq",
+          "value": "true",
+          "negated": true
+        }
+      ],
+      "baseline_clauses": []
+    },
+    {
+      "schema": "deployments",
+      "query": "environment is prod and latency_ms went over 200ms and not rolled_back",
+      "tokens": [
+        "environment",
+        "is",
+        "prod",
+        "and",
+        "latency_ms",
+        "went",
+        "over",
+        "200ms",
+        "and",
+        "not",
+        "rolled_back"
+      ],
+      "feature_ids": [
+        [
+          1,
+          2,
+          15,
+          16,
+          31,
+          36,
+          40,
+          44
+        ],
+        [
+          1,
+          2,
+          12,
+          17,
+          29,
+          35,
+          40,
+          45
+        ],
+        [
+          1,
+          2,
+          13,
+          16,
+          29,
+          35,
+          41,
+          46
+        ],
+        [
+          1,
+          2,
+          12,
+          24,
+          29,
+          35,
+          40,
+          48
+        ],
+        [
+          1,
+          3,
+          14,
+          16,
+          33,
+          36,
+          40,
+          44
+        ],
+        [
+          1,
+          2,
+          13,
+          28,
+          29,
+          35,
+          40,
+          45
+        ],
+        [
+          1,
+          2,
+          13,
+          19,
+          29,
+          35,
+          40,
+          46
+        ],
+        [
+          1,
+          6,
+          13,
+          16,
+          29,
+          35,
+          40,
+          47
+        ],
+        [
+          1,
+          2,
+          12,
+          24,
+          29,
+          35,
+          40,
+          47
+        ],
+        [
+          1,
+          2,
+          12,
+          25,
+          29,
+          35,
+          40,
+          47
+        ],
+        [
+          1,
+          3,
+          15,
+          16,
+          29,
+          35,
+          41,
+          47
+        ]
+      ],
+      "role_ids": [
+        1,
+        3,
+        2,
+        10,
+        1,
+        0,
+        5,
+        2,
+        10,
+        11,
+        2
+      ],
+      "roles": [
+        "FIELD",
+        "OP_EQ",
+        "VALUE",
+        "AND",
+        "FIELD",
+        "NONE",
+        "OP_GT",
+        "VALUE",
+        "AND",
+        "NEGATE",
+        "VALUE"
+      ],
+      "role_probs_top1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.99997,
+        1.0,
+        0.99998,
+        0.99994,
+        1.0
+      ],
+      "boundary_probs": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.00037,
+        0.0,
+        3e-05,
+        1.0,
+        0.0
+      ],
+      "fwd_gate_mean": [
+        0.31865,
+        0.34792,
+        0.4683,
+        0.60422,
+        0.34537,
+        0.49651,
+        0.23412,
+        0.52126,
+        0.61938,
+        0.32871,
+        0.4985
+      ],
+      "bwd_gate_mean": [
+        0.47887,
+        0.42897,
+        0.3194,
+        0.35268,
+        0.46152,
+        0.37958,
+        0.43553,
+        0.3163,
+        0.35766,
+        0.42164,
+        0.32425
+      ],
+      "clauses": [
+        {
+          "field": "environment",
+          "cmp": "eq",
+          "value": "prod",
+          "negated": false
+        },
+        {
+          "field": "latency_ms",
+          "cmp": "gt",
+          "value": "200",
+          "negated": false
+        },
+        {
+          "field": "outcome",
+          "cmp": "eq",
+          "value": "rolled_back",
+          "negated": true
+        }
+      ],
+      "baseline_clauses": [
+        {
+          "field": "environment",
+          "cmp": "eq",
+          "value": "prod",
+          "negated": false
+        },
+        {
+          "field": "outcome",
+          "cmp": "eq",
+          "value": "rolled_back",
+          "negated": true
+        }
+      ]
+    },
+    {
+      "schema": "experiments",
+      "query": "the framewrk is pytorch and perplexity under 10 and quantized",
+      "tokens": [
+        "the",
+        "framewrk",
+        "is",
+        "pytorch",
+        "and",
+        "perplexity",
+        "under",
+        "10",
+        "and",
+        "quantized"
+      ],
+      "feature_ids": [
+        [
+          1,
+          2,
+          12,
+          28,
+          29,
+          35,
+          40,
+          48
+        ],
+        [
+          1,
+          2,
+          14,
+          16,
+          31,
+          38,
+          40,
+          44
+        ],
+        [
+          1,
+          2,
+          12,
+          17,
+          29,
+          35,
+          40,
+          45
+        ],
+        [
+          1,
+          2,
+          14,
+          16,
+          29,
+          35,
+          41,
+          46
+        ],
+        [
+          1,
+          2,
+          12,
+          24,
+          29,
+          35,
+          40,
+          48
+        ],
+        [
+          1,
+          2,
+          14,
+          16,
+          33,
+          36,
+          40,
+          44
+        ],
+        [
+          1,
+          2,
+          13,
+          20,
+          29,
+          35,
+          40,
+          45
+        ],
+        [
+          1,
+          5,
+          12,
+          16,
+          29,
+          35,
+          40,
+          46
+        ],
+        [
+          1,
+          2,
+          12,
+          24,
+          29,
+          35,
+          40,
+          48
+        ],
+        [
+          1,
+          2,
+          14,
+          16,
+          30,
+          36,
+          40,
+          44
+        ]
+      ],
+      "role_ids": [
+        0,
+        1,
+        3,
+        2,
+        10,
+        1,
+        6,
+        2,
+        10,
+        1
+      ],
+      "roles": [
+        "NONE",
+        "FIELD",
+        "OP_EQ",
+        "VALUE",
+        "AND",
+        "FIELD",
+        "OP_LT",
+        "VALUE",
+        "AND",
+        "FIELD"
+      ],
+      "role_probs_top1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.99996,
+        1.0,
+        1.0,
+        0.99999
+      ],
+      "boundary_probs": [
+        1e-05,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "fwd_gate_mean": [
+        0.51126,
+        0.30955,
+        0.3444,
+        0.46792,
+        0.61567,
+        0.3449,
+        0.28012,
+        0.50486,
+        0.58649,
+        0.33844
+      ],
+      "bwd_gate_mean": [
+        0.39267,
+        0.47635,
+        0.41857,
+        0.32626,
+        0.34954,
+        0.47327,
+        0.42477,
+        0.32282,
+        0.35165,
+        0.46383
+      ],
+      "clauses": [
+        {
+          "field": "framework",
+          "cmp": "eq",
+          "value": "pytorch",
+          "negated": false
+        },
+        {
+          "field": "perplexity",
+          "cmp": "lt",
+          "value": "10",
+          "negated": false
+        },
+        {
+          "field": "quantized",
+          "cmp": "eq",
+          "value": "true",
+          "negated": false
+        }
+      ],
+      "baseline_clauses": [
+        {
+          "field": "perplexity",
+          "cmp": "lt",
+          "value": "10",
+          "negated": false
+        },
+        {
+          "field": "quantized",
+          "cmp": "eq",
+          "value": "true",
+          "negated": false
+        }
+      ]
+    },
+    {
+      "schema": "contacts",
+      "query": "segment: enterprise, arr_usd > 50000, not churned",
+      "tokens": [
+        "segment",
+        ":",
+        "enterprise",
+        ",",
+        "arr_usd",
+        ">",
+        "50000",
+        ",",
+        "not",
+        "churned"
+      ],
+      "feature_ids": [
+        [
+          1,
+          2,
+          14,
+          16,
+          31,
+          36,
+          40,
+          44
+        ],
+        [
+          1,
+          8,
+          11,
+          17,
+          29,
+          35,
+          40,
+          45
+        ],
+        [
+          1,
+          2,
+          14,
+          16,
+          29,
+          35,
+          41,
+          46
+        ],
+        [
+          1,
+          8,
+          11,
+          24,
+          29,
+          35,
+          40,
+          48
+        ],
+        [
+          1,
+          3,
+          14,
+          16,
+          33,
+          36,
+          40,
+          44
+        ],
+        [
+          1,
+          8,
+          11,
+          19,
+          29,
+          35,
+          40,
+          45
+        ],
+        [
+          1,
+          5,
+          13,
+          16,
+          29,
+          35,
+          40,
+          46
+        ],
+        [
+          1,
+          8,
+          11,
+          24,
+          29,
+          35,
+          40,
+          47
+        ],
+        [
+          1,
+          2,
+          12,
+          25,
+          29,
+          35,
+          40,
+          47
+        ],
+        [
+          1,
+          2,
+          14,
+          16,
+          29,
+          35,
+          41,
+          47
+        ]
+      ],
+      "role_ids": [
+        1,
+        3,
+        2,
+        10,
+        1,
+        5,
+        2,
+        10,
+        11,
+        2
+      ],
+      "roles": [
+        "FIELD",
+        "OP_EQ",
+        "VALUE",
+        "AND",
+        "FIELD",
+        "OP_GT",
+        "VALUE",
+        "AND",
+        "NEGATE",
+        "VALUE"
+      ],
+      "role_probs_top1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.99993,
+        1.0,
+        1.0,
+        0.99996,
+        1.0
+      ],
+      "boundary_probs": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "fwd_gate_mean": [
+        0.3331,
+        0.34517,
+        0.46714,
+        0.60678,
+        0.34783,
+        0.29501,
+        0.48522,
+        0.63182,
+        0.33798,
+        0.48623
+      ],
+      "bwd_gate_mean": [
+        0.47641,
+        0.44117,
+        0.32962,
+        0.36189,
+        0.48158,
+        0.43977,
+        0.31336,
+        0.35434,
+        0.42918,
+        0.33065
+      ],
+      "clauses": [
+        {
+          "field": "segment",
+          "cmp": "eq",
+          "value": "enterprise",
+          "negated": false
+        },
+        {
+          "field": "arr_usd",
+          "cmp": "gt",
+          "value": "50000",
+          "negated": false
+        },
+        {
+          "field": "lifecycle",
+          "cmp": "eq",
+          "value": "churned",
+          "negated": true
+        }
+      ],
+      "baseline_clauses": [
+        {
+          "field": "segment",
+          "cmp": "eq",
+          "value": "enterprise",
+          "negated": false
+        },
+        {
+          "field": "arr_usd",
+          "cmp": "gt",
+          "value": "50000",
+          "negated": false
+        },
+        {
+          "field": "lifecycle",
+          "cmp": "eq",
+          "value": "churned",
+          "negated": true
+        }
+      ]
+    },
+    {
+      "schema": "issues",
+      "query": "status = open and priority != p3 and points > 5",
+      "tokens": [
+        "status",
+        "=",
+        "open",
+        "and",
+        "priority",
+        "!=",
+        "p3",
+        "and",
+        "points",
+        ">",
+        "5"
+      ],
+      "feature_ids": [
+        [
+          1,
+          2,
+          13,
+          16,
+          31,
+          36,
+          40,
+          44
+        ],
+        [
+          1,
+          8,
+          11,
+          17,
+          29,
+          35,
+          40,
+          45
+        ],
+        [
+          1,
+          2,
+          13,
+          16,
+          29,
+          35,
+          41,
+          46
+        ],
+        [
+          1,
+          2,
+          12,
+          24,
+          29,
+          35,
+          40,
+          48
+        ],
+        [
+          1,
+          2,
+          14,
+          16,
+          31,
+          36,
+          40,
+          44
+        ],
+        [
+          1,
+          8,
+          12,
+          18,
+          29,
+          35,
+          40,
+          45
+        ],
+        [
+          1,
+          4,
+          12,
+          16,
+          29,
+          35,
+          41,
+          46
+        ],
+        [
+          1,
+          2,
+          12,
+          24,
+          29,
+          35,
+          40,
+          48
+        ],
+        [
+          1,
+          2,
+          13,
+          16,
+          33,
+          36,
+          40,
+          44
+        ],
+        [
+          1,
+          8,
+          11,
+          19,
+          29,
+          35,
+          40,
+          45
+        ],
+        [
+          1,
+          5,
+          11,
+          16,
+          29,
+          35,
+          40,
+          46
+        ]
+      ],
+      "role_ids": [
+        1,
+        3,
+        2,
+        10,
+        1,
+        4,
+        2,
+        10,
+        1,
+        5,
+        2
+      ],
+      "roles": [
+        "FIELD",
+        "OP_EQ",
+        "VALUE",
+        "AND",
+        "FIELD",
+        "OP_NEQ",
+        "VALUE",
+        "AND",
+        "FIELD",
+        "OP_GT",
+        "VALUE"
+      ],
+      "role_probs_top1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.99997,
+        1.0,
+        1.0,
+        1.0,
+        0.99985,
+        1.0
+      ],
+      "boundary_probs": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "fwd_gate_mean": [
+        0.3296,
+        0.34817,
+        0.47327,
+        0.62656,
+        0.29969,
+        0.46053,
+        0.47203,
+        0.6222,
+        0.33179,
+        0.31424,
+        0.50497
+      ],
+      "bwd_gate_mean": [
+        0.47474,
+        0.44092,
+        0.32392,
+        0.35433,
+        0.48017,
+        0.38009,
+        0.32051,
+        0.35287,
+        0.47376,
+        0.43699,
+        0.32273
+      ],
+      "clauses": [
+        {
+          "field": "status",
+          "cmp": "eq",
+          "value": "open",
+          "negated": false
+        },
+        {
+          "field": "priority",
+          "cmp": "neq",
+          "value": "p3",
+          "negated": false
+        },
+        {
+          "field": "points",
+          "cmp": "gt",
+          "value": "5",
+          "negated": false
+        }
+      ],
+      "baseline_clauses": [
+        {
+          "field": "status",
+          "cmp": "eq",
+          "value": "open",
+          "negated": false
+        },
+        {
+          "field": "priority",
+          "cmp": "neq",
+          "value": "p3",
+          "negated": false
+        },
+        {
+          "field": "points",
+          "cmp": "gt",
+          "value": "5",
+          "negated": false
+        }
+      ]
+    }
+  ]
+}

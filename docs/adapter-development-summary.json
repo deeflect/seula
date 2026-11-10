@@ -1,0 +1,26 @@
+{
+  "stage": "development recheck after missing operator-value-field order",
+  "sourceSha": "a968239f8155955717dd0c66c0dd213c6978a1e22952126dfb2885ba8c34c292",
+  "cases": 60,
+  "adapter": {
+    "validAccepted": 40,
+    "validExact": 40,
+    "validSemanticExact": 40,
+    "validRowExact": 40,
+    "validWrong": 0,
+    "validRejected": 0,
+    "rejectSafe": 20,
+    "rejectAccepted": 0
+  },
+  "baseline": {
+    "validAccepted": 21,
+    "validExact": 16,
+    "validSemanticExact": 21,
+    "validRowExact": 21,
+    "validWrong": 0,
+    "validRejected": 19,
+    "rejectSafe": 20,
+    "rejectAccepted": 0
+  },
+  "misses": []
+}

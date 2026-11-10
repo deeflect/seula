@@ -1,0 +1,11 @@
+Seula
+Copyright 2026 deeflect
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party material
+- Tables come from WikiSQL, Copyright (c) 2017, Salesforce Research, BSD-3-Clause:
+  https://github.com/salesforce/WikiSQL/blob/master/LICENSE
+- WikiSQL tables are drawn from Wikipedia, CC BY-SA 4.0:
+  https://en.wikipedia.org/wiki/Wikipedia:Copyrights
+  Any redistributed FilterBench data that contains these tables is shared under CC BY-SA 4.0 with this attribution.

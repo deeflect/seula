@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "declaration": true,
+    "outDir": "pkg/dist",
+    "rootDir": "src/seula"
+  },
+  "include": ["src/seula/*.ts"],
+  "exclude": ["src/seula/*.test.ts"]
+}
