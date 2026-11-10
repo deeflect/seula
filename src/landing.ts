@@ -1,4 +1,3 @@
-import "./site.css";
 import "./landing.css";
 
 // Copy buttons: the check shows for 1.5 s, a polite status announces it. data-copy is read at click time (the code card changes it).

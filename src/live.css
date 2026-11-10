@@ -1,4 +1,5 @@
 /* Live demo (/demo). Everything else comes from site.css, the same chassis as the landing. */
+@import "./site.css"; /* inlined so the chassis always precedes the page rules; a separate chunk loaded after them in the build */
 .head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .head h1 { font: 500 17px/28px var(--sans); letter-spacing: 0; }
 .tabs { display: flex; flex-wrap: wrap; gap: 4px; padding-bottom: 8px; }

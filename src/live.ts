@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-import "./site.css";
 import "./live.css";
 import { Seula, filter, rowsOf, type Filter } from "./seula/index";
 import { parseCsvOrJsonToRows } from "./engine/autoSchema";
