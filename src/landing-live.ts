@@ -18,7 +18,7 @@ const mobile = matchMedia("(max-width: 719px)");
 type Seg = string | { w: string; keys: string[]; left?: boolean; tall?: boolean };
 const EXAMPLES: { q: string; segs: Seg[] }[] = [
   { q: "overdue and balance over 1k, top 5 by balance", segs: [{ w: "overdue", keys: ["status ="], left: true }, "and", { w: "balance over 1k", keys: ["balance >"] }, ",", { w: "top 5", keys: ["limit"] }, { w: "by balance", keys: ["sort"], tall: true }] },
-  { q: "overdue or paid, top 3 by balance", segs: [{ w: "overdue or paid", keys: ["status in"], left: true }, ",", { w: "top 3", keys: ["limit"] }, { w: "by balance", keys: ["sort"], tall: true }] },
+  { q: "overdue or paid, top 3 by balance", segs: [{ w: "overdue or paid", keys: ["status in"], left: true, tall: true }, ",", { w: "top 3", keys: ["limit"] }, { w: "by balance", keys: ["sort"], tall: true }] },
   { q: "clients except fieldwork", segs: [{ w: "clients except fieldwork", keys: ["client !="], left: true }] },
   { q: "days late over 5 and balance under 2k", segs: [{ w: "days late over 5", keys: ["days_late >"], left: true }, "and", { w: "balance under 2k", keys: ["balance <"] }] },
 ];
