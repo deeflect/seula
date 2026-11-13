@@ -11,7 +11,7 @@ const CMP = new Set([">", ">=", "<", "<="]);
 // valuesOnly: the rows are sample values per column, not real records (server-paged tables), so a filter is checked one condition at a time
 export type Table = { header: string[]; types: string[]; rows: (string | number)[][]; valuesOnly?: boolean };
 export type Cond = [number, string, string];
-export type Parse = { conds: Cond[] | null; conf: number };
+export type Parse = { conds: Cond[] | null; conf: number; status: "ok" | "incomplete" | "unsupported" | "ambiguous"; message?: string };
 
 // ---- text (prepare.tokenize, features.*, align.edit1, filterbench.parse_number) ----
 
@@ -278,11 +278,14 @@ export class Seula {
     return out;
   }
 
-  parse(query: string, table: Table): Parse {
+  parse(query: string, table: Table, opts: { executionGuided?: boolean } = {}): Parse {
     const tab = this.index(table);
-    const toks = tokenize(query).slice(0, MAX_TOKENS);
+    const allTokens = tokenize(query);
+    const toks = allTokens.slice(0, MAX_TOKENS);
     const T = toks.length, C = tab.header.length;
-    if (!T || !C) return { conds: null, conf: 0 }; // Python crashes on these; no filter is the sane answer
+    if (allTokens.length > MAX_TOKENS) return { conds: null, conf: 0, status: "unsupported", message: "query is too long" };
+    if (!T) return { conds: [], conf: 1, status: "ok" };
+    if (!C) return { conds: null, conf: 0, status: "ambiguous", message: "no columns" };
 
     // link matrix L[t][j][k], flat (features.link_matrix + seula.encode extras)
     const L = new Float64Array(T * C * NL);
@@ -436,12 +439,14 @@ export class Seula {
     const cols = heads.map((h, k) => chosen.get(k)?.[0] ?? argmax(h.pc));
     heads.forEach(({ po, pc }, k) => { conf *= Math.max(...po) * pc[cols[k]]; });
     const conds = build(cols, ops);
-    if (!conds.length) return { conds: null, conf: 0 };
+    if (!conds.length) return { conds: null, conf: 0, status: "ambiguous", message: "no reliable filter" };
+
+    if (!opts.executionGuided) return { conds, conf, status: conf < 0.1 ? "ambiguous" : "ok", ...(conf < 0.1 && { message: "low confidence interpretation" }) };
 
     // seula.execution_guided: a parse that returns no rows is wrong; try the next-best single change
     // (one condition's column among its top 3, or its op among the top 2), most probable first; none works -> conf 0
     const hasRows = (cs: Cond[]) => (table.valuesOnly ? cs.every((c) => runConds(table.rows, [c], tab.rowNumeric).length > 0) : runConds(table.rows, cs, tab.rowNumeric).length > 0);
-    if (hasRows(conds)) return { conds, conf };
+    if (hasRows(conds)) return { conds, conf, status: "ok" };
     const top = (p: number[], n: number) => p.map((v, i) => [v, i]).sort((x, y) => y[0] - x[0] || x[1] - y[1]).slice(0, n).map(([, i]) => i);
     const alts: [number, number, number, string][] = [];
     heads.forEach(({ pc }, k) => top(pc, 3).forEach((j) => { if (j !== cols[k]) alts.push([sig(conf * pc[j] / Math.max(pc[cols[k]], 1e-9)), k, j, ops[k]]); }));
@@ -449,9 +454,9 @@ export class Seula {
     alts.sort((x, y) => y[0] - x[0] || y[1] - x[1] || y[2] - x[2] || (y[3] > x[3] ? 1 : y[3] < x[3] ? -1 : 0)); // Python sorted(reverse=True)
     for (const [c, k, j, o] of alts) {
       const cs = build(cols.map((x, i) => (i === k ? j : x)), ops.map((x, i) => (i === k ? o : x)));
-      if (hasRows(cs)) return { conds: cs, conf: c };
+      if (hasRows(cs)) return { conds: cs, conf: c, status: "ok" };
     }
-    return { conds, conf: 0 };
+    return { conds, conf: 0, status: "ambiguous", message: "no matching sample rows" };
   }
 }
 

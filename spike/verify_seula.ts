@@ -13,11 +13,11 @@ for (const [s, want] of fx.units.num) { const n = parseNumber(s); assert.equal(n
 let maxDiff = 0;
 const ms: number[] = [];
 for (const c of fx.cases) {
-  const r = model.parse(c.q, c.table); // first call also builds the table index
+  const r = model.parse(c.q, c.table, { executionGuided: true }); // historical execution-guided Python parity
   assert.deepEqual(r.conds, c.conds, `conds for ${JSON.stringify(c.q)}`);
   maxDiff = Math.max(maxDiff, Math.abs(r.conf - c.conf));
   const t0 = performance.now();
-  for (let i = 0; i < 20; i++) model.parse(c.q, c.table);
+  for (let i = 0; i < 20; i++) model.parse(c.q, c.table, { executionGuided: true });
   ms.push((performance.now() - t0) / 20);
 }
 assert.ok(maxDiff < 1e-3, `conf diff ${maxDiff}`);

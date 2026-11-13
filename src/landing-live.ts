@@ -4,9 +4,8 @@ import { Seula, wrap, type Result, type Condition } from "./seula/index";
 import { toSql } from "./seula/sql";
 import { toTanStack } from "./seula/tanstack";
 import { sampleInvoices } from "./sample-invoices";
-import { esc, icon, sym, kind, chipsHtml, linkColumns, morph, fadeEdges, reduced, type Part } from "./ui";
+import { esc, expressionLabel, icon, sym, kind, chipsHtml, linkColumns, morph, fadeEdges, reduced, type Part } from "./ui";
 
-const THRESHOLD = 0.5;
 const KEYS = ["invoice", "client", "balance", "days_late", "status"] as const;
 const HEAD = ["Invoice", "Client", "Balance", "Days late", "Status"];
 const rows = sampleInvoices.map((i) => ({ invoice: i.invoice, client: i.client, balance: i.balance_usd, days_late: i.days_late, status: i.status }));
@@ -27,7 +26,7 @@ const EXAMPLES: { q: string; segs: Seg[] }[] = [
 void (async () => {
 const bytes = new Uint8Array(await (await fetch(new URL("./seula/weights.bin", import.meta.url))).arrayBuffer());
 const seula = wrap(new Seula(bytes.slice().buffer));
-const invoices = seula.table(rows);
+const invoices = seula.table(rows, { concepts: { "at risk": [{ column: "days_late", type: "number", op: ">", value: 10 }, { column: "balance", type: "number", op: ">", value: 1000 }] } });
 
 // One part per column and operator, labelled the way the demo labels chips.
 function partsOf(r: Result): Part[] {
@@ -35,12 +34,17 @@ function partsOf(r: Result): Part[] {
     const j = KEYS.indexOf(c.column as (typeof KEYS)[number]), vs = Array.isArray(c.value) ? c.value : [c.value];
     return { key: `${c.column} ${c.op}`, col: j, kind: kind[c.op] ?? "value", label: `${HEAD[j]} ${sym[c.op] ?? c.op} ${vs.join(c.op === "not in" ? ", " : " or ")}` };
   });
+  if (r.expression) parts.push({ key: "expression", kind: "value", label: expressionLabel(r.expression, (c: Condition) => `${c.column} ${sym[c.op] ?? c.op} ${Array.isArray(c.value) ? c.value.join(", ") : c.value}`) });
+  if (r.aggregate) parts.push({ key: "aggregate", kind: "order", label: r.aggregate.op === "count" ? "Count matching rows" : `Sum ${r.aggregate.column}` });
   if (r.sort) parts.push({ key: "sort", col: KEYS.indexOf(r.sort.column as (typeof KEYS)[number]), kind: "order", label: `Sort: ${HEAD[KEYS.indexOf(r.sort.column as (typeof KEYS)[number])]} ${r.sort.dir === "asc" ? "↑" : "↓"}` });
   if (r.limit !== undefined) parts.push({ key: "limit", kind: "order", label: `First ${r.limit}` });
   return parts;
 }
-const kept = (r: Result, removed: Set<string>) => ({
+const kept = (r: Result, removed: Set<string>): Result => ({
+  ...r,
   conditions: (r.conditions ?? []).filter((c) => !removed.has(`${c.column} ${c.op}`)),
+  expression: removed.has("expression") ? undefined : r.expression,
+  aggregate: removed.has("aggregate") ? undefined : r.aggregate,
   sort: removed.has("sort") ? undefined : r.sort,
   limit: removed.has("limit") ? undefined : r.limit,
 });
@@ -69,7 +73,7 @@ function render(): void {
   const r = q ? invoices.parse(q) : null;
   const ms = performance.now() - t0;
   current = r;
-  const unsure = !!r && (!r.conditions || r.confidence < THRESHOLD), guess = unsure && !forced;
+  const guess = r?.status === "ambiguous" && !forced;
   const parts = r ? partsOf(r) : [];
   const exIdx = EXAMPLES.findIndex((e) => e.q === q);
   const ex = EXAMPLES[exIdx];
@@ -79,19 +83,21 @@ function render(): void {
   // Gloss when the parse is exactly the authored one and the input is not being edited; chips otherwise.
   qbox.classList.toggle("edit", qbox.classList.contains("edit") || !fits);
   if (fits && shown !== exIdx) { gloss.classList.remove("draw"); gloss.innerHTML = glossHtml(ex, map); shown = exIdx; }
-  const note = q && r && !r.conditions ? `<span class="note">No filter found</span>` : "";
+  const note = q && r && r.status !== "ok" ? `<span class="note">${esc(r.message ?? r.status)}</span>` : "";
   const chips = chipsHtml(parts.filter((p) => !removed.has(p.key)), guess);
-  chipsEl.innerHTML = `${chips}${chips && guess ? `<button type="button" class="btn btn-secondary" data-force>Apply anyway</button>` : ""}${note}`;
+  chipsEl.innerHTML = `${chips}${chips && guess && (r?.conditions?.length || r?.expression) ? `<button type="button" class="btn btn-secondary" data-force>Confirm guess</button>` : ""}${note}`;
   chipsEl.hidden = !chips && !note;
   for (const b of exEl.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.textContent === q));
 
-  const res = r && !guess ? kept(r, removed) : { conditions: [] };
-  const hits = invoices.apply(res);
-  const sortCol = "sort" in res && res.sort ? KEYS.indexOf(res.sort.column as (typeof KEYS)[number]) : -1;
+  const usable = !!r && (r.status === "ok" || r.status === "ambiguous" && forced);
+  const res = usable && r ? kept(r, removed) : null;
+  const hits = res ? invoices.apply({ ...res, confirmAmbiguous: forced }) : r ? [] : rows;
+  const aggregate = res?.aggregate ? invoices.aggregate({ ...res, confirmAmbiguous: forced }) : undefined;
+  const sortCol = res?.sort ? KEYS.indexOf(res.sort.column as (typeof KEYS)[number]) : -1;
   const th = ["w88 d-col", "", "num w80", "num w72 d-col", "w72"], td = ["id d-col", "", "num", "num d-col", ""];
-  table.tHead!.rows[0].innerHTML = HEAD.map((h, j) => `<th class="${th[j]}${j === sortCol ? " on" : ""}" data-c="${j}">${j === sortCol ? ("sort" in res && res.sort!.dir === "asc" ? "↑ " : "↓ ") : ""}${h}</th>`).join("");
-  tbody().innerHTML = hits.map((row) => `<tr data-r="${esc(row.invoice)}">${KEYS.map((k, j) => `<td class="${td[j]}" data-c="${j}">${esc(row[k])}</td>`).join("")}</tr>`).join("") || `<tr><td colspan="5" class="empty">No rows match.</td></tr>`;
-  facts.innerHTML = `<span class="fact">${icon("rows")}${hits.length} of ${rows.length} rows</span>${r ? `<span class="fact">${icon("lightning")}${ms.toFixed(2)} ms</span><span class="fact">${icon("gauge")}${r.confidence.toFixed(2)}</span>` : ""}`;
+  table.tHead!.rows[0].innerHTML = HEAD.map((h, j) => `<th class="${th[j]}${j === sortCol ? " on" : ""}" data-c="${j}">${j === sortCol ? (res?.sort?.dir === "asc" ? "↑ " : "↓ ") : ""}${h}</th>`).join("");
+  tbody().innerHTML = hits.map((row) => `<tr data-r="${esc(row.invoice)}">${KEYS.map((k, j) => `<td class="${td[j]}" data-c="${j}">${esc(row[k])}</td>`).join("")}</tr>`).join("") || `<tr><td colspan="5" class="empty">${res ? "No rows match." : "No rows previewed."}</td></tr>`;
+  facts.innerHTML = `<span class="fact">${icon("rows")}${res || !r ? `${hits.length} of ${rows.length} rows` : "No rows previewed"}</span>${aggregate !== undefined ? `<span class="fact">${icon("gauge")}${esc(res!.aggregate!.op === "count" ? `Count: ${aggregate}` : `Sum: ${aggregate}`)}</span>` : ""}${r ? `<span class="fact">${icon("lightning")}${ms.toFixed(2)} ms</span><span class="fact">${icon("gauge")}${r.confidence.toFixed(2)}</span>` : ""}`;
   fadeEdges(table.parentElement!);
   renderUse();
 }
@@ -120,15 +126,16 @@ exEl.addEventListener("click", (e) => {
 
 /* ---------- When it is unsure ---------- */
 {
-  const r = invoices.parse("northwind or late"), apply = $<HTMLButtonElement>("#uapply"), label = $("#ulabel"), uf = $("#ufacts");
+  const r = invoices.parse("northwind"), apply = $<HTMLButtonElement>("#uapply"), label = $("#ulabel"), uf = $("#ufacts");
   const text = partsOf(r).map((p) => p.label).join(", ");
+  const candidate = !!(r.conditions?.length || r.expression) && r.status === "ambiguous";
   const show = () => {
     const on = apply.getAttribute("aria-pressed") === "true";
-    const n = on ? invoices.apply(r).length : rows.length;
-    label.textContent = on ? text : `${text}?`;
+    const n = on && candidate ? invoices.apply({ ...r, confirmAmbiguous: true }).length : rows.length;
+    label.textContent = candidate ? on ? text : `${text}?` : r.message ?? r.status;
     uf.innerHTML = `<span class="fact">${icon("rows")}${n} of ${rows.length} rows</span><span class="fact">${icon("gauge")}${r.confidence.toFixed(2)}</span>`;
   };
-  apply.disabled = false;
+  apply.disabled = !candidate;
   apply.addEventListener("click", () => { apply.setAttribute("aria-pressed", String(apply.getAttribute("aria-pressed") !== "true")); show(); });
   show();
   const calib = $("#calib");
@@ -168,31 +175,29 @@ const round = (r: Result) => ({ ...r, confidence: +r.confidence.toFixed(2) });
 const panel = $("#use-panel"), codeEl = $("#use-code"), outEl = $("#use-out"), copy = panel.querySelector<HTMLButtonElement>(".code-copy")!;
 const tabs = [...document.querySelectorAll<HTMLButtonElement>(".use-tabs [role=tab]")];
 let tab = "api";
-// The default query keeps the hand-set markup (its mobile layout packs lines tighter than the printer does).
-const staticCode = codeEl.innerHTML, staticOut = outEl.innerHTML;
 
 function renderUse(): void {
   const m = mobile.matches, room = m ? 40 : 76, q = input.value.trim();
-  const r = current && current.conditions ? { ...current, ...kept(current, removed) } : current;
-  const n = r && r.conditions ? invoices.apply(r).length : rows.length;
+  const r = current ? kept(current, removed) : null;
+  const usable = !!r && (r.status === "ok" || r.status === "ambiguous" && forced);
+  const n = usable && r ? invoices.apply({ ...r, confirmAmbiguous: forced }).length : r ? 0 : rows.length;
   let code: string, out: unknown;
   if (tab === "api") {
-    const passes = n === 1 ? "the 1 row that passes" : `the ${n} rows that pass`;
-    code = `${k("import")} { load } ${k("from")} "seula";\n\n${k("const")} seula = ${k("await")} load();\n${k("const")} invoices = seula.table(rows);\n\n${k("const")} result = invoices.parse(\n  ${str(q, m).join("\n  ")}\n);\n` + (m ? `${c(`// ${passes}`)}\ninvoices.apply(result);` : `invoices.apply(result); ${c(`// ${passes}`)}`);
+    const passes = usable ? n === 1 ? "the 1 row that passes" : `the ${n} rows that pass` : "review the status before applying";
+    code = `${k("import")} { load } ${k("from")} "seula";\n\n${k("const")} seula = ${k("await")} load();\n${k("const")} invoices = seula.table(rows);\n\n${k("const")} result = invoices.parse(\n  ${str(q, m).join("\n  ")}\n);\n${k("if")} (result.status === "ok") invoices.apply(result); ${c(`// ${passes}`)}`;
     out = r ? round(r) : null;
   } else if (tab === "tanstack") {
-    code = `${k("import")} { toTanStack, seulaFilterFn } ${k("from")} "seula/tanstack";\n\n${c("// in your column definitions: filterFn: seulaFilterFn")}\n${k("const")} { columnFilters, sorting, limit } =\n  toTanStack(result);\ntable.setColumnFilters(columnFilters);\ntable.setSorting(sorting);`;
-    out = r ? toTanStack(r) : null;
+    code = `${k("import")} { toTanStack, seulaFilterFn } ${k("from")} "seula/tanstack";\n\n${c("// in your column definitions: filterFn: seulaFilterFn")}\n${k("if")} (result.status === "ok") {\n  ${k("const")} { columnFilters, sorting, aggregate } = toTanStack(result);\n  table.setColumnFilters(columnFilters);\n}`;
+    try { out = usable && r ? toTanStack(r, { confirmAmbiguous: forced }) : r ? { status: r.status, message: r.message } : null; } catch (e) { out = { status: "error", message: e instanceof Error ? e.message : String(e) }; }
   } else if (tab === "sql") {
-    code = `${k("import")} { toSql } ${k("from")} "seula/sql";\n\n${k("const")} { where, orderBy, limit, params } =\n  toSql(result);\ndb.prepare(\`SELECT * FROM invoices WHERE \${where}\`)\n  .all(...params);`;
-    out = r ? toSql(r) : null;
+    code = `${k("import")} { toSql } ${k("from")} "seula/sql";\n\n${k("if")} (result.status === "ok") {\n  ${k("const")} { select, where, params } = toSql(result);\n  db.prepare(\`SELECT \${select} FROM invoices WHERE \${where}\`).all(...params);\n}`;
+    try { out = usable && r ? toSql(r, { confirmAmbiguous: forced }) : r ? { status: r.status, message: r.message } : null; } catch (e) { out = { status: "error", message: e instanceof Error ? e.message : String(e) }; }
   } else {
     code = `${k("const")} orders = seula.schema({\n  status: ["open", "shipped", "refunded"],\n  country: ["Germany", "France", "Japan"],\n  total: [0, 25000],\n  placed: ["2024-01-03", "2026-11-09"],\n});\n\n${k("const")} result = orders.parse(\n  ${str(serverQ, m).join("\n  ")}\n);`;
     out = round(serverR);
   }
-  const asStatic = tab === "api" && q === EXAMPLES[0].q && removed.size === 0 && !forced;
-  codeEl.innerHTML = asStatic ? staticCode : `<pre class="code">${code}</pre>`;
-  outEl.innerHTML = asStatic ? staticOut : `<pre>${esc(lit(out, 0, 0, room))}</pre>`;
+  codeEl.innerHTML = `<pre class="code">${code}</pre>`;
+  outEl.innerHTML = `<pre>${esc(lit(out, 0, 0, room))}</pre>`;
   copy.dataset.copy = codeEl.querySelector(m ? "pre:not(.d-only)" : "pre:not(.m-only)")!.textContent!;
 }
 

@@ -27,19 +27,19 @@ Read from public docs and papers on the date above. Features change fast; "not s
 | Qwen2.5-0.5B LoRA, schema in prompt | 0.5B | 20.8% exact match on its own set. [card](https://huggingface.co/Ionio-ai/Qwen2.5-0.5B-Instruct-Ecommerce-Extraction-LoRA) |
 | FunctionGemma 270M, Hammer 0.5B, NuExtract-tiny 0.5B, GLiNER 50–90M | 50M–0.5B | general function calling / extraction; no filter benchmark numbers found |
 | Small LLMs, 3-shot (measured by us) | 0.5–1.5B | 24–66% on FilterBench test, 0.5–1.2 s |
-| **Seula** | **0.18M, 182 KB** | 90.1% FilterBench test, 0.41 ms, calibrated abstain |
+| **Seula** | **0.18M, 182 KB** | Historical v4c FilterBench: 92.8%, 0.39 ms with execution-guided decoding. Current pipeline unmeasured; confidence is heuristic. |
 
 No public NL→filter benchmark turned up; FilterBench seems to be the only one.
 
 ## Ideas, ranked (status)
 
-1. **Execution-guided decoding** (SQLova): **done.** Test 85.9 → 88.7, cascade LLM calls 16% → 9%.
+1. **Execution-guided decoding** (SQLova): tested historically, then disabled by default because it can change a valid empty-result filter. Historical test 85.9 → 88.7, cascade LLM calls 16% → 9%.
 9b. **Second writer** (Mistral alongside Qwen): **done.** Neutral dev 87.8 → 89.6, test 90.1.
 2. **Editable chips + "did you mean"** (Langfuse, HubSpot): show the parse as chips; at low confidence show it greyed out with the next-best alternative. `?live=1` page.
 3. **Typed syntax bypass** (openstatus): `col:value`, `col>5` parsed by rules, model skipped.
 4. **(Out of scope: the product has no LLM fallback.) Cache and mine LLM fallbacks** (Instacart, Etsy): cache by (table schema, normalized query); keep fallback answers as training labels for the next model.
 5. **Condition-count head** (SQLova where-number): targets the ~13 dev errors with the wrong number of conditions.
-6. **Learned calibrator** ([Kamath et al. 2020](https://aclanthology.org/2020.acl-main.503)): small logistic model over (prob product, margin, condition count, snap distance, EG used) instead of the raw product.
+6. **Learned calibrator** ([Kamath et al. 2020](https://aclanthology.org/2020.acl-main.503)): a possible future model over decision probabilities and margins; the current confidence is not calibrated.
 7. **Seed ensemble**: 3 models (550 KB); disagreement = abstain.
 8. **Relative dates**: a small rule layer ("last 30 days", "this quarter") before the tagger, or chrono-node on the value span.
 9. **Writer diversity in generated data** (Spider-Syn / Spider-Realistic idea): queries that paraphrase or omit column names, a second writer model, tables with the same value in two columns. Targets wrong-column errors (16 on dev).

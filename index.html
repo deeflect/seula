@@ -124,7 +124,7 @@
           </figure>
           <ul class="stats">
             <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#feather" /></svg><span><b>182 KB</b><small>184k parameters</small></span></li>
-            <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#lightning" /></svg><span><b>0.39 ms</b><small>per parse, 28 ms at 50,000 rows</small></span></li>
+            <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#lightning" /></svg><span><b>0.39 ms</b><small>v4c baseline; current timing in docs</small></span></li>
             <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#cloud-slash" /></svg><span><b>0</b><small>network calls</small></span></li>
             <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#scales" /></svg><span><b>Apache-2.0</b><small>code and weights</small></span></li>
           </ul>
@@ -134,21 +134,21 @@
       <section class="sec">
         <h2>When it is unsure</h2>
         <div class="card">
-          <p class="q"><span class="g left unsure" style="--c: var(--fg-3)"><span class="w">northwind or late</span><span class="br" aria-hidden="true"></span><span class="lb"><span id="ulabel">Invoice contains northwind?</span></span></span></p>
+          <p class="q"><span class="g left unsure" style="--c: var(--fg-3)"><span class="w">northwind</span><span class="br" aria-hidden="true"></span><span class="lb"><span id="ulabel">Status contains northwind?</span></span></span></p>
           <div class="unsure-row">
             <div class="facts" id="ufacts" aria-live="polite">
               <span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#rows" /></svg>8 of 8 rows</span>
               <span class="fact"><svg class="i" aria-hidden="true"><use href="/icons.svg#gauge" /></svg>0.00</span>
             </div>
-            <button class="btn btn-secondary" type="button" id="uapply" aria-pressed="false" disabled>Apply anyway</button>
+            <button class="btn btn-secondary" type="button" id="uapply" aria-pressed="false" disabled>Confirm guess</button>
           </div>
         </div>
         <div class="calib" id="calib">
           <div class="meter" aria-hidden="true"><i></i><b></b><s></s></div>
           <ul class="tiles3">
-            <li class="tile" data-m="a"><svg class="i" aria-hidden="true"><use href="/icons.svg#gauge" /></svg><span><b>83%</b><small><span class="d-only">scored 0.8 or higher</span><span class="m-only">Scored 0.8 or higher</span></small></span></li>
-            <li class="tile" data-m="b"><svg class="i" aria-hidden="true"><use href="/icons.svg#check-circle" /></svg><span><b>98.2%</b><small><span class="d-only">of those right</span><span class="m-only">Of those right</span></small></span></li>
-            <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#target" /></svg><span><b>92.8%</b><small><span class="d-only">right on 870 test queries</span><span class="m-only">Right on 870 test queries</span></small></span></li>
+            <li class="tile" data-m="a"><svg class="i" aria-hidden="true"><use href="/icons.svg#gauge" /></svg><span><b>83%</b><small>v4c baseline scored 0.8+</small></span></li>
+            <li class="tile" data-m="b"><svg class="i" aria-hidden="true"><use href="/icons.svg#check-circle" /></svg><span><b>98.2%</b><small>v4c baseline among those</small></span></li>
+            <li class="tile"><svg class="i" aria-hidden="true"><use href="/icons.svg#target" /></svg><span><b>92.8%</b><small>v4c baseline, 870 queries</small></span></li>
           </ul>
         </div>
       </section>
@@ -162,7 +162,7 @@
           <button class="tab" type="button" role="tab" id="t-server" aria-selected="false" aria-controls="use-panel" tabindex="-1" data-t="server"><svg class="i" aria-hidden="true"><use href="/icons.svg#hard-drives" /></svg>Server tables</button>
         </div>
         <div class="card code-card" role="tabpanel" id="use-panel" aria-labelledby="t-api">
-          <button class="icon-btn code-copy" type="button" aria-label="Copy code" data-copy="import { load } from &quot;seula&quot;;&#10;&#10;const seula = await load();&#10;const invoices = seula.table(rows);&#10;&#10;const result = invoices.parse(&#10;  &quot;overdue and balance over 1k, top 5 by balance&quot;&#10;);&#10;invoices.apply(result); // the 2 rows that pass"><svg class="i" aria-hidden="true"><use href="/icons.svg#copy" /></svg><svg class="i" aria-hidden="true" hidden><use href="/icons.svg#check" /></svg></button>
+          <button class="icon-btn code-copy" type="button" aria-label="Copy code" data-copy="import { load } from &quot;seula&quot;;&#10;&#10;const seula = await load();&#10;const invoices = seula.table(rows);&#10;&#10;const result = invoices.parse(&quot;overdue and balance over 1k&quot;);&#10;if (result.status === &quot;ok&quot;) invoices.apply(result);"><svg class="i" aria-hidden="true"><use href="/icons.svg#copy" /></svg><svg class="i" aria-hidden="true" hidden><use href="/icons.svg#check" /></svg></button>
           <div id="use-code">
 <pre class="code d-only"><span class="k">import</span> { load } <span class="k">from</span> "seula";
 
@@ -172,7 +172,7 @@
 <span class="k">const</span> result = invoices.parse(
   "overdue and balance over 1k, top 5 by balance"
 );
-invoices.apply(result); <span class="c">// the 2 rows that pass</span></pre>
+if (result.status === "ok") invoices.apply(result);</pre>
 <pre class="code m-only"><span class="k">import</span> { load } <span class="k">from</span> "seula";
 
 <span class="k">const</span> seula = <span class="k">await</span> load();
@@ -183,7 +183,7 @@ invoices.apply(result); <span class="c">// the 2 rows that pass</span></pre>
   "top 5 by balance"
 );
 <span class="c">// the 2 rows that pass</span>
-invoices.apply(result);</pre>
+if (result.status === "ok") invoices.apply(result);</pre>
           </div>
           <div class="result">
             <span class="result-label">result</span>
@@ -194,7 +194,8 @@ invoices.apply(result);</pre>
   ],
   sort: { column: "balance", dir: "desc" },
   limit: 5,
-  confidence: 0.99
+  confidence: 0.99,
+  status: "ok"
 }</pre>
 <pre class="m-only">{
   conditions: [
@@ -208,7 +209,8 @@ invoices.apply(result);</pre>
   sort: { column: "balance",
           dir: "desc" },
   limit: 5,
-  confidence: 0.99
+  confidence: 0.99,
+  status: "ok"
 }</pre></div>
           </div>
         </div>
@@ -219,8 +221,8 @@ invoices.apply(result);</pre>
         <ul class="nots">
           <li><svg class="i" aria-hidden="true"><use href="/icons.svg#translate" /></svg>English only</li>
           <li><svg class="i" aria-hidden="true"><use href="/icons.svg#table" /></svg>One table</li>
-          <li><svg class="i" aria-hidden="true"><use href="/icons.svg#sigma" /></svg>No totals</li>
-          <li><svg class="i" aria-hidden="true"><use href="/icons.svg#brackets-round" /></svg>No nested logic</li>
+          <li><svg class="i" aria-hidden="true"><use href="/icons.svg#sigma" /></svg>No averages</li>
+          <li><svg class="i" aria-hidden="true"><use href="/icons.svg#brackets-round" /></svg>No joins</li>
         </ul>
       </section>
 

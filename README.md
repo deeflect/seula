@@ -2,7 +2,7 @@
 
 **A filter box that reads plain English.**
 
-Seula is a 182 KB model that turns what someone types above a table into exact filters. It runs in the browser or in Node with no API calls, takes under a millisecond per query, and works on tables it has never seen: you pass the rows, there is no retraining.
+Seula is a 182 KB model that turns what someone types above a table into structured filters. It runs in the browser or in Node with no API calls and works on tables it has never seen: you pass the rows, there is no retraining.
 
 **[Try the live demo](https://seula.deeflect.com/demo)** on five sample tables or your own CSV. Site: [seula.deeflect.com](https://seula.deeflect.com).
 
@@ -14,7 +14,7 @@ directed by marcos siega            →  Directed by = marcos siega
 overdue or paid, top 3 by balance   →  Status = overdue OR paid,  sorted by Balance,  first 3
 ```
 
-Every parse comes with a confidence, so your UI can apply a sure filter as the person types and ask about an unsure one.
+Every parse has a status. Apply `ok` results; show the reason for incomplete or unsupported queries, and ask before applying an ambiguous guess. Confidence is a heuristic, not a calibrated probability.
 
 ## Quick start
 
@@ -39,17 +39,16 @@ const result = invoices.parse("overdue and balance over 1k");
 //   { column: "status", type: "text", op: "=", value: "overdue" },
 //   { column: "balance", type: "number", op: ">", value: 1000 },
 // ]
-// result.confidence: 0.99
-
-invoices.apply(result); // the matching rows, sorted and cut if the query asked for that
+// result.status: "ok"
+if (result.status === "ok") invoices.apply(result);
 ```
 
-Build the table once per dataset and call `parse` on every keystroke. A workable rule for the confidence: at 0.5 or more, apply the filter; below that, show the conditions as chips the person can confirm or remove. `conditions` is `null` when nothing in the query matched the table.
+Build the table once per dataset and call `parse` on every keystroke. `status` is `ok`, `incomplete`, `unsupported`, or `ambiguous`; non-`ok` results include a short `message`. To apply a candidate ambiguous result after explicit confirmation, call `invoices.apply({ ...result, confirmAmbiguous: true })`. Incomplete and unsupported results cannot be applied. `conditions` stays editable for simple filters; grouped OR/NOT filters use `expression` and must keep their tree intact.
 
 | You have | Use |
 |---|---|
 | Rows in memory | `seula.table(rows)` |
-| A table paged on the server | `seula.schema({ column: sampleValues })`, then send `result.conditions` to your API |
+| A table paged on the server | `seula.schema({ column: sampleValues })`, then send the full `result` to your API |
 | TanStack Table | `toTanStack(result)` from `seula/tanstack` |
 | A SQL database | `toSql(result)` from `seula/sql`, values always as parameters |
 
@@ -66,6 +65,10 @@ The package guide, [pkg/README.md](pkg/README.md), covers each of these and how 
 | `directed by marcos siega` | a value found in the table |
 | `last 30 days`, `before march 2024` | date comparisons, for columns that hold dates |
 | `top 3 by balance`, `newest first` | sort and limit |
+| `overdue and (balance over 1k or days late over 30)` | grouped Boolean expression |
+| `count overdue`, `total overdue balance` | count or sum of matching rows |
+
+Define table-specific concepts explicitly: `seula.table(rows, { concepts: { "at risk": [{ column: "daysLate", type: "number", op: ">", value: 10 }] } })`. Queries such as `at risk except Acme` compose that definition with normal filters. Concepts are scoped to that table; Seula does not learn new meanings from them.
 
 Values are matched against what is in the table, and the result holds the value as the table spells it (`éva`, `850 watts`, `–3` with an en dash). Typo repair works for near misses on longer words and does not catch everything.
 
@@ -73,7 +76,7 @@ Values are matched against what is in the table, and the result holds the value 
 
 ![Comparison on FilterBench test](docs/seula-comparison.svg)
 
-FilterBench test: 870 queries on tables the model never saw in training, scored by the rows returned.
+Historical v4c FilterBench test: 870 queries on tables the model never saw in training, scored by the rows returned. These figures include execution-guided rewriting, which the current runtime disables by default. The current held-out test and new-feature accuracy have not been measured; a dated development regression check and local timing are in [docs/benchmarks.md](docs/benchmarks.md).
 
 | | Seula | Hand-written rules | Small local LLM (Qwen 0.5 to 1.5B) | Cloud LLM (Claude Haiku) |
 |---|---|---|---|---|
@@ -84,7 +87,7 @@ FilterBench test: 870 queries on tables the model never saw in training, scored 
 | Runs offline and in the browser | yes, no dependencies | yes | heavy | no |
 | Cost per query | 0 | 0 | 0 | paid |
 
-Read these with the caveats in mind. The test queries were written by a language model, not collected from real users. Haiku saw three example rows per table while Seula read the whole table, and Haiku's latency includes CLI startup. The small LLMs were prompted with three examples and not fine-tuned. Seula is right on 45 queries where Haiku is wrong, and Haiku is right on 49 where Seula is wrong. Parse time grows with the table: about 28 ms at 50,000 rows.
+Read these as historical v4c results. The test queries were written by a language model, not collected from real users. Haiku saw three example rows per table while Seula read the whole table, and Haiku's latency includes CLI startup. The small LLMs were prompted with three examples and not fine-tuned. In that run Seula was right on 45 queries where Haiku was wrong, and Haiku was right on 49 where Seula was wrong. The old measured parse time grew with the table to about 28 ms at 50,000 rows.
 
 How the sets were built, every number and the full list of caveats: [docs/benchmarks.md](docs/benchmarks.md). Products and research that solve the same problem another way: [docs/landscape.md](docs/landscape.md).
 
@@ -93,22 +96,21 @@ How the sets were built, every number and the full list of caveats: [docs/benchm
 1. **Read the query and the table together.** Each word gets a hashed word and letter-trigram embedding, plus link features: does it match a column name (exactly, fuzzily, by prefix), is it inside a cell of that column, is it a number, is the column numeric.
 2. **Tag the values.** A small BiGRU marks which words are condition values (`overdue`, `1k`).
 3. **Decide each condition.** For each value, pick the operator (`= != contains > >= < <=`) from nearby words, and the column from the links plus the header words just before and after it.
-4. **Clean up.** Columns are assigned jointly, so two conditions do not land on one column unless they are a lower and an upper bound. Values joined by "or" on one column become an any-of list. Numbers are normalized (`1k`, `2.5m`, `10 million`) and text values snap to the real cell. If the filter returns no rows, the next most likely column or operator is tried (execution-guided decoding, as in SQLova). If nothing returns rows, confidence drops to 0.
-5. **Score it.** Confidence is the product of every decision's probability.
+4. **Clean up.** Columns are assigned jointly, numbers are normalized (`1k`, `2.5m`, `10 million`), and text values can snap to real cells. The runtime preserves empty results; it does not rewrite a column or operator just to find rows. Historical v4c benchmarks used execution-guided decoding.
+5. **Score it.** Confidence is a heuristic product of model decisions; status also checks for missing, unsupported, and uncertain interpretations.
 6. **Rules for the rest.** Dates, yes/no columns, sorting and top-N go through a small rule pass before the model (`src/seula/extras.ts`): `last 30 days`, `created after 2025`, `not shipped`, `top 5 by balance`, `newest first`.
 
-The model has 184k parameters and uses no pretrained language model. The shipped weights are trained only on queries written by open-weight models (Qwen3, Mistral). Training code is in `bench/seula.py`. The TypeScript runtime in `src/seula/model.ts` has no dependencies and matches Python on 74 parity cases, with confidence within 3e-6.
+The model has 184k parameters and uses no pretrained language model. The shipped weights are trained only on queries written by open-weight models (Qwen3, Mistral). Training code is in `bench/seula.py`. The TypeScript runtime in `src/seula/model.ts` has no dependencies. Its explicit historical execution-guided mode matches Python on 74 parity cases, with confidence within 3e-6.
 
 ## Limits
 
 - English only.
 - One table at a time, no joins.
-- It filters, sorts and cuts. It does not total or average.
-- AND between columns. OR works as a list of values on one column (`overdue or pending`). There is no OR across columns and no grouping, so `overdue and (balance over 1k or days late over 30)` is out of reach.
+- It filters, sorts, limits, counts, and sums. It does not average or group results.
+- Boolean `NOT`, `AND`, and `OR` support parentheses, with that precedence. Complex filters return `expression`; editing a simple `conditions` list is supported, but flattening a grouped expression changes its meaning.
 - Implied conditions (`home games` meaning `H/A = H`) usually fail, with low confidence.
-- A query that matches nothing gets a nearby filter at lower confidence, or confidence 0. Show people the parsed filters.
-- Ranges still slip sometimes: `laps between 90 and 97` came back as `Laps > 90 AND Laps <= 97` at 0.75.
-- Or-lists need values that are in the table: `overdue or pending` on a table with no `pending` cell comes back as `Status != overdue` at 0.68.
+- A query that matches nothing remains an empty result; show people the parsed filters and status.
+- Ranges and implied conditions can still be misread. Check the returned interpretation before using it for consequential decisions.
 
 ## Train your own
 

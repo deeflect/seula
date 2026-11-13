@@ -10,6 +10,13 @@ export const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matc
 // A chip part: removal key, label, kind of filter, and the column index it constrains (none for a limit).
 export type Part = { key: string; label: string; kind: string; col?: number };
 
+export function expressionLabel<T>(e: T | { and: unknown[] } | { or: unknown[] } | { not: unknown }, leaf: (value: T) => string): string {
+  if (e && typeof e === "object" && "and" in e) return `(${e.and.map((x) => expressionLabel(x as T, leaf)).join(" AND ")})`;
+  if (e && typeof e === "object" && "or" in e) return `(${e.or.map((x) => expressionLabel(x as T, leaf)).join(" OR ")})`;
+  if (e && typeof e === "object" && "not" in e) return `NOT ${expressionLabel(e.not as T, leaf)}`;
+  return leaf(e as T);
+}
+
 export function chipsHtml(parts: Part[], guess: boolean): string {
   return parts.map((p) => `<span class="chip ${guess ? "guess" : `k-${p.kind}`}"${p.col === undefined ? "" : ` data-col="${p.col}"`}>${esc(p.label)}<button type="button" data-rm="${esc(p.key)}" aria-label="Remove ${esc(p.label)}">${icon("x")}</button></span>`).join("");
 }

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "tsx spike/verify_seula.ts && tsx spike/verify_parity.ts && tsx spike/audit_reality.ts && tsx spike/verify_vocabulary.ts && tsx src/invoice-data.test.ts && tsx src/seula/extras.test.ts && tsx src/seula/api.test.ts && node worker/capture.test.mjs",
+    "test": "tsx spike/verify_seula.ts && tsx spike/verify_parity.ts && tsx spike/audit_reality.ts && tsx spike/verify_vocabulary.ts && tsx src/invoice-data.test.ts && tsx src/seula/extras.test.ts && tsx src/seula/api.test.ts && tsx src/seula/upgrade.test.ts && node worker/capture.test.mjs",
     "train": "uv run --with torch python3 -m spike.train",
     "experiment:challenge": "tsx spike/evaluate_challenge.ts",
     "experiment:vocabulary": "tsx spike/vocabulary_experiment.ts",
